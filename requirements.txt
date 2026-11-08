@@ -1,0 +1,11 @@
+scikit-learn==1.9.1
+pandas>=3.0
+numpy>=2.5
+scipy>=1.18
+torch
+transformers
+huggingface_hub
+orjson
+pypdf
+kaggle
+networkx

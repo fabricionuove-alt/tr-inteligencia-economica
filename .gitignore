@@ -1,0 +1,6 @@
+node_modules/
+.vercel/
+.env*
+simulador/lib/ia.json
+*.csv.gz
+__pycache__/

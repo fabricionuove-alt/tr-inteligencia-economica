@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo piensa Tr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--fondo:#0a1135;--tinta:#eef0f8;--gris:#8b93b8;--linea:rgba(255,255,255,.14);--lima:#e2ff32;--salmon:#ff6a5a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--fondo);color:var(--tinta)}
+body{font:17px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+.arriba{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;font:600 13px "Inter Tight",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.arriba a{color:var(--tinta);text-decoration:none}.arriba a:hover{color:var(--lima)}
+main{max-width:720px;margin:0 auto;padding:24px 16px 120px}
+h1,h2,.num{font-family:"Inter Tight",sans-serif}
+h1{font-size:clamp(40px,7vw,68px);font-weight:700;letter-spacing:-.04em;line-height:1;margin:24px 0 18px}
+.bajada{font-size:19px;color:var(--gris);margin:0 0 40px}
+h2{font-size:24px;font-weight:600;letter-spacing:-.02em;margin:56px 0 12px;padding-top:18px;border-top:1px solid var(--linea)}
+p,li{margin:0 0 14px}
+ul{padding-left:20px}
+a{color:var(--lima)}
+.cifras{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0 8px}
+.cifras div{border:1px solid var(--linea);border-radius:16px;padding:16px}
+.num{display:block;font-size:40px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.cifras small{display:block;margin-top:8px;font-size:13.5px;line-height:1.35;color:var(--gris)}
+.tabla{overflow-x:auto;margin:16px 0 20px}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--linea);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font:500 12.5px "Inter Tight",sans-serif;color:var(--gris);letter-spacing:.04em;text-transform:uppercase}
+.si{color:var(--lima)}.no{color:var(--salmon)}
+code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radius:6px;word-break:break-all}
+.pie{margin-top:64px;font-size:14px;color:var(--gris)}
+.versiones{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--linea);border-radius:999px;margin:0 0 36px}
+.versiones button{font:500 15px "Inter Tight",sans-serif;color:var(--gris);background:none;border:0;border-radius:999px;padding:9px 18px;cursor:pointer}
+.versiones button[aria-selected=true]{background:var(--tinta);color:var(--fondo)}
+.versiones button:focus-visible{outline:2px solid var(--lima);outline-offset:2px}
+[hidden]{display:none!important}
+@media (max-width:560px){.cifras{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="arriba"><a href="/">← Vos vs Tr</a><span>Cómo piensa Tr</span></header>
+<main>
+<h1>Cómo piensa Tr</h1>
+<div class="versiones" role="tablist" aria-label="Versión">
+  <button role="tab" id="b-para-todos" aria-controls="para-todos" aria-selected="true">Para todos</button>
+  <button role="tab" id="b-tecnica" aria-controls="tecnica" aria-selected="false">Técnica</button>
+</div>
+<section id="para-todos" role="tabpanel" aria-labelledby="b-para-todos">
+<p class="bajada">Tr es un programa que leyó los balances de miles de empresas para aprender a reconocer a las que se van a mover mucho y a las que se pueden hundir. Esto es lo que aprendió y lo que no.</p>
+
+<h2>Qué leyó</h2>
+<p>Los balances anuales de más de diez mil empresas de Estados Unidos, de 2009 a hoy. Son documentos públicos que cada empresa tiene que presentar ante el gobierno. Están también las que quebraron y las que fueron compradas, para que no aprenda sólo de las que sobrevivieron.</p>
+<p>Tr nunca ve el nombre de la empresa ni su precio. Ve cada número comparado con el de las demás empresas de ese año: si una gana más que el 80% de las otras, eso es lo que sabe. Así no puede hacer trampa acordándose de que a Apple le fue bien.</p>
+
+<h2>Cómo se probó</h2>
+<p>Se probaron 68 ideas. Antes de cada prueba se escribió qué tenía que pasar para darla por buena. Casi todas fallaron, y quedaron anotadas igual: lo que no funcionó también se cuenta.</p>
+
+<h2>Lo que sabe</h2>
+<ul>
+<li><b>Qué empresas se van a mover mucho.</b> Si le mostrás una empresa que en el año va a subir o bajar fuerte y otra que va a quedar quieta, acierta cuál es cuál 8 de cada 10 veces.</li>
+<li><b>Cuáles se pueden hundir.</b> De cada 100 empresas, en un año normal se caen a la mitad o quiebran entre 6 y 19. Entre las que Tr considera más seguras, menos de 3.</li>
+<li><b>Que no es suerte.</b> Repartiendo la plata según lo que cree, le ganó al mercado los seis años que se probaron. Para descartar la suerte se armaron cien carteras al azar, parecidas a la suya: en cinco de los seis años, la de Tr fue mejor que 95 de esas 100.</li>
+</ul>
+
+<h2>Lo que no sabe</h2>
+<p>Para qué lado. Sabe que una empresa se va a mover, pero si va a subir o a bajar acierta entre 5 y 7 de cada 10 veces: no mucho mejor que tirar una moneda.</p>
+<p>Por eso su cartera gana, pero también mete plata en empresas que terminan desplomándose: apuesta a lo que se mueve, para los dos lados. Con la regla que se escribió antes de probarla, esa cartera no se dio por buena.</p>
+
+<h2>Lo que aprendió leyendo</h2>
+<p>Además de los números, Tr ahora lee lo que cada empresa cuenta de su propio negocio en su informe anual. No lo lee con palabras elegidas a mano: lo lee con Gemma, un modelo de lenguaje abierto de Google, y mira qué ideas se le encienden por dentro. Hay miles de ideas distintas, y Tr aprendió cuáles aparecen en las empresas a las que después les fue mejor que a sus pares.</p>
+<p>Para que no hiciera trampa, se probó en años que no había visto y también leyendo los informes a ciegas, sin nombres, marcas, lugares, años ni números. A ciegas siguió funcionando: no reconoce a la empresa, entiende de qué se trata. Con eso se hunde menos y acierta un poco mejor para qué lado se mueve.</p>
+
+<h2>Cómo juega contra vos</h2>
+<p>El día que empezás, Tr compra en partes iguales las 347 empresas de la bolsa de Nueva York o del Nasdaq que mejor salen de esa lectura: el 10% de arriba dentro de cada industria. Probada en años que no había visto, esa forma de elegir le ganó al mercado los cuatro años a un año, y tuvo menos empresas hundidas. Además deja afuera las empresas a las que les llegó de golpe la atención del público mientras sus directivos vendían: en el pasado, esas rindieron 9 puntos menos al año siguiente que las que recibieron la misma atención sin ventas. La lista está sellada: no se muestra para que nadie la copie, pero se publicó una huella digital que permite comprobar después que no se cambió. Se revela al cumplirse el año.</p>
+
+<h2>Lo que falta</h2>
+<p>Todo lo anterior se probó con años que ya pasaron. La prueba de verdad es el futuro, y el juego es esa prueba: Tr contra vos, con precios de verdad, a un año.</p>
+</section>
+<section id="tecnica" role="tabpanel" aria-labelledby="b-tecnica" hidden>
+<p class="bajada">68 señales probadas sobre los balances y los informes públicos de la SEC. Cada criterio de éxito se escribió antes de correr la prueba, y casi todas fallaron.</p>
+
+<div class="cifras">
+  <div><span class="num">0,81</span><small>reconoce cuánto se va a mover una empresa (AUC, 0,5 = azar)</small></div>
+  <div><span class="num">0,6</span><small>no reconoce para qué lado (AUC entre 0,54 y 0,69)</small></div>
+  <div><span class="num">5 de 6</span><small>años en que su cartera supera al 95% de cien carteras al azar del mismo tamaño</small></div>
+</div>
+
+<h2>Los datos</h2>
+<p>Balances anuales de 10.505 empresas que presentan en Estados Unidos, de 2009 a 2026, bajados gratis de la SEC. Están incluidas las que quebraron y las que fueron compradas. Cada cifra sale del primer informe que la publicó, sin las correcciones posteriores.</p>
+<p>El modelo no ve nombres, tickers, fechas ni montos. Cada dato pasa a su percentil dentro del año. Así no puede reconocer la empresa ni acordarse de lo que le pasó. Los precios salen de los archivos públicos de la SEC (Fails-to-Deliver y 13F).</p>
+
+<h2>El método</h2>
+<p>Antes de cada prueba se anota qué tiene que pasar para darla por buena. Si no pasa, la señal se descarta, aunque se vea bien por otro lado. El registro completo, con las 68, incluye las que fallaron.</p>
+<p>El punto de partida fueron cinco inversores de valor: Quintana, Vinall, Paramés, Crescenta y Pabrai. Sus reglas, escritas en código antes de mirar los resultados, funcionan (0,70 para la supervivencia a 10 años), pero el modelo las supera (0,81).</p>
+
+<h2>Qué reconoce</h2>
+<ul>
+<li><b>La magnitud.</b> Distingue a las empresas que se van a mover mucho de las que se van a quedar quietas, con una AUC de 0,79 a 0,84, estable todos los años.</li>
+<li><b>El riesgo de desastre</b> (caer a la mitad o quebrar). La parte más segura de cada año baja los desastres de entre 6% y 19% a entre 0,3% y 2,6%.</li>
+<li><b>Que la ventaja es suya.</b> Repartir el dinero según sus probabilidades (fórmula de Kelly) le gana al mercado los seis años probados. Para descartar que fuera sólo por inclinarse hacia las empresas chicas, sus probabilidades se barajaron cien veces entre empresas del mismo tamaño. La cartera real superó a 95 de esas 100 en cinco de los seis años.</li>
+</ul>
+
+<div class="tabla"><table>
+<tr><th>Año de compra</th><th>Kelly</th><th>Mercado</th><th>Placebo (mediana)</th><th>Placebos que le ganan</th></tr>
+<tr><td>2019</td><td class="si">×3,32</td><td>×2,13</td><td>×2,27</td><td>0 / 100</td></tr>
+<tr><td>2020</td><td class="si">×1,63</td><td>×1,08</td><td>×1,07</td><td>0 / 100</td></tr>
+<tr><td>2021</td><td class="si">×1,36</td><td>×1,00</td><td>×1,04</td><td>0 / 100</td></tr>
+<tr><td>2022</td><td class="si">×1,67</td><td>×1,25</td><td>×1,26</td><td>0 / 100</td></tr>
+<tr><td>2023</td><td class="si">×1,91</td><td>×1,19</td><td>×1,23</td><td>0 / 100</td></tr>
+<tr><td>2024</td><td>×1,51</td><td>×1,47</td><td>×1,49</td><td class="no">31 / 100</td></tr>
+</table></div>
+<p>Retorno a 12 meses. Esa cartera también pone más dinero en empresas que terminan cayendo a la mitad: elige lo que se mueve mucho, para los dos lados. Por eso el criterio escrito de antemano la descartó.</p>
+
+<h2>Qué no reconoce</h2>
+<p>Para qué lado se va a mover una empresa. Probamos cruzarlo con quién financia el crecimiento y con una confirmación a tres meses, y no mejoró.</p>
+<p>La combinación de «extraordinaria y segura» pasó con datos de la misma época (#44), pero falló cuando el modelo aprendió sólo con el pasado (#45). Una cartera de 80% seguro y 20% extraordinario casi no tiene desastres, pero queda detrás del mercado.</p>
+
+<h2>El espacio latente de Gemma</h2>
+<p>Gemma 2 2B lee el comienzo de «el negocio» (sección 1 del 10-K). En su capa 12, el autoencoder disperso de Gemma Scope separa 16.384 conceptos internos; por empresa se toma cuánto se enciende cada uno. Una regresión ridge aprende, sólo con los informes de 2013-2016, qué conceptos anticipan el rendimiento a 4 años contra su industria fina (SIC de 3 dígitos) y su tamaño. Después se mide en 2017-2020, sin tocar nada.</p>
+<div class="tabla"><table>
+<tr><th>Confirmación, a 4 años</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th></tr>
+<tr><td>10% de arriba menos 20% de abajo, leyendo normal</td><td class="si">+91</td><td class="si">+46</td><td class="si">+32</td><td class="si">+19</td></tr>
+<tr><td>Lo mismo, leyendo a ciegas</td><td class="si">+71</td><td class="si">+28</td><td class="si">+30</td><td class="si">+25</td></tr>
+<tr><td>Desastres, arriba menos abajo (a ciegas)</td><td>−10</td><td>−3</td><td>−8</td><td>−6</td></tr>
+</table></div>
+<p>Puntos de logaritmo del múltiplo. «A ciegas» quiere decir sin nombres, siglas, marcas, lugares, años ni números: conserva el 82% del efecto, así que no es que Gemma se acuerde de lo que le pasó a cada empresa. Sumado a Tr, a 4 años le gana a Tr sin Gemma los 3 años probados y baja los desastres; a 12 meses rinde parecido con menos desastres. No cumplió el criterio para ganarle siempre al mercado (en 2019 el mercado rindió más).</p>
+
+<h2>Cómo juega Tr</h2>
+<p>En el juego, Tr compra a partes iguales el 10% de puntaje más alto de Gemma (a ciegas) dentro de cada industria, con los informes presentados en 2026: 416 empresas, 347 cotizan en Nueva York o Nasdaq. Se sacan 5 que entre mayo y octubre de 2026 tuvieron un pico de visitas en Wikipedia mientras sus directivos vendían (señal #84, que pasó la prueba de conjunto pero no la de constancia año a año): juega 342. Las compra el mismo día en que empezás vos.</p>
+<div class="tabla"><table>
+<tr><th>Esa cartera, probada</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th></tr>
+<tr><td>A 1 año: Gemma / mercado</td><td class="si">×1,31 / ×1,24</td><td class="si">×1,24 / ×1,14</td><td class="si">×1,05 / ×0,95</td><td class="si">×2,23 / ×2,16</td></tr>
+<tr><td>Hundidas: Gemma / mercado</td><td>2% / 5%</td><td>4% / 6%</td><td>16% / 19%</td><td>2% / 2%</td></tr>
+<tr><td>A 4 años: Gemma / mercado</td><td class="si">×2,66 / ×2,23</td><td class="si">×1,91 / ×1,81</td><td>×1,66 / ×1,67</td><td class="si">×2,55 / ×2,48</td></tr>
+</table></div>
+<p>La lista se cerró antes de jugar y no se muestra, para que nadie pueda copiarla. Su huella sha256:</p>
+<p><code>3f31f1539cfbefe539c1ad306c5266592195387699e127c29767329cbcc381bb</code></p>
+<p>Versiones anteriores de Tr, registradas con las suyas: cartera de Gemma sin el filtro (<code>ec841cab…</code>), Kelly con Gemma (<code>fa70b5e5…</code>) y sin Gemma, 410 empresas a partes iguales (<code>216d486c…</code>).</p>
+<p>Se revela al cumplirse el año.</p>
+
+<h2>Lo que falta</h2>
+<p>Todos los años con resultado conocido (2019 a 2024) ya se usaron para probar. Sirven para descartar ideas, no para confirmarlas. La prueba que vale es el futuro: la lista de 2025 se mide cuando salgan los precios. El juego es esa prueba, en vivo, contra vos.</p>
+
+</section>
+<p class="pie">Dinero ficticio. Nada de esto es una recomendación de inversión.</p>
+</main>
+<script>
+// las dos versiones en la misma página; la elegida queda en la dirección (#tecnica) para poder compartirla
+const bs = document.querySelectorAll('.versiones button');
+function ver(id) { for (const b of bs) { const si = b.getAttribute('aria-controls') === id; b.setAttribute('aria-selected', si); document.getElementById(b.getAttribute('aria-controls')).hidden = !si; } }
+for (const b of bs) b.addEventListener('click', () => { const id = b.getAttribute('aria-controls'); ver(id); history.replaceState(null, '', id === 'tecnica' ? '#tecnica' : location.pathname); });
+if (location.hash === '#tecnica') ver('tecnica');
+</script>
+</body>
+</html>

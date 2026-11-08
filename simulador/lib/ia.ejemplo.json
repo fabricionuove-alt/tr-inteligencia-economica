@@ -1,0 +1,7 @@
+{
+ "version": "texto que describe la versión de Tr",
+ "lista": "ruta de la lista sellada (no pública hasta revelarla)",
+ "sha256": "huella de la lista",
+ "tickers": ["AAA", "BBB"],
+ "pesos": [0.5, 0.5]
+}

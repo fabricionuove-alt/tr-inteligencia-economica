@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vos vs Tr</title>
+<!-- (08-11) EN EL CELULAR, LA VERSIÓN MOBILE: la interfaz con la foto del aparato arriba (movil.html, la opción A que eligió
+     Fabri). Antes de bajar nada del 3D. ?3d lo fuerza en el celular. -->
+<script>if (matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 820 && !/[?&]3d\b/.test(location.search)) location.replace('/movil.html' + location.search);</script>
+<!--
+  El aparato en CREMA, la receta de render de INTERLEX (E:\zba\HUMILLADA\interlex-publicar), con SU forma de cargar:
+  · three 0.186.1 WebGPU, AgX, las cajas de luz del estudio como entorno y como luz con sombra blanda (VSM), el infinito,
+    y la cadena de T3 (SSGI + SSR, reproyección, denoise, TRAA, nitidez) armada desde el principio;
+  · los programas de la placa se piden TODOS A LA VEZ (en paralelo) y cada cuadro dibuja lo que ya está listo; la pantalla
+    de carga se va cuando hay 6 cuadros seguidos sin que falte ninguno;
+  · arranca con poca definición y sube de a un paso mientras dé 30 cuadros por segundo (la escalera de INTERLEX).
+  Las cajas son las del render aprobado: una cenital plana y suave y una franja al costado que se refleja en la pantalla.
+  La pantalla del aparato es la web: se scrollea con la rueda o arrastrando sobre ella.
+-->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.webgpu.min.js",
+    "three/webgpu": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.webgpu.min.js",
+    "three/tsl": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.tsl.min.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/",
+    "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.min.js"
+  }
+}
+</script>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.webgpu.min.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.tsl.min.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.min.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/tsl/display/TRAANode.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/tsl/display/SharpenNode.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/loaders/GLTFLoader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/controls/OrbitControls.js">
+<link rel="preload" href="dispositivo.glb" as="fetch" crossorigin fetchpriority="high">
+<!-- (06-11: todo lo que se baja, pedido desde el primer momento -- antes la luz y los módulos del foco esperaban al motor --) -->
+<link rel="preload" href="horno/horno.json" as="fetch" crossorigin>
+<!-- (las texturas del horno se piden ya, antes de que llegue three: con preload as=fetch la de luz fallaba en conexiones lentas) -->
+<script>window.__tex = {}; for (const r of ['horno/luz.webp', 'horno/piso.webp']) window.__tex[r] = fetch(r).then(x => { if (!x.ok) throw new Error(r); return x.blob(); });</script>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/tsl/display/DepthOfFieldNode.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/tsl/display/GaussianBlurNode.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/tsl/utils/TAAUtils.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/libs/meshopt_decoder.module.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/utils/BufferGeometryUtils.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/utils/SkeletonUtils.js">
+<link rel="modulepreload" href="ntsc-pantalla.js">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--fondo:#0a1135;--gris:#8b93b8}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--fondo);color:#fff;font:16px/1.45 "Inter Tight",system-ui,sans-serif}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+canvas.mano{cursor:pointer}
+canvas.pantalla{cursor:ns-resize}
+/* el campo de verdad es invisible: lo que se escribe aparece en el campo de la pantalla del aparato */
+.abajo{opacity:0;position:fixed;left:0;right:0;bottom:0;padding:16px max(16px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));display:flex;justify-content:center;pointer-events:none;z-index:1}
+form{pointer-events:auto;flex:0 1 520px;display:flex}
+input{flex:1;min-width:0;font:inherit;padding:10px 18px;border:1.5px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(5,6,16,.55);color:#fff;outline:none;backdrop-filter:blur(6px)}
+input::placeholder{color:rgba(255,255,255,.45)}
+input:focus{border-color:#fff}
+#consola{position:fixed;top:16px;right:16px;z-index:5;width:300px;max-height:calc(100vh - 32px);overflow:auto;padding:14px 16px;border-radius:14px;background:rgba(8,10,24,.92);border:1px solid rgba(255,255,255,.14);font:12.5px/1.35 "Inter Tight",system-ui,sans-serif;color:#fff;display:none}
+#consola.abierta{display:block}
+#consola b{display:block;font-size:11.5px;letter-spacing:.08em;color:#8b93b8;margin-bottom:10px}
+#consola label{display:block;margin:0 0 10px}
+#consola span{float:right;color:#e2ff32;font-variant-numeric:tabular-nums}
+#consola input{display:block;width:100%;margin-top:4px;accent-color:#e2ff32}
+#consola button{font:inherit;color:#fff;background:none;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 12px;margin:6px 6px 0 0;cursor:pointer}
+/* LA ENTRADA (08-11, la de INTERLEX): negro y una línea que crece del centro hacia los costados, escrita en la página para
+   que se vea antes de que cargue nada. Al terminar, el negro de arriba y el de abajo se abren como dos párpados
+   (ver abrirLosOjos). */
+#carga{position:fixed;inset:0;z-index:2;background:#000;display:grid;place-items:center;pointer-events:none}
+#carga div{width:min(62vw,520px);height:1px;overflow:hidden;transition:opacity .35s ease}
+#carga i{display:block;height:100%;width:100%;background:#e9e9e9;transform:scaleX(0);transform-origin:center;transition:transform .35s ease}
+</style>
+</head>
+<body>
+<div class="abajo"><form id="form"><input id="entrada" autocomplete="off" placeholder="«Comprá 10 acciones de Apple»"></form></div>
+<div id="carga"><div><i id="linea"></i></div></div>
+<script src="nucleo.js"></script>
+<script>precargar(['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'JPM', 'BRK-B', 'XOM', 'KO', 'WMT']);</script>
+<script type="module">
+import * as THREE from 'three/webgpu';
+import { pass, mrt, output, velocity, uniform, renderOutput, texture, uv, vec2, vec3, vec4, float, fract, triplanarTexture, transformNormalToView, positionWorld, positionLocal, normalLocal, rtt, Fn, screenUV, mix, sRGBTransferOETF, sRGBTransferEOTF } from 'three/tsl';
+import { crearNTSC } from './ntsc-pantalla.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const q = new URLSearchParams(location.search);
+const avance = f => { document.getElementById('linea').style.transform = 'scaleX(' + Math.min(1, f) + ')'; performance.mark('avance' + f); };
+const ceder = () => new Promise(ok => setTimeout(ok, 0));
+avance(0.05);
+// (lo que se baja, se pide ya: en paralelo con el motor)
+const pGlb = fetch('dispositivo.glb').then(r => r.arrayBuffer());
+// lo horneado en Blender (tools/hornear.py) y los materiales fotografiados de INTERLEX (ambientCG, de uso libre)
+// (07-11: la imagen se decodifica antes y fuera del hilo principal -- createImageBitmap --: con <img> la decodificaba
+//  la subida a la placa, en el hilo principal, 680 ms de la carga. Mismos píxeles: sin conversión de color ni de alfa)
+const cargarTex = (ruta, esColor, repetir) => (window.__tex[ruta] || Promise.reject()).catch(() => fetch(ruta).then(r => r.blob())).then(b => createImageBitmap(b, { colorSpaceConversion: 'none', premultiplyAlpha: 'none' })).then(bm => { const t = new THREE.Texture(bm); t.needsUpdate = true; return t; }).then(t => { t.colorSpace = esColor ? THREE.SRGBColorSpace : THREE.NoColorSpace; if (repetir) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 16; } return t; });
+const pHorno = Promise.all([fetch('horno/horno.json').then(r => r.json()), cargarTex('horno/luz.webp'), cargarTex('horno/piso.webp'),
+  cargarTex('materiales/vidrio-huellas.webp', false, true)]);
+// (07-11: la aspereza sólo la usa la capa de luz en vivo, apagada de fábrica: se baja recién si se enciende -- 156 KB menos al cargar --)
+const tAsp = new THREE.Texture(); tAsp.flipY = false; let aspPedida = false;
+const pedirAspereza = () => { if (aspPedida) return; aspPedida = true; cargarTex('horno/aspereza.webp').then(t => { tAsp.image = t.image; tAsp.needsUpdate = true; }).catch(() => { aspPedida = false; }); };
+// (06-11: el modelo va con meshopt -- su decodificador viene con three, no hay que bajar el de Draco de otro servidor, y
+//  con el brotli de Vercel pesa ~30 % menos --)
+const pMeshopt = import('three/addons/libs/meshopt_decoder.module.js');
+const pAdaptador = navigator.gpu ? navigator.gpu.requestAdapter().catch(() => null) : Promise.resolve(null);
+
+// ================= LA PANTALLA: la web tal cual (panel.html), dibujada con sus medidas =================
+// La pantalla mide 38,6 × 25 cm; la web se dibuja como en una ventana de 1280 × 829 (x 1,25 en el lienzo).
+// v = 0 en la cresta (arriba de la web), v = 1 junto a los mandos (abajo).
+// la web llega hasta donde la ola todavía mira al frente (35° antes de la cresta); lo que dobla hacia atrás es vidrio negro.
+// K = largo hasta la cresta / largo que mira al frente; vPant pasa la UV del modelo a la altura dentro de la web.
+// (05-11 tarde: Fabri pidió que la web siga subiendo y se doble con la ola hasta la cresta, como una pantalla curva:
+//  K = 1 = sin corte. Para volver al corte de 35° antes de la cresta: 0.2475 / 0.218)
+const K_PANT = 1;
+// (06-11: la web sigue por la cresta hasta el final de la pantalla, del otro lado: la UV del modelo va de VMIN -- la punta de
+//  atrás, después de la cresta -- a 1 -- junto a los mandos --; la tela es más alta en la misma proporción, sin deformar)
+const VMIN = -0.1596, EXT = 1 - VMIN;
+// (la tela sigue cubriendo hasta la cresta; la web se dibuja sólo en su parte de abajo, Y_WEB en adelante, y arriba queda negro)
+// (la web se dibuja al doble en escritorio -- 2560 de ancho -- para que el texto no se pixele de cerca; en el celular 1600)
+const PW = matchMedia('(pointer: coarse)').matches ? 1600 : 2560, PH = Math.round(PW * 1036 / 1600 * EXT), PH_WEB = Math.round(PH / K_PANT), Y_WEB = PH - PH_WEB, S = PW / 1280, VW = 1280, VH = PH_WEB / S;
+const vPant = y => (y - VMIN) / EXT;
+const tela = document.createElement('canvas'); tela.width = PW; tela.height = PH;
+const g = tela.getContext('2d');
+const C = { fondo: '#111', gris: '#8a8a85', lima: '#e2ff32', blanco: '#f6f5f0', salmon: '#ff6a5a', menta: '#dce7d8', negro: '#0b0b0b' };
+// (06-11: la tela sigue por la cresta hacia atrás: lo de más arriba no se ve. TOPE = cuánto de la tela queda arriba de lo que
+//  mira al frente; la web puede bajar hasta ahí -- scroll negativo -- y arranca así, y la barra fija va a esa altura)
+const TOPE = Math.round(VH * 0.24), SMIN = -TOPE;
+const T = { D: null, cinta: [], hora: '', escuchando: false, cantidad: 1, pensando: false, scroll: SMIN, meta: SMIN, alto: 0, sucio: true,
+  zonas: {}, cartera: 0, foco: false };
+const PASOS = [1, 2, 3, 5, 10, 20, 50, 100, 200, 500];
+const BANDA = 48;                 // alto de la cinta de abajo (px de la web)
+// ENCENDIDO: la pantalla queda negra hasta que está todo adentro; después prende la luz y cada parte entra a su lugar,
+// lo más importante primero, escalonado (~350 ms en total), 700 ms cada una con salida suave (como cubic-bezier(.16,1,.3,1)).
+const ORDEN = { vos: 0, tr: 1, agente: 2, arriba: 3, cartera: 4, cinta: 5 }, PASO_ENC = 70, DUR_ENC = 700;
+const suave = k => k >= 1 ? 1 : 1 - Math.pow(2, -10 * k);
+// (05-11: a Fabri no le gustó la entrada escalonada. Ahora prende como una pantalla de verdad: todo ya está en su lugar
+//  y sólo sube la luz de fondo -- T.brillo, en el bucle --)
+function entra(n) { return T.enc ? { a: 1, dy: 0 } : { a: 0, dy: 0 }; }
+let ALFA = 1;
+function capa(n, dibujo) { const { a, dy } = entra(n); if (a <= 0) return; g.save(); ALFA = a; g.globalAlpha = a; g.translate(0, dy); dibujo(); g.restore(); ALFA = 1; g.globalAlpha = 1; }
+let iCant = 0;
+const F = (peso, px) => `${peso} ${px}px "Inter Tight", system-ui, sans-serif`;
+const CINTA = ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'JPM', 'BRK-B', 'XOM', 'KO', 'WMT'];
+const corto = v => usd(v).replace(/,\d\d$/, '');
+// las burbujas del chat, como en la web
+const burbujas = [];
+for (const m of P.chat) if (m.role === 'user' && typeof m.content === 'string') burbujas.push({ t: m.content, c: 'yo' }); else if (m.role === 'assistant' && m.content && !m.tool_calls && typeof m.content === 'string') burbujas.push({ t: m.content, c: 'agente' });
+if (!burbujas.length) burbujas.push({ t: 'Tenés 10.000 dólares. Decime qué querés comprar o vender.', c: 'agente' });
+
+function renglones(t, ancho) {
+  const out = [];
+  for (const parrafo of String(t).split('\n')) {
+    let l = '';
+    for (const p of parrafo.split(/\s+/)) { const k = l ? l + ' ' + p : p; if (g.measureText(k).width > ancho && l) { out.push(l); l = p; } else l = k; }
+    out.push(l);
+  }
+  return out;
+}
+function capsula(x, y, texto, px, color) {      // .capsula: borde 1,5, padding 5 16, redonda
+  g.font = F(500, px); const w = g.measureText(texto).width + 32, h = px * 1.2 + 10;
+  g.strokeStyle = color; g.fillStyle = color; g.lineWidth = 1.5; g.beginPath(); g.roundRect(x, y, w, h, h / 2); g.stroke();
+  g.textBaseline = 'middle'; g.fillText(texto, x + 16, y + h / 2 + .5); g.textBaseline = 'alphabetic';
+  return h;
+}
+function curva(ys, x, y, w, h, lo, hi) {        // la curva de la web (Catmull-Rom a Bézier), trazo 1,6
+  const n = ys.length; if (!n) return;
+  const pts = (n === 1 ? [ys[0], ys[0]] : ys).map((v, i, a) => [x + i / (a.length - 1) * w, y + h - 10 - (v - lo) / (hi - lo || 1) * (h - 20)]);
+  g.strokeStyle = C.negro; g.lineWidth = 1.6; g.lineCap = g.lineJoin = 'round'; g.beginPath(); g.moveTo(...pts[0]);
+  for (let i = 1; i < pts.length; i++) { const p0 = pts[i - 2] || pts[i - 1], p1 = pts[i - 1], p2 = pts[i], p3 = pts[i + 1] || p2;
+    g.bezierCurveTo(p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6, p2[0], p2[1]); }
+  g.stroke();
+}
+const colorDe = p => p >= 5 ? C.lima : p >= 0 ? C.blanco : C.salmon;
+function carta(x, y, w, h, nombre, p, serie, lo, hi, datos) {
+  g.fillStyle = colorDe(p); g.beginPath(); g.roundRect(x, y, w, h, 18); g.fill();
+  const ix = x + 22, iw = w - 44;
+  capsula(ix, y + 22, nombre, 17, C.negro);
+  if (nombre === 'Tr' || nombre === 'Vos') {       // Tr lleva a cómo piensa; Vos, a cómo viene cada jugador
+    g.font = F(500, 14); const tx = nombre === 'Tr' ? 'Cómo piensa Tr →' : 'Todos los jugadores →', wc = g.measureText(tx).width + 28, hc = 14 * 1.2 + 10, cx = x + w - 22 - wc;
+    g.fillStyle = C.negro; g.beginPath(); g.roundRect(cx, y + 22 + 2, wc, hc, hc / 2); g.fill();
+    g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(tx, cx + 14, y + 24 + hc / 2 + .5); g.textBaseline = 'alphabetic';
+    T.zonas[nombre === 'Tr' ? 'paper' : 'jugadores'] = [cx - 6, y + 16, wc + 12, hc + 16];
+  }
+  // abajo hacia arriba: el número grande, los datos, y la curva en el medio
+  const gp = 79, yGrande = y + h - 20 - gp * .95 * .12;
+  g.fillStyle = C.negro; g.font = F(700, gp); g.letterSpacing = (-.045 * gp) + 'px';
+  const t = p == null ? '—' : pct(p).replace('%', ''); g.fillText(t, ix, yGrande); const wt = g.measureText(t).width; g.letterSpacing = '0px';
+  if (p != null) { g.font = F(700, gp * .42); g.fillText('%', ix + wt + 2, yGrande); }
+  const yDatos = y + h - 20 - gp * .95 - 18 - 92, cw = (iw - 14) / 2;
+  g.font = F(400, 12.5);
+  datos.forEach(([em, val], i) => {
+    const cx = ix + (i % 2) * (cw + 14), cy = yDatos + Math.floor(i / 2) * 46;
+    g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(cx, cy, cw, 1); if (i >= 2) g.fillRect(cx, cy + 46, cw, 1);
+    g.fillStyle = 'rgba(11,11,11,.65)'; g.fillText(em, cx, cy + 7 + 13); g.fillStyle = C.negro; g.fillText(val, cx, cy + 7 + 31);
+  });
+  const arriba = y + 22 + 30.4 + 18, abajo = yDatos - 18, hc = 170;
+  curva(serie, ix - 4, arriba + (abajo - arriba - hc) / 2, iw + 8, hc, lo, hi);
+}
+function chat(x, y, w, h) {
+  g.fillStyle = C.menta; g.beginPath(); g.roundRect(x, y, w, h, 18); g.fill();
+  capsula(x + 22, y + 22, 'Agente', 17, C.negro);
+  // el formulario abajo: campo + Enviar
+  const fy = y + h - 18 - 45, bw = g.measureText('Enviar').width;
+  g.font = F(500, 16); const anchoBoton = g.measureText('Enviar').width + 40, ix = x + 18, iw = w - 36 - 8 - anchoBoton;
+  g.strokeStyle = C.negro; g.lineWidth = 1.5; g.beginPath(); g.roundRect(ix, fy, iw, 45, 22.5); g.stroke();
+  const valor = entrada.value;
+  g.font = F(400, 16); g.fillStyle = valor ? C.negro : 'rgba(0,0,0,.45)';
+  let txt = valor || entrada.placeholder; while (g.measureText(txt).width > iw - 40 && txt.length > 1) txt = valor ? txt.slice(1) : txt.slice(0, -2) + '…';
+  g.fillText(txt, ix + 18, fy + 28);
+  if (T.foco && (performance.now() / 530 | 0) % 2 === 0) { const cx = ix + 18 + (valor ? g.measureText(txt).width + 1 : 0); g.fillStyle = C.negro; g.fillRect(cx, fy + 12, 1.5, 21); }
+  g.fillStyle = C.negro; g.globalAlpha = ALFA * (T.pensando ? .4 : 1); g.beginPath(); g.roundRect(ix + iw + 8, fy, anchoBoton, 45, 22.5); g.fill();
+  g.fillStyle = '#fff'; g.font = F(500, 16); g.fillText('Enviar', ix + iw + 8 + 20, fy + 28); g.globalAlpha = ALFA;
+  T.zonas.campo = [ix, fy, iw, 45]; T.zonas.enviar = [ix + iw + 8, fy, anchoBoton, 45];
+  // los mensajes: pegados abajo, como una conversación con scroll al final
+  const top = y + 22 + 30.4 + 16, bottom = fy - 14 - 16, maxW = (w - 44) * .9;
+  const lista = T.pensando ? [...burbujas, { t: '●●●   ' + pensandoTxt(), c: 'agente', pensando: true }] : burbujas;
+  const medidas = [];
+  for (let i = lista.length - 1, yy = bottom; i >= 0 && yy > top; i--) {
+    const b = lista[i], op = b.c === 'op'; g.font = F(400, op ? 13 : 15.5);
+    const ls = renglones(b.t, maxW - (op ? 28 : 28)), lh = op ? 18 : 22, bh = ls.length * lh + (op ? 10 : 18), bw2 = Math.min(maxW, Math.max(...ls.map(l => g.measureText(l).width)) + 28);
+    yy -= bh; medidas.push({ b, ls, lh, bh, bw: bw2, y: yy, op }); yy -= 10;
+  }
+  g.save(); g.beginPath(); g.rect(x, top, w, bottom - top); g.clip();
+  for (const m of medidas) {
+    const yo = m.b.c === 'yo', bx = yo ? x + w - 22 - m.bw : x + 22;
+    if (m.op) { g.strokeStyle = 'rgba(0,0,0,.55)'; g.lineWidth = 1.5; g.beginPath(); g.roundRect(bx, m.y, m.bw, m.bh, m.bh / 2); g.stroke(); }
+    else { g.fillStyle = yo ? C.negro : m.b.pensando ? C.lima : 'rgba(255,255,255,.65)'; g.beginPath(); g.roundRect(bx, m.y, m.bw, m.bh, yo ? [16, 16, 4, 16] : [16, 16, 16, 4]); g.fill(); }
+    g.fillStyle = yo ? '#fff' : C.negro; g.font = F(400, m.op ? 13 : 15.5);
+    if (m.b.pensando) {      // (los tres puntos suben y bajan uno detrás del otro; al lado, qué hace y hace cuánto)
+      const t0 = performance.now() / 1000, by = m.y + 9 + m.lh - 5;
+      for (let k = 0; k < 3; k++) { const a = Math.max(0, Math.sin((t0 * 2 - k * .25) * Math.PI)); g.globalAlpha = ALFA * (.35 + .65 * a); g.beginPath(); g.arc(bx + 18 + k * 12, by - 5 - a * 4, 3.5, 0, Math.PI * 2); g.fill(); }
+      g.globalAlpha = ALFA; g.fillText(m.ls[0].replace(/^●●●\s*/, ''), bx + 58, by);
+    } else m.ls.forEach((l, i) => g.fillText(l, bx + 14, m.y + (m.op ? 5 : 9) + (i + 1) * m.lh - (m.op ? 4 : 5)));
+  }
+  g.restore();
+}
+// EL DESPLEGABLE DE LA CARTERA: tocar una acción abre abajo qué es la empresa (sector de Yahoo Finance, resumen de
+// Wikipedia) y lo que tenés de ella. Se pide una vez por acción a /api/empresa.
+const INFO = {};
+function pedirInfo(s) {
+  if (INFO[s] && INFO[s].estado !== 'error') return;
+  INFO[s] = { estado: 'cargando' };
+  fetch('/api/empresa?s=' + encodeURIComponent(s)).then(r => r.json()).then(j => { INFO[s] = j.error ? { estado: 'error' } : { estado: 'listo', ...j }; pintar(); })
+    .catch(() => { INFO[s] = { estado: 'error' }; pintar(); });
+}
+function ficha(f, y) {
+  const p = P.pos[f.s] || {}, info = INFO[f.s] || { estado: 'cargando' }, x = 24, w = VW - 48, ancho = Math.min(w, 820);
+  const y0 = y; y += 6;
+  g.fillStyle = '#1a1a1a'; g.fillRect(x, y0, w, 1);
+  y += 26; g.font = F(600, 13); g.letterSpacing = (.08 * 13) + 'px'; g.fillStyle = C.gris;
+  const cabeza = info.estado === 'cargando' ? 'BUSCANDO QUÉ ES…' : ([info.sector, info.bolsa].filter(Boolean).join(' · ') || f.s).toUpperCase();
+  g.fillText(cabeza, x, y); g.letterSpacing = '0px';
+  y += 14; g.font = F(400, 18); g.fillStyle = '#d8d8d4';
+  const txt = info.estado === 'listo' ? (info.texto || `No encontré una descripción de ${f.s}.`) : info.estado === 'error' ? 'No pude traer la descripción ahora. Tocá la fila de nuevo para reintentar.' : '';
+  let ls = txt ? renglones(txt, ancho) : []; if (ls.length > 5) { ls = ls.slice(0, 5); ls[4] = ls[4].replace(/\s*\S*$/, '') + '…'; }
+  ls.forEach(l => { y += 27; g.fillText(l, x, y); });
+  // lo tuyo: cuántas, a cuánto la pagaste, cuánto vale hoy y cuánto ganás o perdés
+  const cant = p.cantidad || 0, costo = p.costo || 0, ahora = precios[f.s] || 0, gan = f.v - costo;
+  const datos = [['Tenés', `${cant} ${cant === 1 ? 'acción' : 'acciones'}`], ['Pagaste en promedio', cant ? usd(costo / cant) : '—'], ['Vale hoy', ahora ? usd(ahora) : '—'],
+    ['Ganancia', `${gan >= 0 ? '+' : '−'}${usd(Math.abs(gan))}`]];
+  y += 30; const cw = (Math.min(w, 900) - 3 * 14) / 4;
+  datos.forEach(([em, val], i) => {
+    const cx = x + i * (cw + 14);
+    g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(cx, y, cw, 1);
+    g.font = F(400, 13); g.fillStyle = C.gris; g.fillText(em, cx, y + 22);
+    g.font = F(500, 19); g.fillStyle = i === 3 ? (gan >= 0 ? C.lima : C.salmon) : '#fff'; g.fillText(val, cx, y + 48);
+  });
+  y += 70; g.font = F(400, 12); g.fillStyle = C.gris;
+  g.fillText('Fuentes: Wikipedia y Yahoo Finance. Es información, no una recomendación.', x, y);
+  y += 26; g.fillStyle = '#1a1a1a'; g.fillRect(x, y, w, 1);
+  T.fichaAbajo = y;
+  return y + 18;
+}
+// LA BARRA DE ARRIBA, FIJA (06-11: nada de carteles flotantes): el aparato contesta acá -- qué acción y cantidad,
+// lo que compraste o vendiste, «● Te escucho» -- y queda siempre a la vista aunque se scrollee.
+const BARRA = 52;
+function barra() {
+  const { a } = entra('arriba'); if (a <= 0) return;
+  g.save(); g.globalAlpha = a;
+  g.fillStyle = C.fondo; g.fillRect(0, 0, VW, BARRA); g.fillStyle = '#262626'; g.fillRect(0, BARRA - 1, VW, 1);
+  g.font = F(600, 13); g.letterSpacing = (.06 * 13) + 'px'; g.fillStyle = '#fff'; g.fillText('VOS VS TR', 24, 32); g.letterSpacing = '0px';
+  const quedan = T.aviso ? T.aviso.hasta - performance.now() : -1, el = typeof elegida !== 'undefined' && elegida;
+  let txt, col = C.gris, f = F(400, 15);
+  if (T.escuchando) { txt = '● Te escucho — ' + (entrada.value || 'decí qué querés comprar o vender') + '  (tocá HABLAR para terminar)'; col = C.lima; f = F(500, 16); }
+  else if (T.pensando && !(quedan > 0)) { txt = 'El agente está trabajando: ' + pensandoTxt(); col = C.lima; f = F(500, 16); }
+  else if (quedan > 0) { const v = T.aviso; txt = [v.arriba, v.grande, v.abajo].filter(Boolean).join('   ·   '); col = '#fff'; f = F(500, 16); }
+  else txt = (el ? `${el.simbolo} ${usd(el.precio)} · cantidad ${T.cantidad} ≈ ${usd(T.cantidad * el.precio)}` : `cantidad ${T.cantidad} · elegí una acción en la cinta o en tu cartera`) + (T.hora ? '     ' + T.hora : '');
+  g.font = f; const maxW = VW - 24 - 170; while (g.measureText(txt).width > maxW && txt.length > 4) txt = txt.slice(0, -2).trimEnd() + '…';
+  g.fillStyle = col; g.textAlign = 'right'; g.fillText(txt, VW - 24, 33); g.textAlign = 'left';
+  g.restore();
+}
+// «CÓMO PIENSA TR» EN LA PANTALLA DEL APARATO (06-11: no abrir otra página): se lee de /como-piensa.html y se dibuja acá,
+// con sus dos versiones (Para todos / Técnica), scroll y «← Volver».
+let PAPEL = null;
+const txtDe = el => el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+async function abrirPapel() {
+  T.vistaAntes = T.scroll; T.vista = 'papel'; T.pestana = T.pestana || 'todos'; T.scroll = T.meta = SMIN; pintar();
+  if (PAPEL) return;
+  try {
+    const d = new DOMParser().parseFromString(await (await fetch('/como-piensa.html')).text(), 'text/html');
+    const bloques = sec => { const out = [];
+      for (const el of sec.children) {
+        const t = el.tagName;
+        if (t === 'H2') out.push({ t: 'h2', x: txtDe(el) });
+        else if (t === 'P') out.push({ t: el.classList.contains('bajada') ? 'bajada' : 'p', x: txtDe(el) });
+        else if (t === 'UL') for (const li of el.querySelectorAll('li')) out.push({ t: 'li', x: txtDe(li) });
+        else if (el.classList.contains('cifras')) for (const c of el.children) out.push({ t: 'cifra', n: txtDe(c.querySelector('.num')), x: txtDe(c.querySelector('small')) });
+        else if (el.classList.contains('tabla')) out.push({ t: 'tabla', filas: [...el.querySelectorAll('tr')].map(tr => [...tr.children].map(txtDe)) });
+      }
+      return out; };
+    PAPEL = { todos: bloques(d.getElementById('para-todos')), tecnica: bloques(d.getElementById('tecnica')) };
+  } catch (e) { PAPEL = { error: true }; }
+  pintar();
+}
+function papel() {
+  const x = 24, ancho = Math.min(VW - 48, 860); let y = BARRA + 22;
+  const boton = (tx, bx, by, lleno) => { g.font = F(500, 15); const w = g.measureText(tx).width + 34;
+    g.strokeStyle = '#fff'; g.lineWidth = 1.5; g.beginPath(); g.roundRect(bx, by, w, 36, 18); if (lleno) { g.fillStyle = '#fff'; g.fill(); } else g.stroke();
+    g.fillStyle = lleno ? C.negro : '#fff'; g.fillText(tx, bx + 17, by + 23); return [bx - 6, by - 6, w + 12, 48]; };
+  T.zonas.volver = boton('← Volver', x, y, false);
+  g.font = F(500, 15); const wT = g.measureText('Técnica').width + 34, wP = g.measureText('Para todos').width + 34;
+  T.zonas.pTec = boton('Técnica', VW - 24 - wT, y, T.pestana === 'tecnica');
+  T.zonas.pTodos = boton('Para todos', VW - 24 - wT - 10 - wP, y, T.pestana === 'todos');
+  y += 36 + 70;
+  g.font = F(700, 60); g.letterSpacing = '-2px'; g.fillStyle = '#fff'; g.fillText('Cómo piensa Tr', x, y); g.letterSpacing = '0px'; y += 30;
+  const lineas = (texto, fuente, color, lh, sangria = 0) => { g.font = fuente; g.fillStyle = color; for (const l of renglones(texto, ancho - sangria)) { y += lh; g.fillText(l, x + sangria, y); } };
+  if (!PAPEL) lineas('Cargando…', F(400, 18), C.gris, 30);
+  else if (PAPEL.error) lineas('No se pudo cargar. Tocá Volver y otra vez «Cómo piensa Tr».', F(400, 18), C.gris, 30);
+  else for (const b of PAPEL[T.pestana]) {
+    if (b.t === 'h2') { y += 34; g.fillStyle = 'rgba(255,255,255,.14)'; g.fillRect(x, y, ancho, 1); y += 8; lineas(b.x, F(600, 28), '#fff', 40); y += 6; }
+    else if (b.t === 'bajada') { y += 6; lineas(b.x, F(400, 21), C.gris, 32); y += 10; }
+    else if (b.t === 'p') { lineas(b.x, F(400, 18), '#d8d8d4', 29); y += 14; }
+    else if (b.t === 'li') { g.font = F(400, 18); g.fillStyle = C.lima; g.fillText('•', x + 2, y + 29); lineas(b.x, F(400, 18), '#d8d8d4', 29, 22); y += 12; }
+    else if (b.t === 'cifra') { y += 12; g.font = F(700, 40); g.fillStyle = '#fff'; g.fillText(b.n, x, y + 40); y += 44; lineas(b.x, F(400, 15), C.gris, 22); y += 8; }
+    else if (b.t === 'tabla') { const n = b.filas[0].length, cw = ancho / n; y += 10;
+      b.filas.forEach((f, k) => { y += k ? 32 : 26; g.font = k ? F(400, 16) : F(500, 12.5); f.forEach((c, i) => { g.fillStyle = k ? (c.startsWith('×') && i === 1 ? C.lima : '#d8d8d4') : C.gris; g.fillText(c, x + i * cw, y); });
+        g.fillStyle = 'rgba(255,255,255,.1)'; g.fillRect(x, y + 10, ancho, 1); }); y += 24; }
+  }
+  y += 40; lineas('Dinero ficticio. Nada de esto es una recomendación de inversión.', F(400, 14), C.gris, 22);
+  T.alto = y + 60 + BANDA;
+}
+// CÓMO VIENE CADA JUGADOR (07-11): la lista de todos, del que más le gana a Tr al que más pierde (/api/jugadores).
+// Cada uno contra SU Tr: la de su día de inicio. Tocar «Cambiar mi nombre» deja el pedido escrito en el chat.
+let JUGADORES = null;
+async function abrirJugadores() {
+  T.vistaAntes = T.scroll; T.vista = 'jugadores'; T.scroll = T.meta = SMIN; if (JUGADORES && JUGADORES.error) JUGADORES = null; pintar();
+  try { const r = await fetch('/api/jugadores'); const j = await r.json(); JUGADORES = Array.isArray(j) ? j : { error: true }; } catch (e) { JUGADORES = { error: true }; }
+  pintar();
+}
+if (q.has('medir')) window.__abrirJugadores = abrirJugadores;
+function jugadores() {
+  const x = 24, ancho = VW - 48; let y = BARRA + 22;
+  const boton = (tx, bx, by) => { g.font = F(500, 15); const w = g.measureText(tx).width + 34;
+    g.strokeStyle = '#fff'; g.lineWidth = 1.5; g.beginPath(); g.roundRect(bx, by, w, 36, 18); g.stroke();
+    g.fillStyle = '#fff'; g.fillText(tx, bx + 17, by + 23); return [bx - 6, by - 6, w + 12, 48]; };
+  T.zonas.volver = boton('← Volver', x, y);
+  g.font = F(500, 15); const wN = g.measureText('Cambiar mi nombre').width + 34;
+  T.zonas.nombre = boton('Cambiar mi nombre', VW - 24 - wN, y);
+  y += 36 + 70;
+  g.font = F(700, 60); g.letterSpacing = '-2px'; g.fillStyle = '#fff'; g.fillText('Cómo viene cada jugador', x, y); g.letterSpacing = '0px'; y += 50;
+  if (!Array.isArray(JUGADORES)) { g.font = F(400, 18); g.fillStyle = C.gris; g.fillText(JUGADORES ? 'No se pudo cargar la lista. Tocá Volver y probá de nuevo.' : 'Cargando…', x, y + 10); T.alto = y + 100 + BANDA; return; }
+  const cols = [[0, '#'], [56, 'JUGADOR'], [ancho * .46, 'DESDE'], [ancho * .6, 'VOS'], [ancho * .74, 'TR'], [ancho, 'CONTRA TR']];
+  g.font = F(600, 12.5); g.letterSpacing = (.08 * 12.5) + 'px'; g.fillStyle = C.gris;
+  cols.forEach(([cx, t], i) => { g.textAlign = i === cols.length - 1 ? 'right' : 'left'; g.fillText(t, x + cx, y); }); g.textAlign = 'left'; g.letterSpacing = '0px';
+  y += 14; g.fillStyle = '#262626'; g.fillRect(x, y, ancho, 1);
+  const gn = Math.min(30, Math.max(20, VW * .022));
+  JUGADORES.forEach((j, i) => {
+    const yo = j.id === JUG.id, pV = (j.vos / CAPITAL - 1) * 100, pT = (j.tr / CAPITAL - 1) * 100, base = y + gn + 18;
+    if (yo) { g.fillStyle = 'rgba(226,255,50,.08)'; g.fillRect(x - 12, y + 1, ancho + 24, gn + 34); }
+    g.font = F(400, 15); g.fillStyle = C.gris; g.fillText(String(i + 1), x, base);
+    g.font = F(500, gn); g.fillStyle = '#fff'; let nom = j.nombre + (yo ? ' (vos)' : '');
+    while (g.measureText(nom).width > ancho * .46 - 56 - 20 && nom.length > 3) nom = nom.slice(0, -2) + '…';
+    g.fillText(nom, x + 56, base);
+    g.font = F(400, 15); g.fillStyle = C.gris; g.fillText(j.inicio.split('-').reverse().join('/'), x + cols[2][0], base);
+    g.font = F(400, 17); g.fillStyle = pV >= 0 ? C.lima : C.salmon; g.fillText(pct(pV), x + cols[3][0], base);
+    g.fillStyle = pT >= 0 ? C.lima : C.salmon; g.fillText(pct(pT), x + cols[4][0], base);
+    g.font = F(500, gn); g.textAlign = 'right'; g.fillStyle = j.ventaja >= 0 ? C.lima : C.salmon;
+    g.fillText((j.ventaja >= 0 ? '+' : '−') + F_PCT.format(Math.abs(j.ventaja)) + ' pts', x + ancho, base); g.textAlign = 'left';
+    y += gn + 34; g.fillStyle = '#1a1a1a'; g.fillRect(x, y, ancho, 1);
+  });
+  y += 40; g.font = F(400, 14); g.fillStyle = C.gris;
+  for (const l of renglones('Cada jugador compite contra la Tr del día en que empezó. «Contra Tr» es la diferencia en puntos de rendimiento. Dinero ficticio.', Math.min(ancho, 860))) { y += 22; g.fillText(l, x, y); }
+  T.alto = y + 60 + BANDA;
+}
+function web() {
+  g.fillStyle = C.fondo; g.fillRect(0, 0, VW, Math.max(VH, T.alto));
+  // .arriba
+  barra();      // (06-11: la fila de arriba va con la web y se scrollea con ella: fija quedaba quieta mientras todo avanzaba)
+  if (T.vista === 'papel') { papel(); return; }
+  if (T.vista === 'jugadores') { jugadores(); return; }      // «Cómo piensa Tr», dentro de la misma pantalla
+  // .fila: Vos | Tr | Agente
+  const y0 = 66, fr = (VW - 48 - 40) / 3.25, H = 520;
+  const D = T.D;
+  if (D) {
+    const { ia, vos } = D, u = ia.fechas.length - 1, vV = vos[vos.length - 1], vI = ia.valores[u], pV = (vV / CAPITAL - 1) * 100, pI = (vI / CAPITAL - 1) * 100;
+    const todos = [...vos, ...ia.valores], mid = (Math.min(...todos) + Math.max(...todos)) / 2, med = Math.max((Math.max(...todos) - Math.min(...todos)) / 2, CAPITAL * .01);
+    const desde = P.inicio.split('-').reverse().join('/');
+    capa('vos', () => carta(24, y0, fr, H, 'Vos', pV, vos, mid - med, mid + med, [['Valor', usd(vV)], ['Caja', usd(P.caja)], ['Desde', desde], ['Acciones', String(Object.keys(P.pos).length)]]));
+    capa('tr', () => carta(24 + fr + 20, y0, fr, H, 'Tr', pI, ia.valores, mid - med, mid + med, [['Valor', usd(vI)], ['Empresas', String(ia.empresas)], ['Desde', desde], ['Lista', ia.sha256.slice(0, 10) + '…']]));
+  } else {
+    for (const [i, n] of [[0, 'Vos'], [1, 'Tr']]) capa(n.toLowerCase(), () => carta(24 + i * (fr + 20), y0, fr, H, n, null, [], 0, 1, [['Valor', '—'], ['', '—'], ['Desde', '—'], ['', '—']]));
+  }
+  capa('agente', () => chat(24 + 2 * (fr + 20), y0, fr * 1.25, H));
+  // .cartera
+  let y = y0 + H + 40;
+  T.cartera = y - 16;
+  const { a: aCart, dy: dyCart } = entra('cartera'); g.save(); ALFA = aCart; g.globalAlpha = aCart; g.translate(0, dyCart);
+  capsula(24, y, 'Cartera', 16, '#fff'); y += 16 * 1.2 + 10 + 14;
+  const filas = Object.entries(P.pos).map(([s, p]) => { const v = p.cantidad * (precios[s] || 0); return { s, nom: p.nombre || s, v, r: p.costo ? (v / p.costo - 1) * 100 : 0 }; }).sort((a, b) => b.v - a.v);
+  filas.push({ s: 'USD', nom: 'Caja', v: P.caja, r: null });
+  const gn = Math.min(56, Math.max(28, VW * .042)), cMo = VW - 24;
+  T.zonas.filas = [];
+  filas.forEach((f, i) => {
+    const abierta = T.abierta === f.s;
+    g.globalAlpha = ALFA * (abierta ? 1 : i === 3 ? .75 : i === 4 ? .55 : i >= 5 ? .4 : 1);
+    const base = y + 6 + gn * 1.1 * .8;
+    if (f.s !== 'USD') T.zonas.filas.push({ s: f.s, r: [16, y - 4, VW - 32, gn * 1.1 + 12] });
+    g.font = F(400, gn); g.letterSpacing = (-.03 * gn) + 'px'; g.fillStyle = '#fff';
+    g.textAlign = 'right'; g.fillText(corto(f.v), cMo, base); const wMo = g.measureText(corto(f.v)).width; g.textAlign = 'left';
+    const xTk = cMo - wMo - 16 - 120 - 16 - 110, xVa = xTk + 110 + 16;
+    let nom = f.nom; while (g.measureText(nom).width > xTk - 16 - 24 - 30 && nom.length > 2) nom = nom.slice(0, -2) + '…';
+    g.fillText(nom, 24, base); const wNom = g.measureText(nom).width; g.letterSpacing = '0px';
+    if (f.s !== 'USD') {        // la flechita del desplegable, al lado del nombre
+      const cx = 24 + wNom + 18, cy = base - gn * .3, k = 6;
+      g.strokeStyle = abierta ? '#fff' : C.gris; g.lineWidth = 1.8; g.lineCap = g.lineJoin = 'round'; g.beginPath();
+      if (abierta) { g.moveTo(cx - k, cy + k / 2); g.lineTo(cx, cy - k / 2); g.lineTo(cx + k, cy + k / 2); } else { g.moveTo(cx - k, cy - k / 2); g.lineTo(cx, cy + k / 2); g.lineTo(cx + k, cy - k / 2); }
+      g.stroke();
+    }
+    g.font = F(400, 14); g.fillStyle = C.gris; g.fillText(f.s, xTk, base);
+    if (f.r != null) { g.fillStyle = f.r >= 0 ? C.lima : C.salmon; g.fillText(pct(f.r), xVa, base); }
+    y += gn * 1.1 + 12;
+    if (abierta) { g.globalAlpha = ALFA; y = ficha(f, y); }
+  });
+  g.globalAlpha = ALFA;
+  // .pie
+  y += 32; g.font = F(400, 12.5); g.fillStyle = C.gris;
+  const ia = D && D.ia;
+  const pie = 'Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora.' + (ia ? ` Tr compró ${ia.empresas} empresas a partes iguales el día que empezaste; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela al cumplirse el año.` : '');
+  const ls = renglones(pie, 12.5 * 70 * .5); ls.forEach((l, i) => g.fillText(l, 24, y + 14 + i * 18)); y += ls.length * 18 + 96;
+  g.restore(); ALFA = 1; g.globalAlpha = 1;
+  T.alto = y + BANDA;
+}
+function cinta() {                                // .cinta: fija abajo. Acá sólo el fondo; las letras corren en la placa (ver telaCinta)
+  const y = VH - BANDA;
+  g.fillStyle = C.fondo; g.fillRect(0, y, VW, BANDA); g.fillStyle = '#262626'; g.fillRect(0, y, VW, 1);
+  if (guiaPaso() === 'cinta') {      // (la guía: la cinta late y dice qué hacer)
+    const k = latido(); g.save(); g.strokeStyle = C.lima; g.globalAlpha = .35 + .65 * k; g.lineWidth = 2 + 2 * k; g.strokeRect(3, y + 2, VW - 6, BANDA - 4);
+    g.font = F(600, 15); const tx = '↓  Tocá una acción para elegirla (se frena con el mouse encima)', tw = g.measureText(tx).width + 32;
+    g.globalAlpha = 1; g.fillStyle = C.lima; g.beginPath(); g.roundRect((VW - tw) / 2, y - 44 - 4 * k, tw, 34, 17); g.fill(); g.fillStyle = C.negro; g.fillText(tx, (VW - tw) / 2 + 16, y - 21 - 4 * k); g.restore();
+  }
+}
+// la cinta va en una tela aparte, larga, que la placa desplaza un poco cada cuadro (subpíxel, por tiempo): corre fluida
+// sin redibujar la pantalla. La secuencia se dibuja dos veces seguidas para que el empalme no se note.
+const CINTA_PX = 20, CW = 8192, SC = 1.25, CH = Math.round(BANDA * SC);      // (la cinta en su propia escala: su tela larga ya está en el máximo de 8192)
+const telaCinta = document.createElement('canvas'); telaCinta.width = CW; telaCinta.height = CH;
+const gc = telaCinta.getContext('2d');
+const cintaU = { frac: null, esc: null, off: null, a: null, ancho: 1 };
+let texCinta = null;
+function armarCinta() {
+  gc.setTransform(1, 0, 0, 1, 0, 0); gc.fillStyle = C.fondo; gc.fillRect(0, 0, CW, CH);
+  if (!T.cinta.length) return;
+  gc.setTransform(SC, 0, 0, SC, 0, 0); gc.font = F(500, CINTA_PX); gc.letterSpacing = (.02 * CINTA_PX) + 'px'; gc.textBaseline = 'middle';
+  const partes = []; let ancho = 0;
+  T.cintaTramos = [];
+  T.cinta.forEach((c, i) => { const a = ancho; for (const [t, col] of c) { const w = gc.measureText(t).width; partes.push([t, col, w]); ancho += w; } T.cintaTramos.push({ s: T.cintaSim[i], a, b: ancho }); });
+  ancho = Math.min(ancho, CW / SC / 2 - 2);
+  for (const x0 of [0, ancho]) { let x = x0; for (const [t, col, w] of partes) { gc.fillStyle = col; gc.fillText(t, x, BANDA / 2 + 1); x += w; } }
+  cintaU.ancho = ancho;
+  if (cintaU.frac) { cintaU.frac.value = ancho * SC / CW; cintaU.esc.value = VW / ancho; }
+  if (texCinta) texCinta.needsUpdate = true;
+}
+// cada mando contesta en la pantalla: un cartel grande en el medio (arriba qué mando, al medio qué pasó, abajo el detalle)
+// LA GUÍA (07-11): hasta que la persona hace su primera operación, lo que hay que tocar se marca solo: la cinta late con un
+// borde lima y «tocá una acción»; con una acción elegida, COMPRAR se hunde solo cada 2 s. Se apaga para siempre al operar.
+let GUIA = {}; try { GUIA = JSON.parse(localStorage.getItem('vosvstr:guia') || '{}'); } catch (e) {}
+const guiaHecho = k => { if (GUIA[k]) return; GUIA[k] = 1; try { localStorage.setItem('vosvstr:guia', JSON.stringify(GUIA)); } catch (e) {} pintar(); };
+const guiaPaso = () => GUIA.opero || !T.enc || T.vista || T.confirmar ? null : (typeof elegida !== 'undefined' && elegida ? 'comprar' : 'cinta');
+const latido = () => .5 + .5 * Math.sin(performance.now() / 1000 * Math.PI * 1.6);
+const avisar = (arriba, grande, abajo, ms = 2200, puntos = false) => { T.aviso = { arriba, grande, abajo, puntos, hasta: performance.now() + ms }; pintar(); };
+function cartel(a, { arriba, grande, abajo, puntos }) {
+  const w = 600, h = puntos ? 214 : 196, x = (VW - w) / 2, y = (VH - BANDA - h) / 2;
+  g.globalAlpha = a;
+  g.fillStyle = 'rgba(10,10,12,.93)'; g.beginPath(); g.roundRect(x, y, w, h, 28); g.fill();
+  g.strokeStyle = 'rgba(255,255,255,.18)'; g.lineWidth = 1.5; g.stroke();
+  g.textAlign = 'center'; g.fillStyle = C.gris; g.font = F(600, 13); g.letterSpacing = (.08 * 13) + 'px';
+  g.fillText(arriba, VW / 2, y + 40); g.letterSpacing = '0px';
+  let px = 68; g.font = F(400, px); while (g.measureText(grande).width > w - 60 && px > 30) { px -= 4; g.font = F(400, px); }
+  g.fillStyle = '#fff'; g.fillText(grande, VW / 2, y + 120);
+  g.font = F(400, 17); g.fillStyle = C.gris; let sub = abajo || '';
+  while (g.measureText(sub).width > w - 50 && sub.length > 3) sub = '…' + sub.slice(4);
+  g.fillText(sub, VW / 2, y + 160);
+  if (puntos) { const n = PASOS.length, dx = 22, x0 = VW / 2 - (n - 1) * dx / 2;
+    for (let i = 0; i < n; i++) { g.fillStyle = i <= iCant ? '#fff' : 'rgba(255,255,255,.2)'; g.beginPath(); g.arc(x0 + i * dx, y + 190, 3.5, 0, Math.PI * 2); g.fill(); } }
+  g.textAlign = 'left'; g.globalAlpha = 1;
+}
+// DE VERDAD: al apretar el botón (con la tapa levantada) la pantalla muestra SÓLO esto. En ningún otro momento.
+function confirmacion() {
+  g.fillStyle = '#000'; g.fillRect(0, 0, VW, VH);
+  const w = 700, x = (VW - w) / 2; let y = 92;
+  g.fillStyle = C.gris; g.font = F(600, 13); g.letterSpacing = (.08 * 13) + 'px'; g.fillText('COMPRAR DE VERDAD', x, y); g.letterSpacing = '0px';
+  y += 58; g.fillStyle = '#fff'; g.font = F(400, 44); g.letterSpacing = (-.02 * 44) + 'px'; g.fillText('¿Sos mayor de edad?', x, y); g.letterSpacing = '0px';
+  y += 44; g.font = F(400, 18); g.fillStyle = '#d8d8d4';
+  const txt = 'Vos vs Tr es una herramienta experimental y educativa. No es una recomendación de inversión. El dinero de este simulador es ficticio.\n\nSi seguís, vas a abrir una cuenta en Alpaca, con plata real. Esa cuenta y lo que hagas en ella los maneja Alpaca, bajo su responsabilidad y sus términos, no esta herramienta.';
+  renglones(txt, w).forEach(l => { g.fillText(l, x, y); y += 28; });
+  y += 30;
+  g.font = F(500, 17); const t1 = 'Soy mayor de edad · seguir a Alpaca', w1 = g.measureText(t1).width + 48;
+  g.fillStyle = '#fff'; g.beginPath(); g.roundRect(x, y, w1, 52, 26); g.fill(); g.fillStyle = C.negro; g.fillText(t1, x + 24, y + 32);
+  const t2 = 'Volver', w2 = g.measureText(t2).width + 48;
+  g.strokeStyle = 'rgba(255,255,255,.5)'; g.lineWidth = 1.5; g.beginPath(); g.roundRect(x + w1 + 14, y, w2, 52, 26); g.stroke(); g.fillStyle = '#fff'; g.fillText(t2, x + w1 + 14 + 24, y + 32);
+  T.zonasConf = { si: [x - 6, y - 8, w1 + 12, 68], no: [x + w1 + 8, y - 8, w2 + 12, 68] };
+}
+function dibujar() {
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  T.scroll = Math.max(SMIN, Math.min(T.scroll, Math.max(0, T.alto - VH)));
+  g.fillStyle = '#000'; g.fillRect(0, 0, PW, PH);
+  g.save(); g.beginPath(); g.rect(0, Y_WEB, PW, PH_WEB); g.clip();
+  g.setTransform(S, 0, 0, S, 0, Y_WEB - T.scroll * S);
+  web();
+  g.setTransform(S, 0, 0, S, 0, Y_WEB);
+  capa('cinta', cinta);
+  g.translate(0, TOPE);      // (lo fijo -- la barra, la confirmación -- a la altura que se ve de frente)
+  if (T.confirmar) confirmacion();
+  g.translate(0, -TOPE);
+  // la barrita del scroll de la ventana
+  if (T.alto > VH) { const hb = Math.max(30, VH * VH / T.alto), yb = TOPE + (VH - TOPE - BANDA - hb) * Math.max(0, T.scroll) / (T.alto - VH); g.fillStyle = 'rgba(255,255,255,.25)'; g.beginPath(); g.roundRect(VW - 7, yb + 2, 4, hb, 2); g.fill(); }
+  const quedan = T.aviso ? T.aviso.hasta - performance.now() : -1e9;
+  g.restore();
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  if (tex) tex.needsUpdate = true;
+  T.sucio = quedan > -50 || !!(T.enc && performance.now() - T.enc < 250 + 6 * PASO_ENC + DUR_ENC + 100);
+}
+const pintar = () => { T.sucio = true; };
+const irA = sec => { T.meta = sec === 'cartera' ? Math.min(T.cartera - TOPE, Math.max(0, T.alto - VH)) : SMIN; };
+
+// ================= ganchos que usa nucleo.js (como en la web) =================
+const entrada = document.getElementById('entrada');
+window.burbuja = (texto, clase) => { const b = { t: texto, c: clase }; burbujas.push(b); pintar(); return { remove() { const i = burbujas.indexOf(b); if (i >= 0) burbujas.splice(i, 1); pintar(); } }; };
+window.nota = t => window.burbuja(t, 'op');
+window.limpiarChat = () => { burbujas.length = 0; pintar(); };
+window.alElegir = () => pintar();
+// los mandos tienen que andar desde el primer toque: si todavía no se nombró ninguna, arranca con la primera de la cinta
+// QUÉ ACCIÓN MUEVEN LOS MANDOS: la que elegís -- tocándola en la cinta de abajo, en tu cartera, o nombrándola en el chat --.
+// (antes arrancaba sola con AAPL y no se entendía sobre qué operaban la perilla y los botones)
+function elegirAccion(s, aviso = true) {
+  if (aviso) avisar('ACCIÓN ELEGIDA', s, 'buscando el precio…', 8000);
+  H.precio({ simbolo: s }).then(c => { if (aviso) avisar('ACCIÓN ELEGIDA', `${c.nombre || s}`.replace(/,? Inc\.?$/, ''), `${s} ${usd(c.precio)} · girá CANTIDAD y apretá COMPRAR o VENDER`, 3600); pintar(); })
+    .catch(() => { if (aviso) avisar('ACCIÓN', 'Sin precio', 'no se pudo leer la cotización, probá de nuevo'); });
+}
+window.refrescar = async () => {
+  try { T.D = await datos(CINTA); } catch (e) { return; }
+  publicar(T.D.vV, T.D.vI);
+  const S2 = T.D.S || {};
+  T.cintaSim = CINTA.filter(s => S2[s]);
+  T.cinta = T.cintaSim.map(s => { const x = S2[s], prev = x.cierres[x.cierres.length - 2] ?? x.ultimo, ch = (x.ultimo / prev - 1) * 100;
+    return [[`${s}  ${usd(x.ultimo).replace('US$', '').trim()}  `, '#fff'], [pct(ch), ch >= 0 ? C.lima : C.salmon], ['      ·      ', C.gris]]; });
+  armarCinta();
+  const h = Math.max(0, ...Object.values(S2).map(x => x.hora || 0));
+  if (h > 0) T.hora = new Date(h * 1000).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  pintar();
+};
+// PENSANDO (07-11): mientras el agente trabaja se ve cuánto lleva (segundos) y qué está haciendo (cada herramienta que usa),
+// en el chat y en la barra de arriba -- como recomienda NN/g para esperas de más de unos segundos: animación + información --.
+const PASO = { buscar_empresa: a => 'buscando ' + (a.texto || 'la empresa'), precio: a => 'mirando el precio de ' + (a.simbolo || ''), comprar: a => 'comprando ' + (a.simbolo || ''),
+  vender: a => 'vendiendo ' + (a.simbolo || ''), ver_cartera: () => 'mirando tu cartera', comparar_con_ia: () => 'comparando con Tr', cambiar_nombre: () => 'cambiando tu nombre', reiniciar_partida: () => 'reiniciando' };
+for (const k in PASO) if (typeof H[k] === 'function') { const f = H[k]; H[k] = a => { if (T.pensando) { T.paso = PASO[k](a || {}); pintar(); } return f(a); }; }
+// (el agente que compra o vende también cuenta como primera operación: la guía se apaga)
+for (const k of ['comprar', 'vender']) { const f = H[k]; H[k] = async a => { const r = await f(a); if (r && !r.error) guiaHecho('opero'); return r; }; }
+const pensandoTxt = () => { const s = Math.floor((performance.now() - T.pensandoDesde) / 1000); return (T.paso || 'pensando') + ' · ' + s + ' s'; };
+async function hablarConAgente(t) {
+  if (!t || T.pensando) return;
+  burbuja(t, 'yo'); T.pensando = true; T.pensandoDesde = performance.now(); T.paso = ''; pintar(); recortar();
+  try { await conversar(t); } catch (err) { nota('No pude responder: ' + (err.message || err)); }
+  T.pensando = false; T.paso = ''; pintar();
+}
+function enviar() { const t = entrada.value.trim(); entrada.value = ''; pintar(); hablarConAgente(t); }
+document.getElementById('form').addEventListener('submit', e => { e.preventDefault(); enviar(); });
+entrada.addEventListener('input', pintar);
+entrada.addEventListener('focus', () => { T.foco = true; pintar(); });
+entrada.addEventListener('blur', () => { T.foco = false; pintar(); });
+
+// ================= motor (como INTERLEX) =================
+const TACTIL = matchMedia('(pointer: coarse)').matches;
+const adaptador = await pAdaptador;
+const rend = new THREE.WebGPURenderer({ antialias: !adaptador, powerPreference: 'high-performance', trackTimestamp: q.has('medir'), ...(adaptador ? { requiredLimits: { maxColorAttachmentBytesPerSample: 64 } } : {}) });
+const DEFINICIONES = [0.55, 0.7, 0.85, 1, 1.25, 1.5, 1.75, 2];
+const definicionMaxima = () => TACTIL ? Math.min(2, devicePixelRatio || 1) : Math.min(1.5, Math.max(1, devicePixelRatio || 1));
+// (06-11: arranca en la definición máxima -- el aparato es todo horneado y cuesta poco --; si no da 18 cuadros, baja)
+let definicion = 0;      // (08-11, como INTERLEX: arranca con muy poca definición -- 0,55 -- y sube de a un paso mientras dé 30 cuadros)
+rend.setPixelRatio(DEFINICIONES[definicion]);
+document.body.prepend(rend.domElement);
+const lienzo = rend.domElement;
+await rend.init(); avance(0.3);
+if (q.has('medir') && rend.backend.device) {       // (cuánto tarda la placa en armar cada programa: window.__prog)
+  const dv = rend.backend.device, cp = dv.createRenderPipeline.bind(dv), cc = dv.createComputePipeline.bind(dv), cs = dv.createShaderModule.bind(dv);
+  window.__prog = [];
+  dv.createShaderModule = d => { const t = performance.now(), r = cs(d); window.__prog.push(['mod', (performance.now() - t) | 0, (d.label || '') + ' ' + d.code.length]); return r; };
+  dv.createRenderPipeline = d => { const t = performance.now(), r = cp(d); window.__prog.push(['rp', (performance.now() - t) | 0, d.label || '', (performance.now() | 0)]); return r; };
+  dv.createComputePipeline = d => { const t = performance.now(), r = cc(d); window.__prog.push(['cp', (performance.now() - t) | 0, d.label || '']); return r; };
+}
+const LIVIANA = rend.backend.isWebGLBackend === true;
+// LOS PROGRAMAS DE LA PLACA, TODOS A LA VEZ (lo de T3 / INTERLEX): se piden sin esperar -- la placa los compila en paralelo --
+// y cada cuadro dibuja lo que ya está listo. (Sólo Chrome de escritorio: en el iPhone los programas asíncronos no terminaban.)
+let noListos = 0;
+const CHROME_ESCRITORIO = !TACTIL && navigator.userAgent.includes('Chrome/') && !/Mobile/.test(navigator.userAgent);
+// (05-11: en el Chrome de Fabri los programas asíncronos de algunos materiales NUNCA terminaban y la carga quedaba en negro;
+//  sin esto carga en 1,1 s. Queda sólo a pedido: ?paralelo)
+if (!LIVIANA && CHROME_ESCRITORIO && q.has('paralelo') && rend._pipelines && rend._pipelines.getForRender && rend._pipelines.isReady) {
+  const PL = rend._pipelines, listo = PL.isReady;
+  PL.updateForRender = function (o) { this.getForRender(o, []); };
+  PL.isReady = function (o) { const si = listo.call(this, o); if (!si) noListos++; return si; };
+}
+rend.toneMapping = THREE.AgXToneMapping; rend.toneMappingExposure = 1.0;
+rend.shadowMap.enabled = true; rend.shadowMap.type = THREE.VSMShadowMap;
+
+const escena = new THREE.Scene(); escena.background = new THREE.Color('#0a1135');
+const cam = new THREE.PerspectiveCamera(28, 1, 0.02, 30);
+const DIR = new THREE.Vector3(1.2, 1.507, 2.463).normalize();      // la vista 3/4 del render aprobado (la cámara del estudio de INTERLEX)
+const MIRA = new THREE.Vector3(0, 0.03, 0);
+cam.position.copy(MIRA).addScaledVector(DIR, 0.98);
+const ctl = new OrbitControls(cam, lienzo);
+ctl.target.copy(MIRA); ctl.enableDamping = true; ctl.dampingFactor = .08; ctl.enablePan = false;
+ctl.minDistance = 0.45; ctl.maxDistance = 2.4; ctl.minPolarAngle = .25; ctl.maxPolarAngle = 1.35; ctl.minAzimuthAngle = -1.1; ctl.maxAzimuthAngle = 1.1;
+
+// ---- LAS CAJAS DE LUZ DEL ESTUDIO (las del render aprobado) ----
+const nPant = new THREE.Vector3(0, Math.cos(1.04), Math.sin(1.04));
+const dirFranja = nPant.clone().multiplyScalar(2 * nPant.dot(DIR)).sub(DIR).normalize();
+const CAJAS = [
+  { dir: [0, 1, 0], dist: 1.25, a: 0.7, b: 0.7, brillo: 6.2, color: [1, 0.985, 0.97] },
+  // la PANTALLA misma, que emite: en Cycles es lo que se refleja en la perilla y en los mandos (está justo detrás)
+  { dir: [0, 0.62, -0.78], dist: 0.16, a: 0.19, b: 0.11, brillo: 1.3, color: [0.95, 0.95, 0.93] },      // cenital: la misma luz que la de Blender (38 W en 1,96 m²); sólo da los reflejos: lo difuso viene horneado
+  { dir: dirFranja.toArray(), dist: 2.4, a: 0.05, b: 1.1, brillo: 1.0, color: [1, 1, 1] },    // franja: tenue, se refleja arriba en la pantalla
+];
+function entornoEstudio(cajas, ambiente, piso, suave = 0.42) {       // (el entornoEstudio de INTERLEX)
+  const W = 256, H = 128, d = new Uint16Array(W * H * 4), h = THREE.DataUtils.toHalfFloat;
+  const cs = cajas.map(L => {
+    const z = new THREE.Vector3(...L.dir).normalize(), up = Math.abs(z.y) > .95 ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0);
+    const x = new THREE.Vector3().crossVectors(up, z).normalize(), y = new THREE.Vector3().crossVectors(z, x);
+    const c = z.clone().multiplyScalar(L.dist), a = c.clone().addScaledVector(x, -L.a).addScaledVector(y, -L.b);
+    const ex = x.clone().multiplyScalar(2 * L.a), ey = y.clone().multiplyScalar(2 * L.b);
+    return { a, ex, ey, lx: ex.lengthSq(), ly: ey.lengthSq(), n: z, dn: a.dot(z), L };
+  });
+  const v = new THREE.Vector3(), qq = new THREE.Vector3();
+  const ss = (a, b, t) => { t = Math.min(1, Math.max(0, (t - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const borde = t => 1 - ss(suave, .5, Math.abs(t - .5));
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+    const th = (j + .5) / H * Math.PI, ph = (i + .5) / W * Math.PI * 2 - Math.PI;
+    v.set(Math.sin(th) * Math.cos(ph), Math.cos(th), Math.sin(th) * Math.sin(ph));
+    const k = ss(.05, -.35, v.y);
+    let r = ambiente + piso[0] * k, gg = ambiente + piso[1] * k, b = ambiente + piso[2] * k;
+    for (const c of cs) {
+      const vn = v.dot(c.n); if (vn < 1e-6) continue;
+      const t = c.dn / vn; if (t <= 0) continue;
+      qq.copy(v).multiplyScalar(t).sub(c.a);
+      const m = borde(qq.dot(c.ex) / c.lx) * borde(qq.dot(c.ey) / c.ly);
+      if (m > 0) { r += c.L.brillo * c.L.color[0] * m; gg += c.L.brillo * c.L.color[1] * m; b += c.L.brillo * c.L.color[2] * m; }
+    }
+    const o = ((H - 1 - j) * W + i) * 4; d[o] = h(r); d[o + 1] = h(gg); d[o + 2] = h(b); d[o + 3] = h(1);
+  }
+  const t = new THREE.DataTexture(d, W, H, THREE.RGBAFormat, THREE.HalfFloatType);
+  t.mapping = THREE.EquirectangularReflectionMapping; t.colorSpace = THREE.LinearSRGBColorSpace;
+  t.minFilter = t.magFilter = THREE.LinearFilter; t.needsUpdate = true;
+  return t;
+}
+const AMBIENTE = 0.003;
+let entorno_; const entorno = () => entorno_ ||= entornoEstudio(CAJAS, AMBIENTE, [0.03, 0.035, 0.06]);      // (abajo, la base y el piso iluminados; se arma sólo si se enciende la capa viva)
+// (la pantalla y la tapa no pueden reflejar a la pantalla: para ellas, el estudio sin esa caja)
+const entornoSinPantalla = entornoEstudio(CAJAS.filter(c => c.dist > 0.5), AMBIENTE, [0.03, 0.035, 0.06]);
+const [J, tLuz, tPiso, tHuellas] = await pHorno;
+tLuz.anisotropy = 16;      // (el atlas visto en ángulo, nítido)
+tLuz.flipY = false; tLuz.needsUpdate = true;            // (el atlas va por la UV del glTF)
+// TODA LA LUZ DIFUSA VIENE HORNEADA DE CYCLES (aparato y piso: sombras, rebote, caída). En vivo queda sólo el BRILLO
+// (lo que se refleja depende de desde dónde se mira): esta luz da los destellos, calibrada con lo horneado -- un piso
+// blanco despejado devuelve en Cycles J.luzPiso; en three un foco sin caída devuelve intensidad / π --. Sin sombras en vivo.
+// (05-11 noche: al 30 %: entera lavaba la goma a gris -- comparado con el render de Cycles desde la misma cámara --)
+// UNA CAPA LEVE DE LUZ EN VIVO (06-11): lo horneado sigue siendo la base (va como luz propia del material) y encima la
+// cenital en vivo suma un poco, con su sombra: lo que se mueve (teclas, tapa, perilla) recibe luz y proyecta sombra, pero
+// con «menos opacidad» -- VIVO es cuánto pesa esa capa: 0 = sólo lo horneado. ?vivo=0.4 para probar otro valor --.
+// LA CONSOLA DE LA LUZ (tecla 5): cuánto pesa cada cosa. Lo que se toca queda en este navegador; «copiar» da los valores
+// para dejarlos de fábrica acá.
+const LUZ_FABRICA = { capa: 0.02, horneado: 0.66, cenital: 1, difuso: 0, brillo: 0, aspereza: 0.41, entorno: 0.3, sombra: 17.5, exposicion: 0.56, vhs: 0.13, desenfoque: 0.5, profundidad: 0.3 };      // (06-11: los que eligió Fabri en la consola; el foco, nuevo)
+const LUZ = Object.assign({}, LUZ_FABRICA);
+try { const g = JSON.parse(localStorage.getItem('vosvstr:luz') || '{}'); for (const k in g) if (k in LUZ && typeof g[k] === 'number' && k !== 'desenfoque' && k !== 'profundidad') LUZ[k] = g[k]; } catch (e) {}      // (07-11: el desenfoque guardado de antes era exagerado: vale el de fábrica)
+if (q.has('vivo')) LUZ.capa = +q.get('vivo');
+const VIVO = uniform(LUZ.capa), DIFUSO = uniform(LUZ.difuso), BRILLO = uniform(LUZ.brillo), RUGOSO = uniform(LUZ.aspereza), HORNEADO = uniform(LUZ.horneado);
+const MATS_VIVOS = [];
+// EL FOCO (06-11): la cámara enfoca la pantalla; al tocar un mando el foco pasa a los mandos y a los 4 s vuelve.
+// FOCO = distancia de la cámara al plano nítido (a lo largo de lo que mira), PROF = cuánto margen queda nítido.
+const FOCO = uniform(1), PROF = uniform(LUZ.profundidad), BOKEH = uniform(LUZ.desenfoque); let focoMandosHasta = 0, raton = null;      // (raton: dónde está el mouse sobre el lienzo, para enfocar ahí)
+const cenital = new THREE.SpotLight(0xfffbf7, Math.PI * J.luzPiso, 0, Math.atan(0.55 / 2.4), 0.6, 0);
+cenital.position.set(0, 2.4, 0); cenital.target.position.set(0, 0, 0);
+// (06-11: con difuso y brillo en 0 -- los de fábrica -- la capa viva no suma nada a la imagen: con color 0 y especular 0
+//  el material físico da exactamente lo horneado. Entonces arranca con el material simple, sin sombras en vivo ni el
+//  entorno de la escena: 10 programas menos que compilar al cargar y un cuadro más barato. Si en la consola se sube
+//  difuso o brillo, recién ahí se arma lo vivo -- ver encenderVivo --)
+const hayVivo = () => !q.has('sinsombra') && (LUZ.difuso > 0 || LUZ.brillo > 0) && LUZ.capa > 0;
+let VIVO_ARMADO = hayVivo();
+rend.shadowMap.enabled = VIVO_ARMADO; rend.shadowMap.type = THREE.VSMShadowMap;
+if (VIVO_ARMADO) escena.environment = entorno();
+cenital.castShadow = true; cenital.shadow.mapSize.set(2048, 2048); cenital.shadow.radius = 6; cenital.shadow.blurSamples = 12;
+cenital.shadow.camera.near = 1.5; cenital.shadow.camera.far = 3; cenital.shadow.bias = -0.0004; cenital.shadow.autoUpdate = false;
+// (el material de la capa: lo horneado como luz propia + un poco de luz en vivo -- difusa y brillo -- según VIVO)
+const fisica = (horno, albedo, rug) => { pedirAspereza(); const m = new THREE.MeshPhysicalNodeMaterial({ metalness: 0, envMapIntensity: LUZ.entorno });
+  m.emissiveNode = horno.mul(HORNEADO); m.colorNode = vec3(...albedo).mul(VIVO).mul(DIFUSO); m.specularIntensityNode = VIVO.mul(BRILLO);
+  m.roughnessNode = rug.mul(RUGOSO).clamp(0.03, 1); MATS_VIVOS.push(m); return m; };
+const CAPAS = [];      // (cada material simple y cómo armar su versión viva)
+const capaViva = (horno, albedo, rug) => {
+  if (VIVO_ARMADO) return fisica(horno, albedo, rug);
+  const m = new THREE.MeshBasicNodeMaterial(); m.colorNode = horno.mul(HORNEADO);
+  CAPAS.push({ m, armar: () => fisica(horno, albedo, rug) }); return m;
+};
+function encenderVivo() {
+  if (VIVO_ARMADO || !hayVivo()) return;
+  VIVO_ARMADO = true; rend.shadowMap.enabled = true; escena.environment = entorno(); pedirAspereza();
+  const cambio = new Map(CAPAS.map(c => { const n = c.armar(); n.side = c.m.side; return [c.m, n]; }));
+  escena.traverse(o => { if (!o.isMesh) return; const n = cambio.get(o.material); if (n) o.material = n; else if (o.material) o.material.needsUpdate = true; });
+}
+escena.add(cenital, cenital.target);
+escena.add(new THREE.AmbientLight(0xffffff, Math.PI * AMBIENTE));
+// triplanar, como INTERLEX: la textura proyectada desde los tres ejes por posición, sin costuras ni estiramientos
+const tri = (t, porMetro, pos = positionLocal, nor = normalLocal) => triplanarTexture(texture(t), null, null, float(porMetro), pos, nor);
+{ // el infinito: EL PISO ES PAÑO (el de INTERLEX) teñido del azul, con la sombra del aparato horneada en Cycles
+  const R = 3.2, CURVA = 0.9, PARED = 2.6, perfil = [new THREE.Vector2(0, 0), new THREE.Vector2(R - CURVA, 0)];
+  for (let i = 1; i <= 24; i++) { const a = i / 24 * Math.PI / 2; perfil.push(new THREE.Vector2(R - CURVA + Math.sin(a) * CURVA, CURVA - Math.cos(a) * CURVA)); }
+  perfil.push(new THREE.Vector2(R, PARED));
+  // el piso horneado en Cycles (3 x 3 m alrededor del aparato, con su brillo visto desde la cámara): se muestra tal cual,
+  // sin luz en vivo -- el programa más simple que hay --
+  const P0 = J.piso, cp = texture(tPiso, vec2(positionWorld.x.sub(P0.cx).div(P0.lado).add(0.5), positionWorld.z.negate().sub(P0.cy).div(P0.lado).add(0.5))).rgb;
+  const m = capaViva(cp.mul(cp).mul(J.topePiso), [0.012, 0.015, 0.04], float(0.65)); m.side = THREE.DoubleSide;
+  const piso = new THREE.Mesh(new THREE.LatheGeometry(perfil, 96), m); piso.receiveShadow = false;      // (su sombra ya está horneada; consultar la sombra en vivo en todo el piso costaba ~0,9 ms por cuadro)
+  escena.add(piso);
+}
+
+// ================= el aparato =================
+let tex = null, pantalla = null, acrilico = null, VHS = null;
+const mandos = {}; let tapaAbierta = false, tapaHasta = 0;
+const anims = [];
+function animar(obj, eje, a, dur = 140, prop = 'position') { for (let i = anims.length - 1; i >= 0; i--) if (anims[i].obj === obj && anims[i].prop === prop && anims[i].eje === eje) anims.splice(i, 1); anims.push({ obj, prop, eje, de: obj[prop][eje], a, t0: performance.now(), dur }); }
+const SIN_HORNO = new Set(['tapa_acrilico', 'pantalla']);      // (todo lo demás del aparato viene horneado, mandos incluidos)
+{
+  const ld = new GLTFLoader(), { MeshoptDecoder } = await pMeshopt; ld.setMeshoptDecoder(MeshoptDecoder);
+  const gl = await ld.parseAsync(await pGlb, '');
+  // LO HORNEADO: dos materiales (plástico/goma y metal) para todo el aparato -- uno por pieza eran veinte programas y en una
+  // caché fría la carga no terminaba --. El color con su luz viene de Cycles (raíz(luz / TOPE)), con la mugre, el desgaste y
+  // la goma con su dispersión interna. En vivo sólo el brillo, con la ASPEREZA de cada pieza horneada también (mugre,
+  // rayitas, cantos pulidos, grasa de dedos).
+  const cLuz = texture(tLuz, uv(1)).rgb, rAsp = texture(tAsp, uv(1)).r;
+  const hornear = metal => {
+    const m = new THREE.MeshStandardNodeMaterial({ metalness: metal ? 1 : 0 });
+    m.colorNode = metal ? vec3(new THREE.Color(metal)) : vec3(0);      // (el metal no tiene parte difusa que hornear: su color, y el resto es reflejo)
+    m.emissiveNode = metal ? vec3(0) : cLuz.mul(cLuz).mul(J.tope);
+    m.roughnessNode = rAsp;                              // (la normal es la de la malla: el atlas no alcanza para las estrías del moleteado)
+    return m;
+  };
+  // (los metales con el color de su material en Blender: aluminio de la perilla, metal del aro y del perno)
+  const horneado = hornear(false), aluminio = hornear('#2a2a2d'), metalClaro = hornear('#5d5d60'), METAL = new Set(J.metal);
+  const led = new THREE.MeshBasicNodeMaterial({ color: '#0c160e' });
+  // LA ESCENA HORNEADA ENTERA (tools/hornear.py, desde la cámara de la web): difuso, rebote del piso, reflejos -- tal cual --
+  const escenaHorneada = capaViva(cLuz.mul(cLuz).mul(J.tope), [0.03, 0.03, 0.032], rAsp);
+  const tinta = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color().setRGB(0.42, 0.42, 0.43), polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -8 });
+  gl.scene.traverse(o => {
+    if (!o.isMesh) return;
+    o.castShadow = o.receiveShadow = o.name !== 'pantalla';      // (la capa viva: el aparato hace y recibe sombra en vivo)
+    if (o.name === 'tapa_acrilico') {
+      // EL VIDRIO VA EN VIVO (siempre): acrílico de verdad (como webgl_materials_physical_transmission de three) -- se ve lo de
+      // atrás, torcido por el índice del acrílico (1,49) según el espesor de la pared --, atenuación en los cantos y el brillo del entorno.
+      o.material = new THREE.MeshPhysicalNodeMaterial({ color: '#ffffff', metalness: 0, roughness: 0.06, transmission: 1, ior: 1.49, thickness: 0.004,
+        attenuationColor: new THREE.Color('#cfe3dc'), attenuationDistance: 0.02, specularIntensity: 1, envMapIntensity: 1.4, side: THREE.DoubleSide });
+      o.material.roughnessNode = float(0.035).add(tri(tHuellas, 9, positionLocal, normalLocal).r.mul(0.14));
+      o.material.envMap = entornoSinPantalla;
+      acrilico = o.material; return;
+    }
+    if (o.name === 'pantalla') {
+      pantalla = o;
+      tex = new THREE.CanvasTexture(tela); tex.flipY = false; tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = rend.getMaxAnisotropy ? rend.getMaxAnisotropy() : 16;
+      tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+      texCinta = new THREE.CanvasTexture(telaCinta); texCinta.flipY = false; texCinta.colorSpace = THREE.SRGBColorSpace; texCinta.anisotropy = 8;
+      texCinta.wrapS = THREE.RepeatWrapping; texCinta.wrapT = THREE.ClampToEdgeWrapping;
+      cintaU.frac = uniform(cintaU.ancho * SC / CW); cintaU.esc = uniform(VW / cintaU.ancho); cintaU.off = uniform(0); cintaU.a = uniform(0);
+      T.brillo = uniform(0);
+      const m = new THREE.MeshStandardNodeMaterial({ color: '#030304', roughness: .03, metalness: 0 });      // (el vidrio de la pantalla va EN VIVO)
+      // la banda de la cinta: las últimas filas de la tela (UV v cerca de 1 = el borde de adelante de la ola)
+      const uvP = vec2(uv().x, uv().y.sub(VMIN).div(EXT));      // (la UV del modelo pasada a la tela, cresta incluida)
+      const vb0 = 1 - BANDA * S / PH, enBanda = uvP.y.greaterThan(vb0);
+      const cuv = vec2(fract(uvP.x.mul(cintaU.esc).add(cintaU.off)).mul(cintaU.frac), uvP.y.sub(vb0).div(1 - vb0));
+      const base = texture(tex, uvP).rgb, letras = texture(texCinta, cuv).rgb.mul(cintaU.a);
+      const limpia = enBanda.select(letras, base);
+      // LA PANTALLA POR UNA VIDEOCASETERA (06-11, «el mismo shader de la web de Guido»): ntscqt en la placa (copia de
+      // wbc-gelatina/src/viewer/ntsc.js, ntsc-pantalla.js), con los valores de guidocampodonico.com/vhs.js. Procesa sólo la
+      // imagen de la pantalla (W × H) y se mezcla con la limpia como allá («cuanto» 0,44). Se apaga con ?sinvhs.
+      if (!q.has('sinvhs')) {
+        const W2 = 1024, H2 = Math.round(1024 * PH / PW), us = screenUV, enBandaS = us.y.greaterThan(vb0);
+        const cuvS = vec2(fract(us.x.mul(cintaU.esc).add(cintaU.off)).mul(cintaU.frac), us.y.sub(vb0).div(1 - vb0));
+        const compuesta = rtt(Fn(() => vec4(sRGBTransferOETF(enBandaS.select(texture(texCinta, cuvS).rgb.mul(cintaU.a), texture(tex, us).rgb)), 1))(), W2, H2);
+        const N = crearNTSC(W2, H2), G = { muestras: W2, sangradoH: 0, sangradoV: 0, subportadora: 0.24, ruido: 4.5, cabezal: 19, ruidoCroma: 16, faseCroma: 0, onda: 1.1, nitidezVHS: 5 };
+        for (const k in G) N.U[k].value = G[k];
+        N.cinta('SP');
+        VHS = { N, rt: new THREE.RenderTarget(W2, H2, { depthBuffer: false }), quad: new THREE.QuadMesh(new THREE.NodeMaterial()), cuanto: uniform(0.44) };
+        VHS.quad.material.fragmentNode = N.armar(compuesta, { sangrado: true, anillo: false, compuesto: true, cabezal: true, ruidoCroma: true, vHS: true, nitidezVHS: true, recompuesto: true, perdida: false, salida: true, entrelazado: 'no' });
+        const cinta = sRGBTransferEOTF(texture(VHS.rt.texture, uvP).rgb);
+        m.emissiveNode = mix(limpia, cinta, VHS.cuanto).mul(T.brillo).mul(1.7);
+      } else m.emissiveNode = limpia.mul(T.brillo).mul(1.7);
+      // el vidrio: donde hay huella el reflejo se empaña (6 por metro: con menos, la imagen de 512 se pixelaba)
+      const huella = tri(tHuellas, 6, positionWorld, normalLocal).r;
+      m.roughnessNode = float(0.03).add(huella.mul(0.22)); m.envMap = entornoSinPantalla;
+      m.envMapIntensity = 0.35;      // el reflejo del estudio en el vidrio, sutil
+      pantalla.material = m; return;
+    }
+    if (o.name === 'led') { o.material = led; return; }
+    o.material = escenaHorneada;      // (06-11: todo lo de Cycles, reflejos incluidos; nada en vivo sobre el aparato)
+  });
+  window.__led = led;
+  for (const n of ['hablar', 'comprar', 'vender', 'cantidad', 'vos_ia', 'de_verdad', 'tapa_acrilico']) mandos[n] = gl.scene.getObjectByName(n);
+  // LA BISAGRA DE LA TAPA (07-11): el meshopt pasa el origen de cada pieza al centro de su caja, y la tapa giraba sobre su
+  // propio centro en vez de sobre la bisagra. Se cuelga de un pivote puesto donde la bisagra estaba en el export de Blender.
+  { const t = mandos.tapa_acrilico; if (t) { const piv = new THREE.Group(); piv.name = 'tapa_bisagra'; piv.position.set(0.164, 0.0254, 0.0744); t.parent.add(piv); piv.attach(t); mandos.tapa_acrilico = piv; } }
+  for (const k in mandos) if (mandos[k]) mandos[k].userData.y0 = mandos[k].position.y;
+  escena.add(gl.scene);
+}
+avance(0.6); await ceder();
+
+// ================= la cadena de imagen de INTERLEX (sólo WebGPU de escritorio) =================
+let tubo = null;
+// EL MODO LIMPIO de CREMA (el de fábrica del visor de wbc-gelatina): luces con sombra blanda, entorno, TRAA y nitidez.
+// Nada que se sortee por punto (SSGI, SSR): con la cámara moviéndose eso no llega a asentarse y el piso titila.
+async function armarCadena() {
+  const [{ traa }, { sharpen }, { dof }] = await Promise.all([import('three/addons/tsl/display/TRAANode.js'), import('three/addons/tsl/display/SharpenNode.js'), import('three/addons/tsl/display/DepthOfFieldNode.js')]);
+  const t = new THREE.RenderPipeline(rend);
+  // 08-11: EL SUAVIZADO DE BORDES ES MSAA x4 (el de la placa) + la misma nitidez. El TRAA movía la cámara una fracción de
+  // píxel en cada cuadro y la refracción de la tapa lo agrandaba: el vidrio titilaba (desvío p95 4,08). Con MSAA no hay
+  // temblor: 0,69, la misma imagen, y la placa trabaja menos (0,42 ms contra 0,6). ?aa=traa vuelve al de antes, ?aa=smaa prueba el filtro.
+  const AA = q.get('aa') || 'msaa';
+  const pasada = pass(escena, cam, { samples: AA === 'msaa' ? 4 : 0 });
+  pasada.setMRT(mrt({ output, velocity }));
+  const color = pasada.getTextureNode('output'), hondo = pasada.getTextureNode('depth'), veloz = pasada.getTextureNode('velocity');
+  const enfocado = dof(color, pasada.getViewZNode(), FOCO, PROF, BOKEH);      // (la profundidad de campo: nítido donde está el foco)
+  const gradado = renderOutput(enfocado, THREE.AgXToneMapping, THREE.SRGBColorSpace);
+  if (AA === 'msaa') t.outputNode = sharpen(gradado, uniform(0.4));
+  else if (AA === 'smaa') { const { smaa } = await import('three/addons/tsl/display/SMAANode.js'); t.outputNode = smaa(gradado); }
+  else t.outputNode = sharpen(traa(gradado, hondo, veloz, cam), uniform(0.4));
+  t.outputColorTransform = false;
+  return t;
+}
+// ?captura=u|v (08-11): para la foto «en vivo» del celular (movil.html). Sólo la pantalla, sin luz ni tono, pintada con
+// su coordenada de tela (u o v) en dos bytes: R = parte gruesa, G = parte fina, B = 1 donde hay pantalla.
+// ?captura=negro: el aparato con la pantalla apagada (queda el vidrio con su reflejo). Usar con ?directo&def=5.
+const CAPTURA = q.get('captura');
+if (CAPTURA === 'u' || CAPTURA === 'v') {
+  const m = new THREE.MeshBasicNodeMaterial(), x = CAPTURA === 'u' ? uv().x : uv().y.sub(VMIN).div(EXT);
+  m.colorNode = vec3(x.mul(255).floor().div(255), x.mul(255).fract(), float(1));
+  pantalla.material = m;
+  escena.traverse(o => { if (o.isMesh && o !== pantalla) o.visible = false; });
+  escena.background = new THREE.Color(0); rend.toneMapping = THREE.NoToneMapping; rend.outputColorSpace = THREE.LinearSRGBColorSpace;
+}
+const CON_CADENA = !LIVIANA && !TACTIL && !q.has('directo') && !CAPTURA;
+if (CON_CADENA) { try { tubo = await armarCadena(); } catch (err) { console.warn('sin cadena de imagen:', err); tubo = null; } }
+if (!tubo && !(CHROME_ESCRITORIO && !LIVIANA)) { try { await rend.compileAsync(escena, cam); } catch (e) {} }      // (sin los programas en paralelo: compilados antes de dibujar)
+avance(0.9); await ceder();
+
+// ================= mandos y pantalla =================
+const ray = new THREE.Raycaster(), pt = new THREE.Vector2();
+function rayo(ev) { const r = lienzo.getBoundingClientRect(); pt.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(pt, cam); }
+function tocado(ev) {
+  rayo(ev);
+  const objs = [...Object.values(mandos).filter(Boolean), pantalla].filter(Boolean);
+  for (const h of ray.intersectObjects(objs, true)) {
+    if (h.object === pantalla) return { n: 'pantalla', uv: new THREE.Vector2(h.uv.x, vPant(h.uv.y)) };
+    let o = h.object; while (o && !mandos[o.name]) o = o.parent;
+    if (!o) continue;
+    if (o.name === 'de_verdad' && !tapaAbierta) return { n: 'tapa_acrilico' };      // LA TAPA PROTEGE: cerrada, tocar el botón es tocar la tapa
+    return { n: o.name };
+  }
+  return null;
+}
+function apretar(n) { const o = mandos[n]; if (!o) return; animar(o, 'y', o.userData.y0 - 0.003, 70); setTimeout(() => animar(o, 'y', o.userData.y0, 120), 90); }
+function girarPerilla(d) {
+  iCant = Math.max(0, Math.min(PASOS.length - 1, iCant + d)); T.cantidad = PASOS[iCant];
+  const el = typeof elegida !== 'undefined' && elegida;
+  if (el) avisar('CANTIDAD', `${T.cantidad} ${T.cantidad === 1 ? 'acción' : 'acciones'} de ${el.simbolo}`, `≈ ${usd(T.cantidad * el.precio)} · apretá COMPRAR o VENDER`, 2200, true);
+  else avisar('CANTIDAD', `${T.cantidad} ${T.cantidad === 1 ? 'acción' : 'acciones'}`, 'elegí de qué: tocá una acción en la cinta de abajo o en tu cartera', 2600, true);
+  const o = mandos.cantidad; if (o) animar(o, 'y', -iCant * (Math.PI * 1.5 / (PASOS.length - 1)), 160, 'rotation');
+  pintar();
+}
+async function operar(tipo) {
+  const el = typeof elegida !== 'undefined' && elegida, Q = tipo.toUpperCase();
+  if (!el) { avisar(Q, '¿De qué acción?', 'escribila en el chat (ya quedó listo) o tocala en la cinta de abajo', 3500); entrada.value = (tipo === 'comprar' ? 'Comprá ' : 'Vendé ') + T.cantidad + ' de '; entrada.focus(); pintar(); return; }      // (07-11: antes sólo avisaba)
+  avisar(Q, `${T.cantidad} ${el.simbolo}…`, 'pidiendo el precio', 8000);
+  const tengo = (P.pos[el.simbolo] || {}).cantidad || 0;
+  if (tipo === 'vender' && !tengo) { avisar(Q, `No tenés ${el.simbolo}`, 'comprá primero con COMPRAR'); return; }
+  let r; try { r = tipo === 'comprar' ? await H.comprar({ simbolo: el.simbolo, cantidad: T.cantidad }) : await H.vender({ simbolo: el.simbolo, cantidad: Math.min(T.cantidad, tengo) }); }
+  catch (e) { avisar(Q, 'Sin precio', 'no se pudo leer la cotización, probá de nuevo'); return; }
+  if (r.error) { avisar(Q, r.error === 'no alcanza la caja' ? 'No alcanza la caja' : 'No se pudo', r.maximo != null ? `podés comprar hasta ${r.maximo} ${el.simbolo}` : r.error); return; }
+  guiaHecho('opero');
+  avisar(tipo === 'comprar' ? 'COMPRASTE' : 'VENDISTE', `${r.cantidad} ${r.simbolo}`, `a ${usd(r.precio)} = ${usd(r.total)} · caja ${usd(P.caja)}`, 3200);
+  irA('cartera');
+}
+const Reco = window.SpeechRecognition || window.webkitSpeechRecognition; let reco = null, dicho = '';
+function empezarDictado() {
+  if (!Reco) { avisar('HABLAR', 'No se puede dictar', 'este navegador no deja: escribí en el chat'); document.getElementById('entrada').focus(); return; }
+  dicho = ''; reco = new Reco(); reco.lang = 'es-AR'; reco.interimResults = true; reco.continuous = true;
+  reco.onresult = e => { dicho = [...e.results].map(r => r[0].transcript).join(' '); entrada.value = dicho; pintar(); };
+  reco.onend = () => { T.escuchando = false; reco = null; if (dicho.trim()) enviar(); else pintar(); };
+  T.escuchando = true; pintar(); try { reco.start(); } catch (e) { T.escuchando = false; }
+}
+function terminarDictado() { if (reco) try { reco.stop(); } catch (e) {} }
+function abrirTapa() { const o = mandos.tapa_acrilico; if (!o) return; tapaAbierta = true; animar(o, 'x', -1.9, 320, 'rotation'); avisar('DE VERDAD · TAPA ABIERTA', 'Comprar de verdad', 'apretá el botón para seguir · la tapa se cierra sola en 8 s', 3500); clearTimeout(tapaHasta); tapaHasta = setTimeout(cerrarTapa, 8000); }
+function cerrarTapa() { const o = mandos.tapa_acrilico; if (!o) return; tapaAbierta = false; if (T.confirmar) { T.confirmar = false; pintar(); } clearTimeout(tapaHasta); animar(o, 'x', 0, 320, 'rotation'); }
+
+let abajo = null;
+lienzo.addEventListener('pointerdown', ev => {
+  const t = tocado(ev); if (t && t.n !== 'pantalla') focoMandosHasta = performance.now() + 4000;      // (el foco va a los mandos)
+  abajo = { x: ev.clientX, y: ev.clientY, n: t && t.n, u: t && t.uv ? t.uv.x : 0, v: t && t.uv ? t.uv.y : 0, v0: t && t.uv ? t.uv.y : 0, giro: 0 };
+  if (abajo.n) { ctl.enabled = false; lienzo.setPointerCapture(ev.pointerId); }
+  if (abajo.n === 'hablar') { apretar('hablar'); if (reco) { abajo.n = null; terminarDictado(); } else { abajo.t0 = performance.now(); empezarDictado(); } }      // (07-11: con el dictado prendido, tocar HABLAR lo termina)
+});
+lienzo.addEventListener('pointerleave', () => { raton = null; });
+lienzo.addEventListener('pointermove', ev => {
+  if (ev.pointerType === 'mouse') { const r = lienzo.getBoundingClientRect(); raton = { x: (ev.clientX - r.left) / r.width * 2 - 1, y: -(ev.clientY - r.top) / r.height * 2 + 1, nuevo: true }; }
+  if (abajo && abajo.n === 'cantidad') { const d = Math.round(((ev.clientX - abajo.x) - (ev.clientY - abajo.y)) / 28); if (d !== abajo.giro) { girarPerilla(d - abajo.giro); abajo.giro = d; } return; }
+  if (abajo && abajo.n === 'pantalla' && !T.confirmar) {           // arrastrar sobre la pantalla = scrollear la web
+    rayo(ev); const h = ray.intersectObject(pantalla)[0];
+    if (h) { const v = vPant(h.uv.y); T.scroll += (abajo.v - v) * VH; T.meta = T.scroll; abajo.v = v; pintar(); }
+    return;
+  }
+  if (!abajo) { const t = tocado(ev); lienzo.classList.toggle('mano', !!t && t.n !== 'pantalla'); lienzo.classList.toggle('pantalla', !!t && t.n === 'pantalla');
+    T.cintaQuieta = !!(t && t.n === 'pantalla' && t.uv && t.uv.y * VH >= VH - BANDA); }      // (07-11: la cinta se frena bajo el mouse: lo que corre no se puede tocar)
+});
+lienzo.addEventListener('pointerup', ev => {
+  const a = abajo; abajo = null; ctl.enabled = true; if (!a || !a.n) return;
+  const quieto = Math.hypot(ev.clientX - a.x, ev.clientY - a.y) < 6;
+  if (a.n === 'hablar') { if (performance.now() - a.t0 > 450) terminarDictado(); else avisar('HABLAR', 'Te escucho', 'hablá; tocá HABLAR otra vez para terminar', 2600); return; }      // (toque corto = queda escuchando; mantenido = al soltar manda)
+  if (!quieto) return;
+  if (a.n === 'pantalla') {                        // un toque en la web: el campo o Enviar
+    if (T.confirmar) {          // la confirmación está fija en la pantalla (sin scroll)
+      const x = a.u * VW, y = a.v0 * VH - TOPE, en = r => r && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3];
+      if (en(T.zonasConf.si)) { T.confirmar = false; window.open('https://app.alpaca.markets/signup', '_blank', 'noopener'); setTimeout(cerrarTapa, 600); pintar(); }
+      else if (en(T.zonasConf.no)) { T.confirmar = false; cerrarTapa(); pintar(); }
+      return;
+    }
+    if (a.v0 * VH >= VH - BANDA && T.cintaTramos && T.cintaTramos.length) {      // la cinta: la acción que pasa bajo el dedo
+      const p = ((a.u * VW / cintaU.ancho + cintaU.off.value) % 1) * cintaU.ancho, tr = T.cintaTramos.find(t => p >= t.a && p < t.b);
+      if (tr) elegirAccion(tr.s); return;
+    }
+    const x = a.u * VW, y = a.v0 * VH + T.scroll, den = r => r && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3];
+    if (T.vista === 'papel') {
+      if (den(T.zonas.volver)) { T.vista = null; T.scroll = T.meta = T.vistaAntes || 0; }
+      else if (den(T.zonas.pTodos)) { T.pestana = 'todos'; T.meta = SMIN; }
+      else if (den(T.zonas.pTec)) { T.pestana = 'tecnica'; T.meta = SMIN; }
+      pintar(); return;
+    }
+    if (T.vista === 'jugadores') {
+      if (den(T.zonas.volver)) { T.vista = null; T.scroll = T.meta = T.vistaAntes || 0; }
+      else if (den(T.zonas.nombre)) { T.vista = null; T.scroll = T.meta = T.vistaAntes || 0; entrada.value = 'Quiero llamarme '; entrada.focus(); }
+      pintar(); return;
+    }
+    const fila = (T.zonas.filas || []).find(z => den(z.r));
+    if (fila) {        // abrir o cerrar el desplegable de esa acción, y que se vea entero
+      T.abierta = T.abierta === fila.s ? null : fila.s;
+      if (T.abierta) { pedirInfo(fila.s); elegirAccion(fila.s, false); dibujar(); if (T.fichaAbajo > T.scroll + VH - BANDA - 10) T.meta = Math.min(fila.r[1] - 10, T.fichaAbajo - VH + BANDA + 30); }
+      pintar(); return;
+    }
+    if (den(T.zonas.paper)) abrirPapel();
+    else if (den(T.zonas.jugadores)) abrirJugadores();
+    else if (den(T.zonas.enviar)) enviar(); else if (den(T.zonas.campo)) entrada.focus(); else entrada.blur();
+    return;
+  }
+  if (a.n === 'cantidad') { if (!a.giro) girarPerilla(iCant >= PASOS.length - 1 ? -iCant : 1); return; }
+  if (a.n === 'comprar' || a.n === 'vender') { apretar(a.n); operar(a.n); return; }
+  if (a.n === 'vos_ia') { apretar('vos_ia'); T.vista = null; irA('duelo');      // (07-11: VOS / TR compara, siempre: antes saltaba a la cartera y no se entendía)
+    const D = T.D; if (D) { const pV = (D.vV / CAPITAL - 1) * 100, pI = (D.vI / CAPITAL - 1) * 100, dif = pV - pI;
+      avisar('VOS / TR', `Vos ${pct(pV)}  ·  Tr ${pct(pI)}`, Math.abs(dif) < 0.005 ? 'van empatados' : dif > 0 ? `le estás ganando por ${pct(dif).replace('+', '')}` : `Tr te gana por ${pct(-dif).replace('+', '')}`, 3200); }
+    else avisar('VOS / TR', 'Vos contra Tr', 'cargando los números…'); return; }
+  if (a.n === 'tapa_acrilico') { tapaAbierta ? cerrarTapa() : abrirTapa(); return; }
+  if (a.n === 'de_verdad' && tapaAbierta) { apretar('de_verdad'); clearTimeout(tapaHasta); T.aviso = null; T.confirmar = true; T.meta = T.scroll; pintar(); }
+});
+lienzo.addEventListener('pointercancel', () => { abajo = null; ctl.enabled = true; });
+// la rueda: sobre la pantalla scrollea la web; sobre la perilla la gira; en otro lado acerca o aleja
+lienzo.addEventListener('wheel', ev => {
+  const t = tocado(ev); if (!t) return;
+  if (t.n === 'pantalla') { ev.preventDefault(); ev.stopImmediatePropagation(); if (!T.confirmar) T.meta = Math.max(SMIN, Math.min(T.meta + ev.deltaY, T.alto - VH)); }
+  else if (t.n === 'cantidad') { ev.preventDefault(); ev.stopImmediatePropagation(); girarPerilla(ev.deltaY < 0 ? 1 : -1); }
+}, { passive: false, capture: true });
+const BASE_CENITAL = cenital.intensity;
+function aplicarLuz() {
+  encenderVivo();
+  VIVO.value = LUZ.capa; DIFUSO.value = LUZ.difuso; BRILLO.value = LUZ.brillo; RUGOSO.value = LUZ.aspereza; HORNEADO.value = LUZ.horneado;
+  for (const m of MATS_VIVOS) m.envMapIntensity = LUZ.entorno;
+  cenital.intensity = BASE_CENITAL * LUZ.cenital; cenital.shadow.radius = LUZ.sombra; cenital.shadow.needsUpdate = true;
+  rend.toneMappingExposure = LUZ.exposicion; if (VHS) VHS.cuanto.value = LUZ.vhs; PROF.value = LUZ.profundidad; if (typeof ajustarFoco === 'function') ajustarFoco(); else BOKEH.value = LUZ.desenfoque;
+  try { localStorage.setItem('vosvstr:luz', JSON.stringify(LUZ)); } catch (e) {}
+}
+aplicarLuz();
+const consola = document.createElement('div');
+consola.id = 'consola';
+consola.innerHTML = `<b>LUZ EN VIVO · tecla 5</b>` + [
+  ['capa', 'Capa en vivo (cuánto suma sobre lo horneado)', 0, 1, 0.01], ['horneado', 'Horneado de Cycles', 0, 1.5, 0.01],
+  ['cenital', 'Luz de arriba', 0, 3, 0.01], ['difuso', 'Luz difusa en vivo', 0, 6, 0.05], ['brillo', 'Brillos en vivo (cambian con la cámara)', 0, 6, 0.05],
+  ['aspereza', 'Aspereza (× la horneada)', 0.2, 2, 0.01], ['entorno', 'Reflejo del estudio', 0, 1.5, 0.01], ['sombra', 'Sombra en vivo: suavidad', 0, 20, 0.5],
+  ['exposicion', 'Exposición', 0.3, 2, 0.01], ['vhs', 'VHS en la pantalla', 0, 1, 0.01],
+  ['desenfoque', 'Foco: cuánto desenfoca lo de afuera', 0, 5, 0.05], ['profundidad', 'Foco: cuánto queda nítido (m)', 0.02, 0.6, 0.01],
+].map(([k, t, a, b, d]) => `<label>${t}<span id="v-${k}"></span><input type="range" data-k="${k}" min="${a}" max="${b}" step="${d}"></label>`).join('') +
+  `<div><button id="c-copiar">Copiar valores</button><button id="c-fabrica">De fábrica</button></div>`;
+document.body.appendChild(consola);
+const pintarConsola = () => { for (const i of consola.querySelectorAll('input')) { i.value = LUZ[i.dataset.k]; consola.querySelector('#v-' + i.dataset.k).textContent = (+LUZ[i.dataset.k]).toFixed(2); } };
+consola.addEventListener('input', e => { const k = e.target.dataset.k; if (!k) return; LUZ[k] = +e.target.value; aplicarLuz(); pintarConsola(); });
+consola.querySelector('#c-copiar').onclick = () => { navigator.clipboard.writeText(JSON.stringify(LUZ)).catch(() => {}); consola.querySelector('#c-copiar').textContent = 'Copiado'; setTimeout(() => consola.querySelector('#c-copiar').textContent = 'Copiar valores', 1200); };
+consola.querySelector('#c-fabrica').onclick = () => { Object.assign(LUZ, LUZ_FABRICA); aplicarLuz(); pintarConsola(); };
+pintarConsola();
+addEventListener('keydown', e => { if (e.key === '5' && document.activeElement.tagName !== 'INPUT') { e.preventDefault(); e.stopImmediatePropagation(); consola.classList.toggle('abierta'); } }, true);
+addEventListener('keydown', e => { if (e.key.length === 1 && document.activeElement.tagName !== 'INPUT' && !e.ctrlKey && !e.metaKey) document.getElementById('entrada').focus(); });
+
+function tam() {
+  const w = innerWidth, h = innerHeight; if (!w || !h) return;
+  rend.setSize(w, h, false); cam.aspect = w / h; cam.fov = w / h < .9 ? 42 : 28; cam.updateProjectionMatrix();
+  const d = Math.max(0.98, 0.31 / (Math.tan(cam.fov * Math.PI / 360) * cam.aspect));      // que entre el aparato entero a lo ancho
+  const dir = cam.position.clone().sub(ctl.target).normalize();
+  cam.position.copy(ctl.target).addScaledVector(dir, d);
+}
+addEventListener('resize', tam); tam();
+
+// ================= cada cuadro (como INTERLEX) =================
+// LA ESCALERA: arranca con poca definición y sube un paso por vez mientras dé 30 cuadros por segundo; si cae de 18 cinco veces
+// seguidas baja uno y no insiste. Nada se guarda: cada carga empieza de abajo.
+let tope = DEFINICIONES.length - 1, desde = performance.now(), cuadros = 0, buenas = 0, malas = 0, arranque = Infinity;
+function ponerDefinicion(i) { definicion = i; rend.setPixelRatio(Math.min(DEFINICIONES[i], Math.max(DEFINICIONES[0], definicionMaxima()))); tam(); ajustarFoco(); }
+// (el desenfoque se mide en píxeles: con menos definición se le pide menos, para que se vea igual mientras sube -- INTERLEX --)
+function ajustarFoco() { BOKEH.value = LUZ.desenfoque * rend.getPixelRatio() / Math.max(DEFINICIONES[0], definicionMaxima()); }
+function medirYSubir(ahora) {
+  cuadros++; if (ahora - desde < 600) return;
+  const fps = cuadros * 1000 / (ahora - desde); desde = ahora; cuadros = 0; window.__fps = Math.round(fps);
+  if (q.has('def')) { const i = +q.get('def'); if (definicion !== i) ponerDefinicion(i); return; }      // (?def=N: definición fija, para medir)
+  if (document.hidden || ahora - arranque < 1500) { buenas = malas = 0; return; }
+  buenas = fps >= 30 ? buenas + 1 : 0; malas = fps < 18 ? malas + 1 : 0;
+  if (malas >= 5) { if (definicion > 0) { tope = definicion - 1; ponerDefinicion(definicion - 1); } buenas = malas = 0; return; }
+  if (buenas < 1) return;
+  const sig = definicion + 1;
+  if (sig <= tope && DEFINICIONES[sig] <= definicionMaxima() + 1e-6) { ponerDefinicion(sig); buenas = 0; }
+}
+// ABRIR LOS OJOS (de INTERLEX): el negro se abre desde la línea, arriba y abajo, como dos párpados: una elipse de borde
+// blando que se abre un poco, vuelve a entrecerrarse y se abre del todo. Pestañea dos o tres veces, sin ritmo parejo.
+function abrirLosOjos() {
+  const c = document.getElementById('carga'), linea = c.firstElementChild, t0 = performance.now();
+  linea.style.opacity = 0;
+  const veces = Math.random() < 0.5 ? 2 : 3, azar = (a, b) => a + Math.random() * (b - a), PASOS_OJO = [[0, 0]];
+  let t = 0;
+  for (let i = 0; i < veces - 1; i++) {
+    t += azar(0.26, 0.38); PASOS_OJO.push([t, azar(0.13, 0.19) + i * azar(0.07, 0.12)]);      // abre un poco
+    t += azar(0.15, 0.22); PASOS_OJO.push([t, azar(0.015, 0.05)]);                              // se entrecierra
+    t += azar(0.05, 0.16); PASOS_OJO.push([t, PASOS_OJO[PASOS_OJO.length - 1][1]]);            // se queda un instante
+  }
+  t += azar(0.95, 1.15); PASOS_OJO.push([t, 1]);                                                // y abre del todo
+  const DURA = t * 1000; for (const paso of PASOS_OJO) paso[0] /= t;
+  const liso = x => x * x * (3 - 2 * x);
+  (function cuadro() {
+    const t = Math.min(1, (performance.now() - t0) / DURA);
+    let i = 1; while (i < PASOS_OJO.length - 1 && t > PASOS_OJO[i][0]) i++;
+    const [ta, a] = PASOS_OJO[i - 1], [tb, b] = PASOS_OJO[i], abre = a + (b - a) * liso((t - ta) / (tb - ta));
+    const alto = abre * abre * 170 + abre * 12, ancho = 46 + abre * 150;
+    c.style.background = `radial-gradient(ellipse ${ancho.toFixed(1)}vw ${alto.toFixed(1)}vh at 50% 50%, transparent 0%, transparent 52%, #000 100%)`;
+    if (t < 1) requestAnimationFrame(cuadro); else c.remove();
+  })();
+}
+let primero = true, fluidos = 0, sombras = 8; const inicio = performance.now();
+document.fonts.load(F(700, 79)).finally(() => pintar());
+refrescar(); setInterval(refrescar, 60000); setInterval(pintar, 30000);
+avance(1);
+(function bucle(ahora) {
+  let seMueve = ctl.update(), piezas = false;
+  if (pantalla) {      // (el foco sigue a la pantalla o a los mandos, con un pase suave)
+    let blanco = null;
+    if (ahora < focoMandosHasta && mandos.cantidad) blanco = mandos.cantidad.getWorldPosition(bucle.v1 ||= new THREE.Vector3());
+    else if (raton) {      // (07-11: el foco va a lo que señala el mouse; si señala afuera del aparato, queda donde estaba)
+      if (raton.nuevo && (bucle.n || 0) % 4 === 0) { raton.nuevo = false;
+        (bucle.c1 ||= new THREE.Vector2()).set(raton.x, raton.y); (bucle.rc ||= new THREE.Raycaster()).setFromCamera(bucle.c1, cam);
+        const h = bucle.rc.intersectObject(escena, true)[0]; if (h) (bucle.fm ||= new THREE.Vector3()).copy(h.point); }
+      blanco = bucle.fm || null;
+    }
+    else if ((seMueve && (bucle.n || 0) % 10 === 0) || !bucle.fp) {      // (el punto de la pantalla que está en el centro de la vista)
+      (bucle.rc ||= new THREE.Raycaster()).setFromCamera(bucle.c0 ||= new THREE.Vector2(0, 0.05), cam);
+      const h = bucle.rc.intersectObject(pantalla)[0]; if (h) (bucle.fp ||= new THREE.Vector3()).copy(h.point);
+    }
+    blanco = blanco || bucle.fp || (bucle.cp ||= new THREE.Box3().setFromObject(pantalla).getCenter(new THREE.Vector3()));
+    const dir = cam.getWorldDirection(bucle.v2 ||= new THREE.Vector3()), d = (bucle.v3 ||= new THREE.Vector3()).copy(blanco).sub(cam.position).dot(dir);
+    FOCO.value += (d - FOCO.value) * 0.08;
+  }
+  for (let i = anims.length - 1; i >= 0; i--) { const a = anims[i], k = Math.min(1, (ahora - a.t0) / a.dur), e = 1 - Math.pow(1 - k, 3);
+    a.obj[a.prop][a.eje] = a.de + (a.a - a.de) * e; if (k >= 1) anims.splice(i, 1); seMueve = piezas = true; }
+  if (Math.abs(T.meta - T.scroll) > 0.5 && !(abajo && abajo.n === 'pantalla')) { T.scroll += (T.meta - T.scroll) * 0.25; T.sucio = true; }
+  if (window.__led) __led.color.setHex(T.escuchando ? 0x3dff6a : 0x0c160e);
+  if (!T.enc && T.brillo && !primero && T.D && T.cinta.length && document.fonts.status === 'loaded') { armarCinta(); T.enc = ahora; T.sucio = true; }
+  if (!T.enc && T.brillo && !primero && ahora - inicio > 12000) { armarCinta(); T.enc = ahora; T.sucio = true; }      // (sin datos igual prende)
+  if (T.brillo) {
+    { const k = T.enc ? Math.min(1, (ahora - T.enc) / 600) : 0; T.brillo.value = CAPTURA === 'negro' ? 0 : k * k * (3 - 2 * k); }      // (la luz de fondo sube pareja, sin rebote)
+    if (cintaU.a) { cintaU.a.value = T.confirmar ? 0 : entra('cinta').a; bucle.cOff = ((bucle.cOff || 0) + (T.cintaQuieta ? 0 : Math.min(100, ahora - (bucle.tC || ahora)) / 1000 * 55 / cintaU.ancho)) % 1; bucle.tC = ahora; cintaU.off.value = bucle.cOff; }
+  }
+  // (el cursor titila cada 530 ms: se redibuja sólo cuando cambia, no 10 veces por segundo -- cada redibujo sube la tela entera --)
+  const fase = (ahora / 530 | 0) % 2;
+  if ((T.pensando || guiaPaso()) && ahora - (bucle.anim || 0) > 90) { bucle.anim = ahora; T.sucio = true; }      // (los puntos, los segundos y el latido de la guía)
+  if (T.sucio || (T.foco && fase !== bucle.fase)) { dibujar(); bucle.fase = fase; }
+  // (la sombra en vivo sólo depende de las piezas: se rehace cuando se mueve una, no cuando gira la cámara)
+  if (piezas || primero || noListos > 0) sombras = Math.max(sombras, 3);
+  if (sombras > 0) { sombras--; cenital.shadow.needsUpdate = true; }
+  noListos = 0;
+  bucle.n = (bucle.n || 0) + 1;
+  if (VHS && bucle.n % 3 === 0) { rend.setRenderTarget(VHS.rt); VHS.quad.render(rend); rend.setRenderTarget(null); }      // (la videocasetera a 20 por segundo: medido con ?medir, era la mitad del costo de cada cuadro)
+  if (tubo) tubo.render(); else rend.render(escena, cam);
+  // la carga se va cuando la imagen está COMPLETA: 6 cuadros seguidos sin que falte ningún programa
+  if (primero && q.has('medir')) (window.__primeros = window.__primeros || []).push([performance.now() | 0, (performance.now() - ahora) | 0]);
+  if (primero) { fluidos = noListos === 0 ? fluidos + 1 : 0;
+    if (fluidos >= 6 || ahora - inicio > 20000) { primero = false; arranque = ahora; abrirLosOjos(); window.__listo = performance.now() | 0; window.__escena.encendido = () => T.enc; } }
+  medirYSubir(ahora);
+  // ?medir: el tiempo de placa de verdad (contadores de WebGPU), promedio de los últimos cuadros -- para optimizar con números --
+  if (q.has('medir') && (bucle.n % 20 === 0)) rend.resolveTimestampsAsync('render').then(ms => { if (ms != null) { const M = window.__gpu ||= { suma: 0, n: 0 }; M.suma += ms; M.n++; M.prom = M.suma / M.n; } }).catch(() => {});
+  requestAnimationFrame(bucle);
+})(performance.now());
+if (q.has('medir')) window.__tapaRect = () => { const b = new THREE.Box3().setFromObject(mandos.tapa_acrilico), r = lienzo.getBoundingClientRect(); let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; for (let i = 0; i < 8; i++) { const v = new THREE.Vector3(i & 1 ? b.max.x : b.min.x, i & 2 ? b.max.y : b.min.y, i & 4 ? b.max.z : b.min.z).project(cam); const x = (v.x + 1) / 2 * r.width, y = (1 - v.y) / 2 * r.height; x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); } return [x0 | 0, y0 | 0, x1 | 0, y1 | 0]; };
+window.__escena = { escena, cam, ctl, mandos, T, dibujar, tocado, rend, get cadena() { return !!tubo; }, get definicion() { return rend.getPixelRatio(); } };
+</script>
+</body>
+</html>

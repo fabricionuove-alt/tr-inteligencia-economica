@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1135">
+<title>Vos vs Tr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="movil/aparato.webp" as="image">
+<!-- VERSIÓN CELULAR (08-11): sin el aparato 3D; la interfaz en HTML (la de panel.html, puesta al día) y una imagen del
+     aparato arriba, sacada de la web misma. Tres armados para elegir: ?op=a (vidriera), ?op=b (cabecera que se achica),
+     ?op=c (pestañas). La lógica -- datos, agente, cartera -- es nucleo.js, la misma del escritorio. -->
+<style>
+:root{--fondo:#111;--azul:#0a1135;--tinta:#fff;--gris:#8a8a85;--lima:#e2ff32;--blanco:#f6f5f0;--salmon:#ff6a5a;--menta:#dce7d8;--negro:#0b0b0b;--linea:#262626}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--fondo);color:var(--tinta);font:16px/1.45 "Inter Tight",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+body{padding-bottom:calc(44px + env(safe-area-inset-bottom))}
+a{color:inherit}
+.capsula{display:inline-block;border:1.5px solid currentColor;border-radius:999px;padding:4px 14px;font-size:15px;font-weight:500;line-height:1.2}
+/* --- la imagen del aparato --- */
+.foto{position:relative;background:var(--fondo);overflow:hidden}
+/* (08-11: la foto se funde en el fondo de la página por los cuatro lados -- máscara --; antes era una caja azul que cortaba) */
+.foto .pila{-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 16%,#000 70%,transparent 100%),linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent 0,#000 16%,#000 70%,transparent 100%),linear-gradient(to right,transparent 0,#000 9%,#000 91%,transparent 100%);mask-composite:intersect}      /* (transparente del todo en los cuatro bordes) */
+.foto .pila{position:relative;max-width:640px;margin:0 auto}
+.foto .pila img{display:block;width:100%;height:auto}
+.foto .pila canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s}
+.foto .pila.en-vivo canvas{opacity:1}
+.foto .logo{position:absolute;left:16px;top:calc(16px + env(safe-area-inset-top));height:15px;width:auto;z-index:3;opacity:.92;fill:#fff}
+.foto .marca{position:absolute;left:16px;top:calc(14px + env(safe-area-inset-top));font-size:12px;font-weight:700;letter-spacing:.12em}
+.foto .hora{position:absolute;right:16px;top:calc(14px + env(safe-area-inset-top));font-size:12px;color:rgba(255,255,255,.6)}
+main{padding:0 16px}
+/* --- el duelo --- */
+.duelo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.carta{border-radius:16px;padding:14px 14px 12px;color:var(--negro);background:var(--blanco);transition:background .6s}
+.carta.lima{background:var(--lima)}.carta.salmon{background:var(--salmon)}
+.carta .cab{display:flex;justify-content:space-between;align-items:center}
+.carta .capsula{font-size:13px;padding:3px 11px}
+.carta svg{width:100%;height:54px;margin:8px 0 2px;overflow:visible}
+.carta .grande{font-weight:700;font-size:38px;letter-spacing:-.04em;line-height:1}
+.carta .grande small{font-size:.45em;margin-left:1px}
+.carta .valor{font-size:12.5px;opacity:.7;margin-top:4px}
+.veredicto{margin:10px 2px 0;font-size:14px;color:var(--gris)}
+.veredicto b{color:#fff;font-weight:500}
+/* --- el agente --- */
+.chat{background:var(--menta);color:var(--negro);border-radius:16px;margin-top:14px;display:flex;flex-direction:column}
+.chat .cab{padding:14px 14px 0}
+.mensajes{display:flex;flex-direction:column;gap:8px;padding:12px 14px;max-height:46vh;overflow-y:auto}
+.m{max-width:88%;padding:8px 13px;border-radius:15px;white-space:pre-wrap;word-wrap:break-word;font-size:15.5px}
+.m.yo{align-self:flex-end;background:var(--negro);color:#fff;border-bottom-right-radius:4px}
+.m.agente{align-self:flex-start;background:rgba(255,255,255,.65);border-bottom-left-radius:4px}
+.m.op{align-self:flex-start;border:1.5px solid rgba(0,0,0,.55);border-radius:999px;font-size:13px;padding:4px 12px}
+.m.pensando{align-self:flex-start;background:var(--lima);border-bottom-left-radius:4px;display:flex;align-items:center;gap:10px}
+.puntos{display:inline-flex;gap:4px}.puntos i{width:6px;height:6px;border-radius:50%;background:var(--negro);animation:salto 1s infinite ease-in-out}
+.puntos i:nth-child(2){animation-delay:.12s}.puntos i:nth-child(3){animation-delay:.24s}
+@keyframes salto{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-4px);opacity:1}}
+form{display:flex;gap:8px;padding:0 12px 12px}
+input{flex:1;min-width:0;font:inherit;font-size:16px;padding:11px 16px;border:1.5px solid var(--negro);border-radius:999px;background:transparent;color:var(--negro);outline:none}
+input::placeholder{color:rgba(0,0,0,.45)}
+form button{font:inherit;font-weight:500;padding:11px 18px;border:0;border-radius:999px;background:var(--negro);color:#fff}
+form button:disabled{opacity:.4}
+/* --- la cartera --- */
+.cartera{margin-top:26px}
+.renglon{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px;padding:9px 0;border-bottom:1px solid var(--linea)}
+.renglon .nom{font-size:24px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.renglon .mo{font-size:24px;letter-spacing:-.02em;text-align:right}
+.renglon .tk{font-size:13px;color:var(--gris)}.renglon .va{font-size:13px;text-align:right}
+.va.sube{color:var(--lima)}.va.baja{color:var(--salmon)}
+.vacia{color:var(--gris);font-size:14px;padding:10px 0}
+.renglon.abre{cursor:pointer}
+.renglon.abre .nom::after{content:"";display:inline-block;width:7px;height:7px;border-right:1.8px solid var(--gris);border-bottom:1.8px solid var(--gris);transform:translateY(-5px) rotate(45deg);margin-left:10px;transition:transform .25s}
+.renglon.abre.abierta .nom::after{transform:translateY(-1px) rotate(-135deg);border-color:#fff}
+.ficha{padding:12px 0 16px;border-bottom:1px solid var(--linea)}
+.ficha .cab{font-size:11.5px;font-weight:600;letter-spacing:.08em;color:var(--gris);text-transform:uppercase}
+.ficha p{margin:8px 0 12px;font-size:15px;line-height:1.5;color:#d8d8d4}
+.ficha .tuyo{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.ficha .tuyo div{border-top:1px solid rgba(255,255,255,.18);padding-top:6px;font-size:12.5px;color:var(--gris)}
+.ficha .tuyo b{display:block;font-size:17px;font-weight:500;color:#fff}.ficha .tuyo b.sube{color:var(--lima)}.ficha .tuyo b.baja{color:var(--salmon)}
+.ficha small{display:block;margin-top:12px;font-size:11.5px;color:var(--gris)}
+.enlaces{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.enlaces a{font-size:14px;text-decoration:none;border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:7px 14px}
+.pie{font-size:12px;color:var(--gris);margin:22px 0 28px}
+/* --- la cinta --- */
+.cinta{position:fixed;left:0;right:0;bottom:0;background:var(--fondo);border-top:1px solid var(--linea);overflow:hidden;white-space:nowrap;font-size:12.5px;font-weight:600;letter-spacing:.03em;padding:12px 0 calc(12px + env(safe-area-inset-bottom));z-index:5}
+.cinta div{display:inline-block;animation:correr 70s linear infinite;padding-left:100%}
+.cinta i{font-style:normal;color:var(--gris);margin:0 10px}.cinta .sube{color:var(--lima)}.cinta .baja{color:var(--salmon)}
+@keyframes correr{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.cinta div{animation:none;padding-left:16px}}
+
+/* ===== A · VIDRIERA: el aparato grande arriba, los dos números pegados debajo ===== */
+/* (08-11) la foto se va con la página como todo lo demás; mientras se la ve, su monitor scrollea */
+body.a .foto{padding-top:calc(14px + env(safe-area-inset-top))}
+/* el chat sin scroll propio: el dedo siempre mueve la página */
+body.a .mensajes{max-height:none;overflow:visible}
+body.a .mensajes .m{scroll-margin:140px 0 130px}
+/* el chat muestra los últimos 4 mensajes; los anteriores, con el botón de arriba */
+body.a .mensajes:not(.todo) .m:nth-last-child(n+5){display:none}
+.anteriores{display:none;background:none;border:1.5px solid rgba(0,0,0,.35);border-radius:999px;padding:5px 14px;font:inherit;font-size:13px;color:rgba(0,0,0,.7);cursor:pointer}
+body.a .anteriores.hay{display:block;margin:6px auto 0}
+body.a .foto .pila{width:88%}
+body.a .foto{padding-bottom:6px}
+body.a .duelo{position:relative;margin-top:14px}
+body.a .carta{box-shadow:0 10px 30px rgba(0,0,0,.45)}
+/* A (08-11, «mejorá la 1»): la barra para escribirle al agente queda fija abajo, sobre la cinta, como en una app de mensajes;
+   las cartas suben a su lugar una detrás de la otra al entrar; la foto va más lenta que la página (profundidad). */
+body.a{padding-bottom:calc(44px + 66px + env(safe-area-inset-bottom))}
+body.a form{position:fixed;left:0;right:0;bottom:calc(43px + env(safe-area-inset-bottom));z-index:6;margin:0;padding:10px 12px;background:rgba(17,17,17,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--linea)}
+body.a form input{border-color:rgba(255,255,255,.55);color:#fff}
+body.a form input::placeholder{color:rgba(255,255,255,.45)}
+body.a form button{background:var(--lima);color:var(--negro)}
+body.a .carta,body.a .veredicto{opacity:0;transform:translateY(26px);animation:subir .8s cubic-bezier(.16,1,.3,1) forwards}
+body.a #cIa{animation-delay:.08s}body.a .veredicto{animation-delay:.18s}      /* (el chat no se anima: un transform en él soltaría la barra fija de abajo) */
+@keyframes subir{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){body.a .carta,body.a .veredicto{animation:none;opacity:1;transform:none}}
+/* (en una pantalla ancha -- para mirarla en la compu -- se ve con el ancho de un celular) */
+@media (min-width:600px){body{max-width:430px;margin:0 auto;border-left:1px solid #222;border-right:1px solid #222;min-height:100vh}
+  .cinta,.barra,.pestanas,body.a form{left:calc(50% - 215px)!important;right:calc(50% - 215px)!important}}
+
+/* ===== B · CABECERA QUE SE ACHICA: la foto grande al entrar; al bajar queda una barra con el aparato chico y Vos / Tr ===== */
+body.b .foto{padding-top:calc(30px + env(safe-area-inset-top))}
+body.b .barra{position:fixed;left:0;right:0;top:0;z-index:6;display:flex;align-items:center;gap:10px;padding:calc(6px + env(safe-area-inset-top)) 12px 6px;background:rgba(10,17,53,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);transform:translateY(-110%);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+body.b.bajo .barra{transform:none}
+.barra img{width:64px;height:auto}
+.barra .n{display:flex;gap:14px;margin-left:auto;font-size:15px;font-weight:600}
+.barra .n span{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
+.barra .n em{font-style:normal;font-size:10.5px;font-weight:500;color:rgba(255,255,255,.6);letter-spacing:.06em}
+body:not(.b) .barra{display:none}
+
+/* ===== C · PESTAÑAS: foto chica arriba, una sección por vez, pestañas abajo ===== */
+body.c{padding-bottom:calc(44px + 58px + env(safe-area-inset-bottom))}
+body.c .foto{padding-top:calc(34px + env(safe-area-inset-top))}
+body.c .foto .pila{max-width:420px;width:84%;-webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent 100%);mask-image:radial-gradient(closest-side,#000 70%,transparent 100%)}
+body.c .seccion{display:none}
+body.c .seccion.activa{display:block}
+body.c .chat{margin-top:14px}
+body.c .mensajes{max-height:none;min-height:38vh}
+body.c .cinta{bottom:calc(58px + env(safe-area-inset-bottom));padding-bottom:12px}
+.pestanas{display:none}
+body.c .pestanas{display:grid;grid-template-columns:repeat(3,1fr);position:fixed;left:0;right:0;bottom:0;z-index:6;background:#0d0d0d;border-top:1px solid var(--linea);padding-bottom:env(safe-area-inset-bottom)}
+.pestanas button{font:inherit;font-size:13px;font-weight:500;background:none;border:0;color:var(--gris);height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.pestanas button b{font-size:16px;font-weight:600;color:inherit}
+.pestanas button.activa{color:#fff}
+.pestanas button.activa::before{content:"";width:22px;height:3px;border-radius:2px;background:var(--lima);position:absolute;margin-top:-50px}
+</style>
+</head>
+<body>
+<div class="barra"><img src="movil/aparato.webp" alt=""><div class="n"><span><em>VOS</em><b id="bVos">—</b></span><span><em>TR</em><b id="bIa">—</b></span></div></div>
+<header class="foto"><svg class="logo" aria-label="ODD" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 373.85"><g id="Capa_2" data-name="Capa 2"><g id="Isolation_Mode" data-name="Isolation Mode"><path d="M814,186.93C814,83.69,631.78,0,407,0q-4.77,0-9.51.05C201.84,2.11,40.3,67.58,6.51,153.47a89.25,89.25,0,0,0-.19,66.45c33.61,86.65,197.19,152.64,394.85,153.91l5.83,0c224.19,0,406-83.25,407-186.11,0-.26,0-.52,0-.78v0Zm-204.32,0c-1.79,100.22-50.57,164-220.88,164.51C216.16,352,212.27,282.38,213,187c.8-102.66,3.77-162.37,175.79-162S611.39,91.55,609.68,187Z" fill="#fff"/><path d="M332.55,43.47c-35.86,0-91.29,18.48-91.13,116.62v52c3.11,103.12,60.7,121.59,91.13,121.59,123.9,0,249.17-11.81,249.17-146.68C581.72,53,478.18,43.47,332.55,43.47Zm-12.34,279.3a2.67,2.67,0,0,1-2.72-2.61c0-1.45,1.24-1.54,2.75-1.52C400,319.56,454.52,306.93,454.52,187c0-113.64-31.15-123.28-133.28-128.18-1.44-.07-3.9-.09-3.75-1.89,0-1.44.53-2.67,2-2.67,98.85.11,163.22-2.43,163.22,132.74C482.73,319.8,419.1,322.6,320.21,322.77Zm2.56-250c-1.34-1.34-.28-3.93,2.29-3.65C372.88,74.32,395.25,90,395.2,187c-.05,94.59-14.84,117.69-70.14,121.23-1.57.09-2.15-.55-2.29-1.72-.39-3.4,5.44,0,5.53-6V76.79C328.3,72,323.86,73.9,322.77,72.81Z" fill="#fff"/></g></g></svg><div class="pila" id="pila"><img src="movil/aparato.webp" alt="El aparato de Vos vs Tr" width="1200" height="813"></div></header>
+<main>
+  <section class="seccion activa" data-s="duelo">
+    <div class="duelo">
+      <article class="carta" id="cVos"><div class="cab"><span class="capsula">Vos</span></div><svg id="sVos" viewBox="0 0 300 54" preserveAspectRatio="none"></svg><div class="grande" id="pVos">—</div><div class="valor" id="vVos">—</div></article>
+      <article class="carta" id="cIa"><div class="cab"><span class="capsula">Tr</span></div><svg id="sIa" viewBox="0 0 300 54" preserveAspectRatio="none"></svg><div class="grande" id="pIa">—</div><div class="valor" id="vIa">—</div></article>
+    </div>
+    <p class="veredicto" id="veredicto">Arrancás con 10.000 dólares ficticios contra Tr.</p>
+  </section>
+  <section class="seccion activa" data-s="agente">
+    <div class="chat">
+      <div class="cab"><span class="capsula">Agente</span></div>
+      <button class="anteriores" id="anteriores" type="button"></button>
+      <div class="mensajes" id="mensajes"></div>
+      <form id="form"><input id="entrada" autocomplete="off" enterkeyhint="send" placeholder="«Comprá 10 acciones de Apple»"><button id="enviar">Enviar</button></form>
+    </div>
+  </section>
+  <section class="seccion activa" data-s="cartera">
+    <div class="cartera"><span class="capsula">Cartera</span><div id="lista"></div></div>
+    <div class="enlaces"><a href="/como-piensa.html">Cómo piensa Tr →</a><a href="https://app.alpaca.markets/signup" target="_blank" rel="noopener">Comprar de verdad</a></div>
+    <p class="pie" id="pie">Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora.</p>
+  </section>
+</main>
+<div class="cinta"><div id="cinta"></div></div>
+<nav class="pestanas"><button data-s="duelo" class="activa"><b id="tVos">—</b>Duelo</button><button data-s="agente"><b>💬</b>Agente</button><button data-s="cartera"><b id="tCaja">—</b>Cartera</button></nav>
+<script src="nucleo.js"></script>
+<script type="module">
+// LA FOTO EN VIVO (08-11): la pantalla del aparato muestra lo mismo que la interfaz (movil/pantalla-viva.js)
+import { armar } from './movil/pantalla-viva.js';
+let viva = null, ultimo = window.__pantallaDatos || null, pend = false, pintado = '', aLaVista = true;
+// (optimizado 08-11) se redibuja sólo si cambió algo y si la foto está a la vista: redibujar es subir a la placa
+// una imagen de 1280×2600, y el contador de «pensando» la pedía 4 veces por segundo aunque la foto ya no se viera.
+window.pantallaViva = d => { if (d) ultimo = d; if (!viva || !ultimo || pend || !aLaVista) return; pend = true;
+  requestAnimationFrame(() => { pend = false; const ms = [...document.querySelectorAll('#mensajes .m')].slice(-4).map(e => ({ t: e.textContent, c: e.classList.contains('yo') ? 'yo' : e.classList.contains('pensando') ? 'pensando' : 'agente' }));
+    const todo = { ...ultimo, mensajes: ms }, clave = JSON.stringify(todo); if (clave === pintado) return; pintado = clave;
+    viva.pintar(todo); correr(); }); };
+new IntersectionObserver(([e]) => { aLaVista = e.isIntersecting; if (aLaVista) window.pantallaViva(); }).observe(document.querySelector('.foto'));
+// (08-11) la pantalla de la foto scrollea con la página: arriba de todo = como entra el escritorio; al final = el pie
+let corriendo = false;
+const fotoEl = document.querySelector('.foto');
+const correr = () => { if (!viva) return; const h = fotoEl.offsetHeight; if (scrollY > h + 40) return; viva.scroll(Math.min(1, scrollY / (h * 0.8))); };
+addEventListener('scroll', () => { if (corriendo) return; corriendo = true; requestAnimationFrame(() => { corriendo = false; correr(); }); }, { passive: true });
+document.fonts.ready.then(() => armar(document.getElementById('pila'))).then(f => { viva = f; window.pantallaViva(window.__pantallaDatos); }).catch(e => console.warn('pantalla en vivo:', e));
+new MutationObserver(() => window.pantallaViva()).observe(document.getElementById('mensajes'), { childList: true, subtree: true, characterData: true });
+</script>
+<script>
+const q = new URLSearchParams(location.search), OP = ['a', 'b', 'c'].includes(q.get('op')) ? q.get('op') : 'a';
+document.body.classList.add(OP);
+// ---------- pestañas (C) y cabecera (B) ----------
+const ir = s => { document.querySelectorAll('.seccion').forEach(e => e.classList.toggle('activa', e.dataset.s === s)); document.querySelectorAll('.pestanas button').forEach(b => b.classList.toggle('activa', b.dataset.s === s)); scrollTo(0, 0); };
+if (OP === 'c') { ir('duelo'); document.querySelectorAll('.pestanas button').forEach(b => b.onclick = () => ir(b.dataset.s)); }
+// (A: los porcentajes cuentan hasta su valor la primera vez que llegan)
+const contado = new Set();
+function contar(el, v) {
+  if (OP !== 'a' || contado.has(el.id) || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.innerHTML = grande(v); return; }
+  contado.add(el.id); const t0 = performance.now(), d = 900;
+  (function paso(t) { const k = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - k, 3); el.innerHTML = grande(v * e); if (k < 1) requestAnimationFrame(paso); })(t0);
+}
+if (OP === 'b') { const foto = document.querySelector('.foto'); addEventListener('scroll', () => document.body.classList.toggle('bajo', scrollY > foto.offsetHeight - 40), { passive: true }); }
+// ---------- chat (lo usa nucleo.js: burbuja, nota, limpiarChat) ----------
+const caja = document.getElementById('mensajes');
+function burbuja(texto, clase) { const d = document.createElement('div'); d.className = 'm ' + clase; d.textContent = texto; caja.appendChild(d); caja.scrollTop = caja.scrollHeight; if (OP === 'a') d.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); return d; }
+function nota(t) { burbuja(t, 'op'); }
+function limpiarChat() { caja.innerHTML = ''; }
+// el botón «mensajes anteriores»: aparece cuando hay más de 4; abre o vuelve a cerrar la historia
+const ant = document.getElementById('anteriores');
+const verAnteriores = () => { const n = caja.querySelectorAll('.m').length - 4, todo = caja.classList.contains('todo');
+  ant.classList.toggle('hay', n > 0); ant.textContent = todo ? 'Ocultar mensajes anteriores' : `Ver ${n} ${n === 1 ? 'mensaje anterior' : 'mensajes anteriores'}`; };
+ant.onclick = () => { caja.classList.toggle('todo'); verAnteriores(); };
+new MutationObserver(verAnteriores).observe(caja, { childList: true });
+for (const m of P.chat) if (m.role === 'user' && typeof m.content === 'string') burbuja(m.content, 'yo'); else if (m.role === 'assistant' && m.content && !m.tool_calls) burbuja(m.content, 'agente');
+if (!P.chat.length) burbuja('Tenés 10.000 dólares. Decime qué querés comprar o vender.', 'agente');
+// PENSANDO: tres puntos, qué está haciendo (la herramienta que usa) y cuántos segundos lleva
+const PASO = { buscar_empresa: a => 'buscando ' + (a.texto || 'la empresa'), precio: a => 'mirando el precio de ' + (a.simbolo || ''), comprar: a => 'comprando ' + (a.simbolo || ''),
+  vender: a => 'vendiendo ' + (a.simbolo || ''), ver_cartera: () => 'mirando tu cartera', comparar_con_ia: () => 'comparando con Tr', cambiar_nombre: () => 'cambiando tu nombre', reiniciar_partida: () => 'reiniciando' };
+let paso = '';
+for (const k in PASO) if (typeof H[k] === 'function') { const f = H[k]; H[k] = a => { paso = PASO[k](a || {}); return f(a); }; }
+async function mandar(t) {
+  const b = document.getElementById('enviar'); if (!t || b.disabled) return;
+  burbuja(t, 'yo'); b.disabled = true; recortar(); paso = '';
+  const p = document.createElement('div'); p.className = 'm pensando'; p.innerHTML = '<span class="puntos"><i></i><i></i><i></i></span><span></span>'; caja.appendChild(p); caja.scrollTop = caja.scrollHeight;
+  const t0 = performance.now(), reloj = setInterval(() => { p.lastChild.textContent = (paso || 'pensando') + ' · ' + Math.floor((performance.now() - t0) / 1000) + ' s'; }, 250);
+  try { await conversar(t); } catch (err) { nota('No pude responder: ' + (err.message || err)); }
+  clearInterval(reloj); p.remove(); b.disabled = false; refrescar();
+}
+document.getElementById('form').addEventListener('submit', e => { e.preventDefault(); const i = document.getElementById('entrada'), t = i.value.trim(); i.value = ''; mandar(t); });
+window.alElegir = () => {};
+// ---------- duelo, cartera y cinta ----------
+const CINTA = ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'JPM', 'BRK-B', 'XOM', 'KO', 'WMT'];
+precargar(CINTA);
+const corto = v => usd(v).replace(/,\d\d$/, '');
+function curva(svg, ys, lo, hi) {
+  const W = 300, Hh = 54, n = ys.length; if (!n) { svg.innerHTML = ''; return; }
+  const pts = (n === 1 ? [ys[0], ys[0]] : ys).map((y, i, a) => [i / (a.length - 1) * W, Hh - 4 - (y - lo) / (hi - lo || 1) * (Hh - 8)]);
+  svg.innerHTML = `<polyline points="${pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="#0b0b0b" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`;
+}
+const color = p => p >= 5 ? 'lima' : p >= 0 ? '' : 'salmon';
+const grande = p => pct(p).replace('%', '') + '<small>%</small>';
+// EL DESPLEGABLE: tocar una empresa de la cartera abre qué es (sector y bolsa de Yahoo, resumen de Wikipedia: /api/empresa)
+// y lo tuyo -- cuántas tenés, a cuánto la pagaste, cuánto vale hoy, cuánto ganás --, como en el escritorio.
+const INFO = {}; let abierta = null;
+const limpiar = t => String(t ?? '').replace(/[<>&"]/g, '');
+function ponerFicha(s) {
+  document.querySelectorAll('.ficha').forEach(e => e.remove());
+  const fila = document.querySelector(`.renglon[data-s="${s}"]`); if (!fila) return;
+  const p = P.pos[s] || {}, i = INFO[s] || { estado: 'cargando' }, cant = p.cantidad || 0, costo = p.costo || 0, ahora = precios[s] || 0, gan = cant * ahora - costo;
+  const cab = i.estado === 'cargando' ? 'Buscando qué es…' : [i.sector, i.bolsa].filter(Boolean).join(' · ') || s;
+  const txt = i.estado === 'listo' ? (i.texto || `No encontré una descripción de ${s}.`) : i.estado === 'error' ? 'No pude traer la descripción ahora. Tocá de nuevo para reintentar.' : '';
+  const d = document.createElement('div'); d.className = 'ficha';
+  d.innerHTML = `<div class="cab">${limpiar(cab)}</div>${txt ? `<p>${limpiar(txt)}</p>` : ''}<div class="tuyo"><div>Tenés<b>${cant} ${cant === 1 ? 'acción' : 'acciones'}</b></div><div>Pagaste en promedio<b>${cant ? usd(costo / cant) : '—'}</b></div><div>Vale hoy<b>${ahora ? usd(ahora) : '—'}</b></div><div>Ganancia<b class="${gan >= 0 ? 'sube' : 'baja'}">${gan >= 0 ? '+' : '−'}${usd(Math.abs(gan))}</b></div></div><small>Fuentes: Wikipedia y Yahoo Finance. Es información, no una recomendación.</small>`;
+  fila.after(d);
+}
+document.getElementById('lista').addEventListener('click', e => {
+  const fila = e.target.closest('.renglon.abre'); if (!fila) return;
+  const s = fila.dataset.s; abierta = abierta === s ? null : s;
+  document.querySelectorAll('.renglon.abre').forEach(f => f.classList.toggle('abierta', f.dataset.s === abierta));
+  if (!abierta) { document.querySelectorAll('.ficha').forEach(e => e.remove()); return; }
+  ponerFicha(s);
+  if (!INFO[s] || INFO[s].estado === 'error') { INFO[s] = { estado: 'cargando' };
+    fetch('/api/empresa?s=' + encodeURIComponent(s)).then(r => r.json()).then(j => { INFO[s] = j.error ? { estado: 'error' } : { estado: 'listo', ...j }; }).catch(() => { INFO[s] = { estado: 'error' }; })
+      .finally(() => { if (abierta === s) ponerFicha(s); }); }
+});
+async function refrescar() {
+  let D; try { D = await datos(CINTA); } catch (e) { return; }
+  const { ia, vos, S } = D, u = ia.fechas.length - 1, vV = vos[vos.length - 1], vI = ia.valores[u], pV = (vV / CAPITAL - 1) * 100, pI = (vI / CAPITAL - 1) * 100;
+  if (typeof publicar === 'function') publicar(vV, vI);
+  const todos = [...vos, ...ia.valores], mid = (Math.min(...todos) + Math.max(...todos)) / 2, med = Math.max((Math.max(...todos) - Math.min(...todos)) / 2, CAPITAL * 0.01);
+  curva(document.getElementById('sVos'), vos, mid - med, mid + med); curva(document.getElementById('sIa'), ia.valores, mid - med, mid + med);
+  document.getElementById('cVos').className = 'carta ' + color(pV); document.getElementById('cIa').className = 'carta ' + color(pI);
+  contar(document.getElementById('pVos'), pV); contar(document.getElementById('pIa'), pI);
+  document.getElementById('vVos').textContent = usd(vV); document.getElementById('vIa').textContent = usd(vI);
+  for (const [id, v] of [['bVos', pV], ['bIa', pI], ['tVos', pV]]) document.getElementById(id).textContent = pct(v);
+  document.getElementById('tCaja').textContent = corto(P.caja);
+  const dif = pV - pI;
+  document.getElementById('veredicto').innerHTML = Math.abs(dif) < 0.005 ? 'Van <b>empatados</b>. Pedile al agente que compre algo.' : dif > 0 ? `Le estás ganando a Tr por <b>${pct(dif).replace('+', '')}</b>.` : `Tr te gana por <b>${pct(-dif).replace('+', '')}</b>.`;
+  const limpio = t => String(t).replace(/[<>&"]/g, '');
+  const filas = Object.entries(P.pos).map(([s, p]) => { const pr = precios[s] || 0, v = p.cantidad * pr, r = p.costo ? (v / p.costo - 1) * 100 : 0; return { s, nom: p.nombre || s, v, r }; }).sort((a, b) => b.v - a.v);
+  document.getElementById('lista').innerHTML = (filas.length ? '' : '<div class="vacia">Todavía no compraste nada. Pedíselo al agente.</div>') + [...filas.map(f => `<div class="renglon abre${abierta === f.s ? ' abierta' : ''}" data-s="${limpio(f.s)}"><span class="nom">${limpio(f.nom)}</span><span class="mo">${corto(f.v)}</span><span class="tk">${limpio(f.s)}</span><span class="va ${f.r >= 0 ? 'sube' : 'baja'}">${pct(f.r)}</span></div>`),
+    `<div class="renglon"><span class="nom">Caja</span><span class="mo">${corto(P.caja)}</span><span class="tk">USD</span><span class="va"></span></div>`].join('');
+  const cin = CINTA.filter(s => S[s]).map(s => { const x = S[s], prev = x.cierres[x.cierres.length - 2] ?? x.ultimo, ch = (x.ultimo / prev - 1) * 100;
+    return `${s} ${usd(x.ultimo).replace('US$', '').trim()} <span class="${ch >= 0 ? 'sube' : 'baja'}">${pct(ch)}</span>`; });
+  if (cin.length) { const t = cin.join('<i>·</i>') + '<i>·</i>'; document.getElementById('cinta').innerHTML = t + t; }
+  const h = Math.max(0, ...Object.values(S).map(x => x.hora || 0));
+  const horaTxt = h > 0 ? new Date(h * 1000).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+  if (h > 0 && document.getElementById('hora')) document.getElementById('hora').textContent = new Date(h * 1000).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  document.getElementById('pie').textContent = `Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora. Tr compró ${ia.empresas} empresas a partes iguales el día que empezaste; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela al cumplirse el año.`;
+  if (abierta && P.pos[abierta]) ponerFicha(abierta);
+  window.__pantallaDatos = ({ pV, pI, vV, vI, vos, ia: ia.valores, caja: P.caja, filas, pie: document.getElementById('pie').textContent, acciones: Object.keys(P.pos).length, empresas: ia.empresas, lista: ia.sha256.slice(0, 10) + '…',
+    desde: P.inicio.split('-').reverse().join('/'), hora: horaTxt, cinta: CINTA.filter(s => S[s]).flatMap(s => { const x = S[s], prev = x.cierres[x.cierres.length - 2] ?? x.ultimo, ch = (x.ultimo / prev - 1) * 100;
+      return [[`${s}  ${usd(x.ultimo).replace('US$', '').trim()}  `, '#fff'], [pct(ch), ch >= 0 ? '#e2ff32' : '#ff6a5a'], ['      ·      ', '#8a8a85']]; }) });
+  if (window.pantallaViva) window.pantallaViva(window.__pantallaDatos);      // (si el módulo todavía no está, lo toma de ahí al armarse)
+}
+refrescar(); setInterval(refrescar, 60000);
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+ "tope": 0.19232827201485633,
+ "topePiso": 0.14334716200828554,
+ "piso": {
+  "lado": 3.0,
+  "cx": 0.0,
+  "cy": 0.02
+ },
+ "luzPiso": 2.1547019481658936,
+ "exposicion": 0.0,
+ "horneadas": [
+  "base",
+  "hablar",
+  "aro_hablar",
+  "comprar",
+  "vender",
+  "cantidad",
+  "cantidad_moleteado",
+  "cantidad_marca",
+  "vos_ia",
+  "de_verdad",
+  "de_verdad_candado",
+  "de_verdad_arco",
+  "marco_tapa",
+  "bisagra",
+  "perno",
+  "ola",
+  "junta"
+ ],
+ "metal": [
+  "aro_hablar",
+  "perno"
+ ]
+}

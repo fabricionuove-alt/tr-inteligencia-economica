@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vos vs Tr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--fondo:#111;--tinta:#fff;--gris:#8a8a85;--lima:#e2ff32;--blanco:#f6f5f0;--salmon:#ff6a5a;--menta:#dce7d8;--negro:#0b0b0b}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--fondo);color:var(--tinta);font:16px/1.45 "Inter Tight",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.arriba{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;font-size:13px;letter-spacing:.02em}
+.arriba b{font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.arriba span{color:var(--gris)}
+.pie-fila{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:32px}
+.pie-fila .pie{margin:0}
+.candado{flex:none;width:34px;height:34px;border:1.5px solid #3a3a37;border-radius:999px;color:var(--gris);display:grid;place-items:center;transition:color .2s,border-color .2s}
+.candado svg{width:15px;height:15px}
+.candado:hover{color:#fff;border-color:#fff}
+main{max-width:1280px;margin:0 auto;padding:8px 24px 96px}
+.fila{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:20px;align-items:stretch}
+.carta{border-radius:18px;padding:22px 22px 20px;color:var(--negro);display:flex;flex-direction:column;min-height:520px;transition:background .6s}
+.carta.lima{background:var(--lima)}.carta.blanco{background:var(--blanco)}.carta.salmon{background:var(--salmon)}
+.cab{display:flex;justify-content:space-between;align-items:center}
+.capsula{display:inline-block;border:1.5px solid currentColor;border-radius:999px;padding:5px 16px;font-size:17px;font-weight:500;line-height:1.2}
+.marca{font-size:12px;font-weight:700;letter-spacing:.12em}
+.curva{flex:1;display:flex;align-items:center;margin:18px -4px}
+.curva svg{width:100%;height:170px;overflow:visible}
+.datos{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;font-size:12.5px}
+.datos div{border-top:1px solid rgba(0,0,0,.55);padding:7px 0 9px}
+.datos div:nth-last-child(-n+2){border-bottom:1px solid rgba(0,0,0,.55)}
+.datos em{font-style:normal;display:block;opacity:.65}
+.grande{font-weight:700;font-size:clamp(48px,6.2vw,88px);letter-spacing:-.045em;line-height:.95;margin-top:18px;white-space:nowrap}
+.grande small{font-size:.42em;letter-spacing:-.02em;margin-left:2px}
+.chat{background:var(--menta);color:var(--negro);border-radius:18px;display:flex;flex-direction:column;min-height:520px;max-height:640px;padding:22px 0 0}
+.chat .cab{padding:0 22px}
+.mensajes{flex:1;overflow-y:auto;padding:16px 22px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:90%;padding:9px 14px;border-radius:16px;white-space:pre-wrap;word-wrap:break-word;font-size:15.5px}
+.m.yo{align-self:flex-end;background:var(--negro);color:#fff;border-bottom-right-radius:4px}
+.m.agente{align-self:flex-start;background:rgba(255,255,255,.65);border-bottom-left-radius:4px}
+.m.op{align-self:flex-start;border:1.5px solid rgba(0,0,0,.55);border-radius:999px;font-size:13px;padding:5px 14px}
+form{display:flex;gap:8px;padding:14px 18px 18px}
+input{flex:1;min-width:0;font:inherit;font-size:16px;padding:11px 18px;border:1.5px solid var(--negro);border-radius:999px;background:transparent;color:var(--negro);outline:none}
+input::placeholder{color:rgba(0,0,0,.45)}
+button{font:inherit;font-weight:500;padding:11px 20px;border:0;border-radius:999px;background:var(--negro);color:#fff;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+.cartera{margin-top:40px}
+.cartera .capsula{color:#fff;font-size:16px}
+.lista{margin-top:14px}
+.renglon{display:grid;grid-template-columns:minmax(0,1fr) 110px 120px minmax(0,auto);align-items:baseline;gap:16px;padding:6px 0}
+.renglon .nom{font-size:clamp(28px,4.2vw,56px);font-weight:400;letter-spacing:-.03em;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.renglon .tk,.renglon .va{font-size:14px;color:var(--gris)}
+.renglon .va.sube{color:var(--lima)}.renglon .va.baja{color:var(--salmon)}
+.renglon .mo{font-size:clamp(28px,4.2vw,56px);font-weight:400;letter-spacing:-.03em;text-align:right;white-space:nowrap}
+.renglon:nth-child(4){opacity:.75}.renglon:nth-child(5){opacity:.55}.renglon:nth-child(n+6){opacity:.4}
+.pie{font-size:12.5px;color:var(--gris);max-width:70ch;margin-top:32px}
+.cinta{position:fixed;left:0;right:0;bottom:0;background:var(--fondo);border-top:1px solid #222;overflow:hidden;white-space:nowrap;font-size:13px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;padding:10px 0}
+.cinta div{display:inline-block;animation:correr 60s linear infinite;padding-left:100%}
+.cinta i{font-style:normal;color:var(--gris);margin:0 12px}
+.cinta .sube{color:var(--lima)}.cinta .baja{color:var(--salmon)}
+@keyframes correr{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.cinta div{animation:none;padding-left:16px}}
+@media (max-width:980px){.fila{grid-template-columns:1fr 1fr}.chat{grid-column:1 / -1}}
+@media (max-width:620px){main{padding:4px 16px 96px}.arriba{padding:16px}.fila{grid-template-columns:1fr;gap:14px}.carta{min-height:0}.curva svg{height:120px}
+  .renglon{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px}.renglon .tk{grid-row:2}.renglon .va{grid-row:2;text-align:right}.renglon .mo{grid-row:1;grid-column:2}}
+</style>
+</head>
+<body>
+<header class="arriba"><b>Vos vs Tr</b><span id="hora"></span></header>
+<main>
+  <div class="fila">
+    <article class="carta blanco" id="cVos">
+      <div class="cab"><span class="capsula">Vos</span></div>
+      <div class="curva"><svg id="sVos" viewBox="0 0 300 170" preserveAspectRatio="none"></svg></div>
+      <div class="datos"><div><em>Valor</em><span id="vVos">—</span></div><div><em>Caja</em><span id="cajaVos">—</span></div><div><em>Desde</em><span class="desde">—</span></div><div><em>Acciones</em><span id="nVos">—</span></div></div>
+      <div class="grande" id="pVos">—</div>
+    </article>
+    <article class="carta blanco" id="cIa">
+      <div class="cab"><span class="capsula">Tr</span></div>
+      <div class="curva"><svg id="sIa" viewBox="0 0 300 170" preserveAspectRatio="none"></svg></div>
+      <div class="datos"><div><em>Valor</em><span id="vIa">—</span></div><div><em>Empresas</em><span id="nIa">—</span></div><div><em>Desde</em><span class="desde">—</span></div><div><em>Lista</em><span id="hIa">—</span></div></div>
+      <div class="grande" id="pIa">—</div>
+    </article>
+    <section class="chat">
+      <div class="cab"><span class="capsula">Agente</span></div>
+      <div class="mensajes" id="mensajes"></div>
+      <form id="form"><input id="entrada" autocomplete="off" placeholder="«Comprá 10 acciones de Apple»"><button id="enviar">Enviar</button></form>
+    </section>
+  </div>
+  <section class="cartera">
+    <span class="capsula">Cartera</span>
+    <div class="lista" id="lista"></div>
+    <div class="pie-fila"><p class="pie" id="pie"></p><a class="candado" href="https://app.alpaca.markets/signup" target="_blank" rel="noopener" title="Comprar de verdad" aria-label="Comprar de verdad"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,84H172V56a44,44,0,0,0-88,0V84H48A12,12,0,0,0,36,96V208a12,12,0,0,0,12,12H208a12,12,0,0,0,12-12V96A12,12,0,0,0,208,84ZM92,56a36,36,0,0,1,72,0V84H92ZM212,208a4,4,0,0,1-4,4H48a4,4,0,0,1-4-4V96a4,4,0,0,1,4-4H208a4,4,0,0,1,4,4Z"/></svg></a></div>
+  </section>
+</main>
+<div class="cinta"><div id="cinta"></div></div>
+<script src="https://js.puter.com/v2/"></script>
+<script src="nucleo.js"></script>
+<script>
+// ---------- chat ----------
+const caja = document.getElementById('mensajes');
+function burbuja(texto, clase) { const d = document.createElement('div'); d.className = 'm ' + clase; d.textContent = texto; caja.appendChild(d); caja.scrollTop = caja.scrollHeight; return d; }
+function nota(t) { burbuja(t, 'op'); }
+for (const m of P.chat) if (m.role === 'user' && typeof m.content === 'string') burbuja(m.content, 'yo'); else if (m.role === 'assistant' && m.content && !m.tool_calls) burbuja(m.content, 'agente');
+if (!P.chat.length) burbuja('Tenés 10.000 dólares. Decime qué querés comprar o vender.', 'agente');
+
+function limpiarChat() { caja.innerHTML = ''; }
+document.getElementById('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const inp = document.getElementById('entrada'), b = document.getElementById('enviar'), t = inp.value.trim();
+  if (!t) return;
+  if (!puter.auth.isSignedIn()) { try { await puter.auth.signIn(); } catch (err) { burbuja('Para hablar con el agente hay que entrar con una cuenta de Puter (gratis).', 'op'); return; } }
+  inp.value = ''; burbuja(t, 'yo'); b.disabled = true; recortar();
+  const espera = burbuja('…', 'agente');
+  try { await conversar(t); } catch (err) { burbuja('No pude responder: ' + (err.message || err), 'op'); }
+  espera.remove(); b.disabled = false; inp.focus();
+});
+
+// ---------- cartas, cartera y cinta ----------
+const CINTA = ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'JPM', 'BRK-B', 'XOM', 'KO', 'WMT'];
+const corto = v => usd(v).replace(/,\d\d$/, '');
+function curva(svg, ys, lo, hi) {
+  const W = 300, H = 170, n = ys.length;
+  if (!n) { svg.innerHTML = ''; return; }
+  const pts = (n === 1 ? [ys[0], ys[0]] : ys).map((y, i, a) => [i / (a.length - 1) * W, H - 10 - (y - lo) / (hi - lo || 1) * (H - 20)]);
+  let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+  for (let i = 1; i < pts.length; i++) {                     // curva suave (Catmull-Rom a Bézier)
+    const p0 = pts[i - 2] || pts[i - 1], p1 = pts[i - 1], p2 = pts[i], p3 = pts[i + 1] || p2;
+    d += ` C${(p1[0] + (p2[0] - p0[0]) / 6).toFixed(1)},${(p1[1] + (p2[1] - p0[1]) / 6).toFixed(1)} ${(p2[0] - (p3[0] - p1[0]) / 6).toFixed(1)},${(p2[1] - (p3[1] - p1[1]) / 6).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+  }
+  svg.innerHTML = `<path d="${d}" fill="none" stroke="#0b0b0b" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linecap="round"/>`;
+}
+const color = p => p >= 5 ? 'lima' : p >= 0 ? 'blanco' : 'salmon';
+const grande = p => pct(p).replace('%', '') + '<small>%</small>';
+async function refrescar() {
+  let D; try { D = await datos(CINTA); } catch (e) { return; }
+  const { ia, vos, S } = D, ultima = ia.fechas.length - 1;
+  const vV = vos[vos.length - 1], vI = ia.valores[ultima], pV = (vV / CAPITAL - 1) * 100, pI = (vI / CAPITAL - 1) * 100;
+  const todos = [...vos, ...ia.valores], mid = (Math.min(...todos) + Math.max(...todos)) / 2, med = Math.max((Math.max(...todos) - Math.min(...todos)) / 2, CAPITAL * 0.01), lo = mid - med, hi = mid + med;   // misma escala para las dos curvas, y nunca menos de ±1%
+  curva(document.getElementById('sVos'), vos, lo, hi); curva(document.getElementById('sIa'), ia.valores, lo, hi);
+  document.getElementById('cVos').className = 'carta ' + color(pV); document.getElementById('cIa').className = 'carta ' + color(pI);
+  document.getElementById('pVos').innerHTML = grande(pV); document.getElementById('pIa').innerHTML = grande(pI);
+  document.getElementById('vVos').textContent = usd(vV); document.getElementById('vIa').textContent = usd(vI);
+  document.getElementById('cajaVos').textContent = usd(P.caja); document.getElementById('nVos').textContent = Object.keys(P.pos).length;
+  document.getElementById('nIa').textContent = ia.empresas; document.getElementById('hIa').textContent = ia.sha256.slice(0, 10) + '…';
+  document.querySelectorAll('.desde').forEach(e => e.textContent = P.inicio.split('-').reverse().join('/'));
+  const limpio = t => String(t).replace(/[<>&"]/g, '');
+  const filas = Object.entries(P.pos).map(([s, p]) => { const pr = precios[s] || 0, v = p.cantidad * pr, r = p.costo ? (v / p.costo - 1) * 100 : 0; return { s, nom: p.nombre || s, v, r }; })
+    .sort((a, b) => b.v - a.v);
+  document.getElementById('lista').innerHTML = [...filas.map(f => `<div class="renglon"><span class="nom">${limpio(f.nom)}</span><span class="tk">${limpio(f.s)}</span><span class="va ${f.r >= 0 ? 'sube' : 'baja'}">${pct(f.r)}</span><span class="mo">${corto(f.v)}</span></div>`),
+    `<div class="renglon"><span class="nom">Caja</span><span class="tk">USD</span><span class="va"></span><span class="mo">${corto(P.caja)}</span></div>`].join('');
+  const cin = CINTA.filter(s => S[s]).map(s => { const x = S[s], prev = x.cierres[x.cierres.length - 2] ?? x.ultimo, ch = (x.ultimo / prev - 1) * 100;
+    return `${s} ${usd(x.ultimo).replace('US$', '').trim()} <span class="${ch >= 0 ? 'sube' : 'baja'}">${pct(ch)}</span>`; });
+  if (cin.length) { const t = cin.join('<i>•</i>') + '<i>•</i>'; document.getElementById('cinta').innerHTML = t + t; }
+  const h = Math.max(0, ...Object.values(S).map(x => x.hora || 0));
+  if (h > 0) document.getElementById('hora').textContent = new Date(h * 1000).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  document.getElementById('pie').textContent = `Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora. Tr compró ${ia.empresas} empresas a partes iguales el día que empezaste; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela al cumplirse el año.`;
+}
+refrescar(); setInterval(refrescar, 60000);
+</script>
+</body>
+</html>

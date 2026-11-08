@@ -1,0 +1,1 @@
+{"name":"simulador-ia","private":true,"type":"commonjs","engines":{"node":">=18"},"dependencies":{"@vercel/blob":"^2.8.2"}}
