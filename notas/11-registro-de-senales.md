@@ -1299,4 +1299,61 @@ Disparada por la pregunta de Fabri (qué hace la élite en privado, no lo que di
 | sólo en cables abiertos | +10,4 | 7,7% | 2,2 |
 Diferencia **−6,9**, permutación p 0,46; 2005-07 −4,5, 2008-09 −8,2. Secret +3,9 (46), sólo confidential +3,4.
 Lo que se puede decir, medido así: que a una empresa la nombren en privado no separa su rendimiento a 4 años. Límites: pocas empresas con precio; la búsqueda de nombres trae también lugares y palabras (IRELAND, STAFFING, EVOLVING, GEORGETOWN, que son empresas del dataset con nombre de cosa) y ese ruido cae en los dos grupos; sólo mira el texto guardado (primeros 4.000 caracteres); y la mención no dice qué se dijo — eso lo mide #102 con la lectura.
-Total probadas: 106 (#102, #104 y #105 en curso).
+Total probadas: 106.
+
+### Resultado #105 (9-nov-2026, local fms105_bajar.py + fms105_eval.py): **no pasa; muestra muy chica**
+1.508 avisos 2008-2026 (federalregister.gov pide humano para el texto; se bajó de govinfo.gov). Hasta 2010 los avisos son imágenes sin texto; desde 2011 traen el contratista. 656 avisos nombran a 34 empresas del dataset; con rendimiento y grupo de comparación quedan **41 empresas-año** (los grandes de defensa casi no tienen 5 pares en su SIC 3 × tamaño).
+| | exploración 2012-2016 | confirmación 2017-2020 | nunca usados 2021-2022 |
+|---|---|---|---|
+| exceso contra las sin aviso del mismo grupo | +18,1 | **−11,0** | −57,2 (2 casos) |
+Avisos de más de 1.000 millones: −1,1 (20); menos: +12,6 (21). Hundidas: 0 de 41.
+Lo que se puede decir, medido así: con tan pocos casos no se ve que el aviso de una venta de armas marque a la empresa. Límites: 41 casos; la regla de nombres no reconoce «RTX Corporation» (73 avisos) ni «BAE Systems»; el Federal Register publica con meses de atraso (2021: 12 avisos, 2022: 4).
+### Resultado #102 confirmación (9-nov-2026, cab102_conf.py con los 9.095 cables económicos leídos por Qwen en Kaggle): **PASA**
+Sin ningún cable ni empresa-año de la exploración: 642 menciones, 278 empresas-año con precio.
+| papel en el cable | n | exceso a 4 años contra su SIC2 | hundidas |
+|---|---|---|---|
+| **ganó** (contrato, licitación) | 134 | **+7,1** | 9,0% |
+| ayudada por la embajada | 123 | +1,3 | 10,6% |
+| con problemas | 72 | −13,1 | 6,9% |
+| en disputa | 27 | +15,8 | 3,7% |
+| competidora | 21 | +23,1 | 4,8% |
+| **sólo mencionada** | 94 | **−13,5** | 18,1% |
+**Ganó − sólo mencionada = +20,7** (criterio ≥ +10 y ganó > 0: pasa). Exploración BEXP: +26. Con todas las empresas-año: +5,6 contra −9,4 (+15,0).
+La fama no lo explica: las sólo mencionadas salen en más cables (15,8 por año) que las que ganaron (13,5). Base de todas las nombradas: +4,2.
+Por año ganó: 2005 +35,9, 2006 +2,0, 2007 +9,0, 2008 −0,6, 2009 +12,4 (2004 un solo caso). Sólo mencionada: −29,2, −29,3, +0,5, −0,6, −15,7. La diferencia sale casi toda de 2005, 2006 y 2009; en 2007-2008 no separa.
+Cambio contra la exploración: «con problemas» dio +21,9 en los BEXP (16 casos) y −13,1 acá (72): ese lado no se sostiene.
+Lo que se puede decir: dos lecturas separadas de cables distintos dan que las empresas que la embajada cuenta como ganadoras rinden después más que las que sólo aparecen nombradas. **No entra a Tr todavía**: los cables terminan en 2010; falta la misma señal en una fuente pública actual y pasar 2021-2022.
+
+### Resultado #104 confirmación (9-nov-2026, SIN_BEXP=1 sector104.py con los cables económicos): **no pasa**
+Correlación de rangos **−0,125** (criterio ≤ −0,20); sector-años que salen más que lo normal +0,4 contra +5,3 los otros, **−4,9** (criterio ≤ −10). Misma dirección que la exploración, la mitad de fuerte.
+Lo que se puede decir, medido así: con los cables económicos la relación entre planes de compra de un sector y su rendimiento es más floja que en los BEXP y no alcanza el umbral. Límite: son los mismos 50 sector-año de precios.
+
+
+## #107: problemas que la empresa le cuenta a la embajada y calla en su 10-K, a 4 años. Escrita el 9-nov-2026 ANTES de cruzar los 10-K y los rendimientos
+Disparada por la lectura de los cables: ExxonMobil le dice a la embajada en Túnez (2006) que no gana plata y piensa irse, y ningún 10-K de Exxon nombra Túnez; Chevron se va de Ruanda (2008) y su 10-K nunca nombra Ruanda. En cambio Halliburton (Nigeria) y Motorola (Telsim, Turquía) sí lo cuentan.
+- **Casos:** todas las lecturas (cables BEXP y económicos 2004-2009) donde una empresa del dataset tiene papel «con problemas» o «en disputa». País = el del origen del cable (embajada; consulados por su país).
+- **¿Lo cuenta?:** búsqueda de texto completo de EDGAR (efts.sec.gov): algún 10-K de esa empresa presentado en el año del cable o el siguiente nombra el país.
+- **Medida:** exceso de log rendimiento contra la mediana del SIC 2 a 48 meses (como #101), por empresa-año (si tiene varios casos, «callado» si calla al menos uno).
+- **Hipótesis (escrita antes):** a las que callan les va peor que a las que cuentan.
+- **Pasa si:** callado − contado ≤ −10 puntos y permutación (una cola) p < 0,05. Con tan pocos casos esperables, si no pasa se dice «con esta medida no apareció».
+
+### Resultado #107 (9-nov-2026, callado107.py con BEXP + cables económicos y la búsqueda de texto de EDGAR): **no pasa con esta medida**
+343 casos empresa-año-país «con problemas» o «en disputa» (132 empresas); en 132 el 10-K de ese año o el siguiente no nombra el país, en 211 sí. Con precio: 140 empresas-año.
+| | n | exceso a 4 años contra su SIC2 | hundidas |
+|---|---|---|---|
+| calló el país en el 10-K | 51 | −2,6 | 2,0% |
+| lo contó | 89 | +3,7 | 6,7% |
+Diferencia **−6,3**, p 0,29 (criterio ≤ −10 y p < 0,05). Dirección la esperada, chica y sin fuerza.
+Los que más callan: Microsoft (8 casos), ExxonMobil (6), Boeing (5), General Motors (4+2), ConocoPhillips, Chrysler, GE.
+Lo que se puede decir, medido así: callar en el 10-K un problema que se le contó a la embajada no separa el rendimiento a 4 años. Límites: la regla de nombres casa también bancos centrales y países con empresas del dataset («China», «National Bank of Ukraine», «Bank of Jamaica»: ruido en los dos grupos); una empresa grande puede no nombrar un país chico por materialidad, no por esconder; la búsqueda de EDGAR sólo cubre 10-K desde 2001 con texto completo.
+Total probadas: 107 (#102 pasa la confirmación con cables; #104 y #107 no; #108 pre-registrada).
+
+## #108: empresas que ganan contratos públicos en Europa (TED), a 4 años. Escrita el 9-nov-2026 ANTES de cruzar ganadores con rendimientos
+Disparada por #102, que pasó: en los cables, las empresas que la embajada cuenta como «ganó» rinden después +20,7 más que las sólo mencionadas. Los cables terminan en 2010; hace falta la misma señal («ganó un contrato afuera, lo cuenta un tercero») en una fuente pública que siga hoy. El Banco Mundial no sirve (casi no hay empresas cotizadas de EE.UU. entre sus adjudicatarios). TED publica cada adjudicación de contrato público de la UE con el nombre del ganador (data.europa.eu, 2006-2023).
+- **Empresa:** el nombre del ganador (WIN_NAME) se lleva a la empresa madre con la misma regla de #102 (`madre()` de cab102_eval.py, sin cambios): núcleo más largo que encabeza el nombre, filiales locales incluidas («Hewlett-Packard Italiana» → HP).
+- **Señal del año Y:** la empresa tiene al menos una adjudicación con año de aviso Y. Se cruza con el 10-K presentado en Y+1 y su `_ret4`.
+- **Medida:** exceso de log rendimiento contra la mediana de las empresas del mismo SIC 3 × tercio de tamaño sin adjudicación ese año (como #103). Permutación de la etiqueta dentro de año × SIC 3 × tercio (2.000), una cola.
+- **Años (10-K):** exploración 2010-2016, confirmación 2017-2020, nunca usados 2021-2022.
+- **Pasa si:** exceso medio ≥ +5 puntos en la confirmación con p < 0,05, positivo en la exploración y > 0 en 2021-2022. Si pasa entra a Tr como señal congelada con las adjudicaciones de 2024-2026 (TED sigue publicando).
+- Informado: empresas que ganan por primera vez (sin adjudicación en los 3 años anteriores) contra las que ganan siempre; monto adjudicado ≥ 10 millones de euros; a qué parte del dataset alcanza; y los nombres que más casan, para ver errores de la regla.
+- **Límite que ya se sabe:** las grandes (IBM, HP, Microsoft) ganan algo todos los años; ahí la señal casi no cambia. Por eso se informa «primera vez» aparte, pero el criterio es el de arriba.

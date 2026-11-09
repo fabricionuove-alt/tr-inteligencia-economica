@@ -1,6 +1,6 @@
 # Tr — inteligencia económica con datos públicos
 
-Tr es el rival del juego [Vos vs Tr](https://vos-contra-la-ia.vercel.app). Este repositorio tiene todo lo necesario para rehacerlo desde cero: el código, el registro de las 106 pruebas (las que funcionaron y las que no), los pesos de los modelos chicos y las huellas de las listas selladas.
+Tr es el rival del juego [Vos vs Tr](https://vos-contra-la-ia.vercel.app). Este repositorio tiene todo lo necesario para rehacerlo desde cero: el código, el registro de las 107 pruebas (las que funcionaron y las que no), los pesos de los modelos chicos y las huellas de las listas selladas.
 
 Tr no es una sola red neuronal guardada en un archivo. Es una **cadena de pasos**, y cada paso se puede volver a correr:
 
