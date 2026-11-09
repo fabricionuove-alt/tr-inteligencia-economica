@@ -1184,3 +1184,21 @@ Total probadas: 99.
 La mezcla no le gana al mercado en ninguno de los dos años y se hunde más (0 de 2 y 0 de 2). La mitad «cohetes» es la que falla: en 2021-2022 lo que se parecía a los que se multiplicaron en 2013-2020 terminó hundido el 32-40% de las veces (los años de las SPAC y del dinero barato que se cortó). La de tres secciones sola tampoco le gana al mercado, pero se hunde menos los dos años: repite lo de #70 (protege, no gana).
 Como estaba escrito: Tr vuelve a la lista de tres secciones (597fe03a…), y la #96 (8cbffce0…) pasa a anteriores.
 Total probadas: 99.
+
+## #100: lo nuevo que entra al Congreso de EE.UU. cada mes (la idea antes de la ley), contra las empresas que se le parecen, a 4 años. Escrita el 8-nov-2026 ANTES de correr
+Camino de la influencia: la idea pasa de fundaciones y grupos a un proyecto de ley mucho antes de que llegue la plata pública. Los proyectos son públicos, fechados y miles (no 8 por año).
+- **Textos:** GovInfo BILLSTATUS, Congresos 112-117 (2011-2022): título + resumen oficial del CRS. Proyectos presentados: hasta 150 por mes al azar (semilla 0). Leyes: todas (1.387), por el mes en que se firmaron.
+- **Lectura:** igual que #90 (a ciegas, capa 12, 256 tokens). Lo nuevo del mes = vector del mes − promedio de los 12 anteriores (proyectos); para leyes, trimestre contra los 4 trimestres anteriores.
+- **Empresas y medida:** como #90 (último 10-K antes del mes, centrado, coseno), pero a **48 meses** (el plazo de Tr) desde fin del mes siguiente; décimo de arriba contra 20% de abajo dentro del tercio de tamaño (principal) y dentro de industria (informada). Exploración: meses 2013-07 a 2016-12; confirmación: 2017-01 a 2021-12 (incluye años nunca usados). t de Newey-West con 48 rezagos. Placebo: lo nuevo de 48 meses antes.
+- **Pasa si:** en la confirmación la diferencia media es ≥ +10 puntos a 4 años con t ≥ 2, la exploración da > 0 y supera al placebo; para proyectos o para leyes. Si pasa, entra a Tr como segundo puntaje y se prueba antes en 2021-2022 (regla nueva: nada entra al juego sin pasar años nunca usados).
+
+### Resultado #100 (8-nov-2026, Kaggle ie-leyes + ie-leyes100): **no pasa**
+21.844 textos (141 meses de proyectos, 116 trimestres móviles de leyes), 20.811 empresas-año. A 48 meses:
+| | exploración | confirmación (2017-2021) | t NW | placebo |
+|---|---|---|---|---|
+| proyectos, dentro de tamaño (principal) | +7,2 | +1,9 | 0,51 | -1,9 |
+| **proyectos, dentro de industria** | +4,1 | **+3,0** | **2,14** | -3,5 |
+| leyes, dentro de tamaño (principal) | +5,0 | +0,2 | 0,25 | +5,0 |
+| leyes, dentro de industria | -0,8 | +4,3 | 2,11 | -0,2 |
+Lo principal no pasa (pedía +10 con t ≥ 2). Queda una señal chica y consistente dentro de industria con los proyectos (+3 puntos a 4 años, t 2,1, exploración y placebo del lado correcto): de dos empresas del mismo rubro, la que se parece más a lo nuevo que entra al Congreso rinde un poco más. Es demasiado chica para mover a Tr; queda anotada.
+Total probadas: 100.
