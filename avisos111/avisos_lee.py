@@ -18,16 +18,18 @@ tok = AutoTokenizer.from_pretrained('Qwen/Qwen2.5-3B-Instruct', padding_side='le
 mod = AutoModelForCausalLM.from_pretrained('Qwen/Qwen2.5-3B-Instruct', dtype=torch.float32).eval()
 print('CPU', len(L), 'avisos', flush=True)
 prom = [tok.apply_chat_template([{'role': 'user', 'content': P.replace('{nombre}', x['nombre']) + x['texto'][:5000]}], tokenize=False, add_generation_prompt=True) for x in L]
-textos = []
-for i, pr in enumerate(prom):
-    e = tok(pr, return_tensors='pt')
-    with torch.no_grad(): g = mod.generate(**e, max_new_tokens=160, do_sample=False, pad_token_id=tok.eos_token_id)
-    textos.append(tok.decode(g[0][e['input_ids'].shape[1]:], skip_special_tokens=True))
-    if i % 10 == 0: print(f'  {i}/{len(prom)} {time.time() - t0:.0f}s', flush=True)
-with open(f'avisos111/sal/lectura_{k:02d}.jsonl', 'w', encoding='utf-8') as f:
-    for x, r in zip(L, textos):
+import os; os.makedirs('avisos111/sal', exist_ok=True)
+SAL = f'avisos111/sal/lectura_{k:02d}.jsonl'
+hechos = {json.loads(l)['doc'] for l in open(SAL, encoding='utf-8')} if os.path.exists(SAL) else set()
+with open(SAL, 'a', encoding='utf-8') as f:
+    for i, (x, pr) in enumerate(zip(L, prom)):
+        if x['doc'] in hechos: continue
+        e = tok(pr, return_tensors='pt')
+        with torch.no_grad(): g = mod.generate(**e, max_new_tokens=160, do_sample=False, pad_token_id=tok.eos_token_id)
+        r = tok.decode(g[0][e['input_ids'].shape[1]:], skip_special_tokens=True)
         m = re.search(r'\{.*\}', r, re.S)
         try: j = json.loads(m.group(0)) if m else None
         except Exception: j = None
-        f.write(json.dumps({'doc': x['doc'], 'cik': x['cik'], 'fecha': x['fecha'], 'lectura': j, 'crudo': None if j else r[:600]}) + '\n')
+        f.write(json.dumps({'doc': x['doc'], 'cik': x['cik'], 'fecha': x['fecha'], 'lectura': j, 'crudo': None if j else r[:600]}) + chr(10)); f.flush()
+        if i % 10 == 0: print(f'  {i}/{len(L)} {time.time() - t0:.0f}s', flush=True)
 print('LISTO', len(L), f'{time.time() - t0:.0f}s', flush=True)
