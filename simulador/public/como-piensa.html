@@ -57,7 +57,7 @@ code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radi
 <p>Tr nunca ve el nombre de la empresa ni su precio. Ve cada número comparado con el de las demás empresas de ese año: si una gana más que el 80% de las otras, eso es lo que sabe. Así no puede hacer trampa acordándose de que a Apple le fue bien.</p>
 
 <h2>Cómo se probó</h2>
-<p>Se probaron 68 ideas. Antes de cada prueba se escribió qué tenía que pasar para darla por buena. Casi todas fallaron, y quedaron anotadas igual: lo que no funcionó también se cuenta.</p>
+<p>Se probaron 108 ideas. Antes de cada prueba se escribió qué tenía que pasar para darla por buena. Casi todas fallaron, y quedaron anotadas igual: lo que no funcionó también se cuenta.</p>
 
 <h2>Lo que sabe</h2>
 <ul>
@@ -74,6 +74,10 @@ code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radi
 <p>Además de los números, Tr ahora lee lo que cada empresa cuenta de su propio negocio en su informe anual. No lo lee con palabras elegidas a mano: lo lee con Gemma, un modelo de lenguaje abierto de Google, y mira qué ideas se le encienden por dentro. Hay miles de ideas distintas, y Tr aprendió cuáles aparecen en las empresas a las que después les fue mejor que a sus pares.</p>
 <p>Para que no hiciera trampa, se probó en años que no había visto y también leyendo los informes a ciegas, sin nombres, marcas, lugares, años ni números. A ciegas siguió funcionando: no reconoce a la empresa, entiende de qué se trata. Con eso se hunde menos y acierta un poco mejor para qué lado se mueve.</p>
 
+<h2>Lo que buscó en WikiLeaks</h2>
+<p>Se leyeron con un modelo de lenguaje unos 10.000 cables de las embajadas de Estados Unidos (2004-2010) que hablan de empresas, para ver si lo que se dice en privado anticipa algo. Una sola cosa aguantó dos veces, con cables distintos: las empresas que la embajada contaba como que habían ganado un contrato afuera rindieron después bastante más que las que sólo aparecían nombradas. No es fama: las nombradas salen en más cables todavía.</p>
+<p>No entra a Tr porque los cables terminan en 2010 y hoy no hay una fuente igual. No anticiparon nada, con estas pruebas: aparecer en cables secretos, callarse en el informe anual un problema que se le contó a la embajada, los planes de compra de cada país ni las ventas de armas aprobadas. Buscando una versión actual, en los contratos públicos de Europa apareció algo que se repite: las que ganan no suben más, pero se hunden menos. Se está confirmando con otra fuente.</p>
+
 <h2>Cómo juega contra vos</h2>
 <p>El día que empezás, Tr compra en partes iguales las 365 empresas de la bolsa de Nueva York o del Nasdaq que mejor salen de esa lectura (el negocio, los riesgos y la explicación de la dirección): el 10% de arriba dentro de cada industria, para tenerlas cuatro años. Probada en 2017-2020, a cuatro años la empresa típica de su lista rindió más que la del mercado en tres de cuatro años, y en los cuatro tuvo menos empresas hundidas (6 a 8 de cada 100, contra 10 a 14). En 2021 y 2022, años que nunca usó, volvió a hundirse menos que el mercado (22-23 de cada 100 contra 24-26), pero no le ganó en rendimiento. Se probó sumarle una mitad de empresas que «pueden multiplicarse»: ganaba en 2017-2020 y falló en 2021-2022, así que se sacó.</p>
 
@@ -84,7 +88,7 @@ code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radi
 <p>Todo lo anterior se probó con años que ya pasaron. La prueba de verdad es el futuro, y el juego es esa prueba: Tr contra vos, con precios de verdad, a cuatro años.</p>
 </section>
 <section id="tecnica" role="tabpanel" aria-labelledby="b-tecnica" hidden>
-<p class="bajada">68 señales probadas sobre los balances y los informes públicos de la SEC. Cada criterio de éxito se escribió antes de correr la prueba, y casi todas fallaron.</p>
+<p class="bajada">108 señales probadas sobre los balances y los informes públicos de la SEC. Cada criterio de éxito se escribió antes de correr la prueba, y casi todas fallaron.</p>
 
 <div class="cifras">
   <div><span class="num">0,81</span><small>reconoce cuánto se va a mover una empresa (AUC, 0,5 = azar)</small></div>
@@ -97,7 +101,7 @@ code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radi
 <p>El modelo no ve nombres, tickers, fechas ni montos. Cada dato pasa a su percentil dentro del año. Así no puede reconocer la empresa ni acordarse de lo que le pasó. Los precios salen de los archivos públicos de la SEC (Fails-to-Deliver y 13F).</p>
 
 <h2>El método</h2>
-<p>Antes de cada prueba se anota qué tiene que pasar para darla por buena. Si no pasa, la señal se descarta, aunque se vea bien por otro lado. El registro completo, con las 68, incluye las que fallaron.</p>
+<p>Antes de cada prueba se anota qué tiene que pasar para darla por buena. Si no pasa, la señal se descarta, aunque se vea bien por otro lado. El registro completo, con las 108, incluye las que fallaron.</p>
 <p>El punto de partida fueron cinco inversores de valor: Quintana, Vinall, Paramés, Crescenta y Pabrai. Sus reglas, escritas en código antes de mirar los resultados, funcionan (0,70 para la supervivencia a 10 años), pero el modelo las supera (0,81).</p>
 
 <h2>Qué reconoce</h2>
@@ -135,6 +139,19 @@ code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radi
 <h2>Lo que leyó Gemma además, y lo que no sirvió</h2>
 <p>Los riesgos que declara cada empresa (sección 1A) y la explicación de la dirección (sección 7), leídos igual, a ciegas, también anticipan: +33 y +43 puntos a 4 años, positivos los cuatro años. Juntas con «el negocio» separan mejor (+49 contra +38,5). Como cartera, la empresa típica rinde más los cuatro años (mediana a 12 meses) y hay menos hundidas; el promedio queda parecido porque lo mueven unas pocas que se disparan. Por eso Tr juega con las tres secciones.</p>
 <p>Las conferencias de resultados (preguntas de analistas) casi no anticipan nada (+4). Lo que ponen en agenda Davos (riesgos y tecnologías), la Fundación Gates y Bilderberg cada año, ni lo nuevo que dicen los banqueros centrales cada mes (9.217 discursos del BIS, 90 meses de prueba), marcan qué empresas van a rendir: las que más se les parecen rinden igual o algo menos. Cuando un tema llega a la agenda de la élite, el precio ya lo tiene.</p>
+
+<h2>WikiLeaks (pruebas #101 a #108)</h2>
+<p>Qwen2.5-3B leyó los 1.387 cables BEXP y después 9.095 cables económicos 2004-2010 que nombran empresas, y marcó el papel de cada una (ganó, ayudada, con problemas, en disputa, sólo mencionada). Rendimiento a 4 años contra la mediana de su SIC 2.</p>
+<div class="tabla"><table>
+<tr><th>Prueba</th><th>Exploración</th><th>Confirmación</th><th></th></tr>
+<tr><td>#102 ganó − sólo mencionada</td><td>+26</td><td class="si">+20,7</td><td class="si">pasa</td></tr>
+<tr><td>#104 planes de compra del sector</td><td>−13,8</td><td>−4,9</td><td class="no">no</td></tr>
+<tr><td>#106 nombrada en cables secretos − abiertos</td><td colspan="2">−6,9 (p 0,46)</td><td class="no">no</td></tr>
+<tr><td>#107 calló el país en el 10-K − lo contó</td><td colspan="2">−6,3 (p 0,29)</td><td class="no">no</td></tr>
+<tr><td>#103 créditos del EXIM / #105 ventas de armas</td><td colspan="2">no pasan</td><td class="no">no</td></tr>
+<tr><td>#108 gana contratos públicos en la UE (TED, media)</td><td>+0,6</td><td>−4,3</td><td class="no">no</td></tr>
+</table></div>
+<p>#102 no entra a Tr: los cables terminan en 2010 y falta la misma señal en una fuente actual que pase 2021-2022. De #108 apareció de costado que las ganadoras de contratos en la UE se hunden menos que sus pares del mismo SIC 3 y tamaño en los tres tramos (5,9% contra 11,1%, 7,5% contra 10,3%, 22% contra 27,7%); como ya está visto, se confirma aparte con los contratos federales de EE.UU. (#109, pre-registrada).</p>
 
 <h2>Cómo juega Tr</h2>
 <p>En el juego, Tr compra a partes iguales el 10% de puntaje más alto de Gemma (a ciegas, leyendo el negocio, los riesgos y la explicación de la dirección) dentro de cada industria, con los informes presentados en 2026: 438 empresas, 373 cotizan en Nueva York o Nasdaq. Se sacan 8 que entre mayo y octubre de 2026 tuvieron un pico de visitas en Wikipedia mientras sus directivos vendían (señal #84): juega 365. Las compra el mismo día en que empezás vos.</p>
