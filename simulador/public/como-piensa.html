@@ -38,11 +38,17 @@ code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radi
 .versiones button[aria-selected=true]{background:var(--tinta);color:var(--fondo)}
 .versiones button:focus-visible{outline:2px solid var(--lima);outline-offset:2px}
 [hidden]{display:none!important}
+#tecnica th,#tecnica td{white-space:normal}
+.titulo{border-top:0;margin-top:8px;font-size:30px;line-height:1.1}
+h3{font:600 19px "Inter Tight",sans-serif;margin:30px 0 10px}
+.resumen{border:1px solid var(--linea);border-radius:18px;padding:20px 22px}
+.nota{font-size:14px;color:var(--gris);margin-bottom:22px}
+td{vertical-align:top}
 @media (max-width:560px){.cifras{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="arriba"><a href="/">← Vos vs Tr</a><a href="/paper.html">El paper completo →</a></header>
+<header class="arriba"><a href="/">← Vos vs Tr</a><span>Cómo piensa Tr</span></header>
 <main>
 <h1>Cómo piensa Tr</h1>
 <div class="versiones" role="tablist" aria-label="Versión">
@@ -91,90 +97,183 @@ code{font-size:14px;background:rgba(255,255,255,.07);padding:2px 6px;border-radi
 <p>Todo lo anterior se probó con años que ya pasaron. La prueba de verdad es el futuro, y el juego es esa prueba: Tr contra vos, con precios de verdad, a cuatro años.</p>
 </section>
 <section id="tecnica" role="tabpanel" aria-labelledby="b-tecnica" hidden>
-<p class="bajada">109 señales probadas sobre los balances y los informes públicos de la SEC. Cada criterio de éxito se escribió antes de correr la prueba, y casi todas fallaron.</p>
+<h2 class="titulo">Magnitud sin dirección: lo que una máquina puede leer en los informes públicos de las empresas</h2>
+<p class="nota">ODD · noviembre de 2026 · registro, código y pesos: github.com/fabricionuove-alt/tr-inteligencia-economica</p>
 
-<div class="cifras">
-  <div><span class="num">0,81</span><small>reconoce cuánto se va a mover una empresa (AUC, 0,5 = azar)</small></div>
-  <div><span class="num">0,6</span><small>no reconoce para qué lado (AUC entre 0,54 y 0,69)</small></div>
-  <div><span class="num">5 de 6</span><small>años en que su cartera supera al 95% de cien carteras al azar del mismo tamaño</small></div>
-</div>
+<p class="resumen"><b>Resumen.</b> Con información pública y gratuita de la SEC sobre 10.505 empresas de EE.UU. (2009-2026), probamos 109 hipótesis para elegir acciones, cada una con su criterio de éxito escrito antes de correrla. Encontramos tres cosas. Primero, los modelos reconocen cuánto se va a mover una empresa (AUC 0,79-0,84) y cuál se puede hundir (AUC 0,74-0,85), pero no hacia qué lado (0,54-0,69); casi todas las señales que probamos, incluidas las de la élite económica, repiten ese patrón. Segundo, un modelo de lenguaje abierto (Gemma 2 2B) leyendo a ciegas el informe anual separa a las empresas que rinden más que sus pares a cuatro años de las que rinden menos (+49 puntos de logaritmo entre el decil de arriba y el quintil de abajo, 2017-2020, fuera de muestra); en 2021-2024 esa lectura sigue reduciendo las empresas hundidas pero deja de ganarle al mercado. Tercero, en los cables diplomáticos de WikiLeaks, las empresas que una embajada describe como ganadoras de un contrato rinden 20,7 puntos más a cuatro años que las sólo mencionadas, en dos lecturas independientes. La prueba que decide es hacia adelante: la cartera del juego quedó sellada y se mide en noviembre de 2030.</p>
 
-<h2>Los datos</h2>
-<p>Balances anuales de 10.505 empresas que presentan en Estados Unidos, de 2009 a 2026, bajados gratis de la SEC. Están incluidas las que quebraron y las que fueron compradas. Cada cifra sale del primer informe que la publicó, sin las correcciones posteriores.</p>
-<p>El modelo no ve nombres, tickers, fechas ni montos. Cada dato pasa a su percentil dentro del año. Así no puede reconocer la empresa ni acordarse de lo que le pasó. Los precios salen de los archivos públicos de la SEC (Fails-to-Deliver y 13F).</p>
+<h2>1. Introducción</h2>
+<p>¿Alcanza la información pública para elegir acciones que rindan más que el mercado? La respuesta habitual es que no, porque lo público ya está en el precio. Pero los modelos de lenguaje cambiaron cuánto texto se puede leer y con qué detalle: Kim, Muhn y Nikolaev (2024) muestran que GPT-4, con estados contables anonimizados, anticipa la dirección de las ganancias como un analista. Quedaba abierta la pregunta sobre el precio, medida con disciplina contra el azar.</p>
+<p>Este trabajo responde con 109 hipótesis pre-registradas y una regla simple: lo que no cumple su criterio escrito se descarta, aunque se vea bien de otra forma. El resultado central es una asimetría. Lo que se ve desde afuera de una empresa —sus números, su trayectoria, quién compra y vende, qué dice de sí misma, qué dice la élite— informa sobre la <i>magnitud</i> del movimiento futuro y sobre el riesgo de <i>desastre</i>, pero casi nada sobre la <i>dirección</i>. Una cartera construida con eso protege: se hunde menos que el mercado. Ganarle de manera sostenida es otra cosa.</p>
+<p>Los aportes son tres. (i) Una medición de la asimetría magnitud/dirección sobre una muestra que incluye a las empresas que quebraron, con controles por industria fina y tamaño. (ii) Evidencia de que el espacio latente de un modelo de lenguaje abierto, leído a ciegas, contiene información sobre el rendimiento relativo a cuatro años que no proviene de reconocer a la empresa. (iii) Un registro completo de lo que no funcionó, incluidas las hipótesis sobre la élite económica, que suele quedar fuera de los papers.</p>
 
-<h2>El método</h2>
-<p>Antes de cada prueba se anota qué tiene que pasar para darla por buena. Si no pasa, la señal se descarta, aunque se vea bien por otro lado. El registro completo, con las 109, incluye las que fallaron.</p>
-<p>El punto de partida fueron cinco inversores de valor: Quintana, Vinall, Paramés, Crescenta y Pabrai. Sus reglas, escritas en código antes de mirar los resultados, funcionan (0,70 para la supervivencia a 10 años), pero el modelo las supera (0,81).</p>
+<h2>2. Datos</h2>
+<div class="tabla"><table>
+<tr><th>Fuente</th><th>Qué aporta</th><th>Tamaño</th></tr>
+<tr><td>SEC companyfacts y submissions</td><td>balances, quiebras y compras, 2009-2026</td><td>80.587 empresa-años</td></tr>
+<tr><td>SEC Fails-to-Deliver, 13F, formularios 3/4/5</td><td>precios, fondos, directivos</td><td>12,9 M posiciones; 1,66 M persona-años</td></tr>
+<tr><td>EDGAR-CORPUS y 10-K bajados</td><td>secciones 1, 1A y 7 del informe anual</td><td>~70.000 informes</td></tr>
+<tr><td>Agendas y listas de la élite</td><td>Bilderberg, Davos, Gates, BIS, Congreso de EE.UU.</td><td>~31.000 textos fechados</td></tr>
+<tr><td>Cablegate (WikiLeaks)</td><td>cables diplomáticos 2004-2010</td><td>10.445 cables leídos</td></tr>
+<tr><td>TED, USAspending, EXIM</td><td>contratos y créditos públicos</td><td>9,6 M adjudicaciones UE</td></tr>
+</table></div>
+<p class="nota">Tabla 1. Todo es público y gratuito. Cada cifra contable sale del primer informe que la publicó. La muestra incluye 5.496 empresa-años de empresas que después quebraron.</p>
+<p>El resultado se mide como lo que gana quien compra la empresa entera: valor de mercado final más dividendos y recompras, menos emisiones, sobre el valor inicial; una quiebra vale cero. «Hundida» es terminar en la mitad o menos. Los rasgos pasan a percentil dentro de cada año y se borran nombres, fechas y montos; una prueba de fuga baja el acierto al adivinar el año de 42% a 16% (azar: 9%).</p>
 
-<h2>Qué reconoce</h2>
+<h2>3. Protocolo</h2>
 <ul>
-<li><b>La magnitud.</b> Distingue a las empresas que se van a mover mucho de las que se van a quedar quietas, con una AUC de 0,79 a 0,84, estable todos los años.</li>
-<li><b>El riesgo de desastre</b> (caer a la mitad o quebrar). La parte más segura de cada año baja los desastres de entre 6% y 19% a entre 0,3% y 2,6%.</li>
-<li><b>Que la ventaja es suya.</b> Repartir el dinero según sus probabilidades (fórmula de Kelly) le gana al mercado los seis años probados. Para descartar que fuera sólo por inclinarse hacia las empresas chicas, sus probabilidades se barajaron cien veces entre empresas del mismo tamaño. La cartera real superó a 95 de esas 100 en cinco de los seis años.</li>
+<li><b>Pre-registro.</b> Cada hipótesis queda escrita con su criterio de éxito antes de correrla, en un registro público con fecha.</li>
+<li><b>Sin mirar el futuro.</b> Para comprar en el año <i>s</i>, el modelo sólo aprende de años cuyo resultado ya se conocía.</li>
+<li><b>Exploración, confirmación y años nuevos.</b> Lo que se descubre en 2013-2016 se confirma en 2017-2020 sin tocar nada; desde la prueba #97, además, en 2021-2022 antes de entrar al juego.</li>
+<li><b>Contra sus pares.</b> Las comparaciones son dentro de la industria (SIC de 3 dígitos) y del mismo tercio o décimo de tamaño.</li>
+<li><b>Placebos.</b> Se baraja lo que el modelo sabe dentro de cada tamaño, o se usa la información de cuatro años antes.</li>
 </ul>
 
+<h2>4. Resultado 1: magnitud, desastre y dirección</h2>
 <div class="tabla"><table>
-<tr><th>Año de compra</th><th>Kelly</th><th>Mercado</th><th>Placebo (mediana)</th><th>Placebos que le ganan</th></tr>
-<tr><td>2019</td><td class="si">×3,32</td><td>×2,13</td><td>×2,27</td><td>0 / 100</td></tr>
-<tr><td>2020</td><td class="si">×1,63</td><td>×1,08</td><td>×1,07</td><td>0 / 100</td></tr>
-<tr><td>2021</td><td class="si">×1,36</td><td>×1,00</td><td>×1,04</td><td>0 / 100</td></tr>
-<tr><td>2022</td><td class="si">×1,67</td><td>×1,25</td><td>×1,26</td><td>0 / 100</td></tr>
-<tr><td>2023</td><td class="si">×1,91</td><td>×1,19</td><td>×1,23</td><td>0 / 100</td></tr>
-<tr><td>2024</td><td>×1,51</td><td>×1,47</td><td>×1,49</td><td class="no">31 / 100</td></tr>
+<tr><th>Qué se predice</th><th>AUC</th><th>Pruebas</th></tr>
+<tr><td>Si una empresa termina en un extremo (arriba o abajo)</td><td>0,75-0,84</td><td>#43, #46, #47</td></tr>
+<tr><td>Si se hunde o quiebra</td><td>0,74-0,85</td><td>#44, #45, base</td></tr>
+<tr><td>Si sobrevive diez años</td><td>0,81-0,86</td><td>base (Altman 0,70; Ohlson 0,71)</td></tr>
+<tr><td>Hacia qué lado, entre las extremas</td><td>0,54-0,69</td><td>#46, #47, #52-#56</td></tr>
 </table></div>
-<p>Retorno a 12 meses. Esa cartera también pone más dinero en empresas que terminan cayendo a la mitad: elige lo que se mueve mucho, para los dos lados. Por eso el criterio escrito de antemano la descartó.</p>
-
-<h2>Qué no reconoce</h2>
-<p>Para qué lado se va a mover una empresa. Probamos cruzarlo con quién financia el crecimiento y con una confirmación a tres meses, y no mejoró.</p>
-<p>La combinación de «extraordinaria y segura» pasó con datos de la misma época (#44), pero falló cuando el modelo aprendió sólo con el pasado (#45). Una cartera de 80% seguro y 20% extraordinario casi no tiene desastres, pero queda detrás del mercado.</p>
-
-<h2>El espacio latente de Gemma</h2>
-<p>Gemma 2 2B lee el comienzo de «el negocio» (sección 1 del 10-K). En su capa 12, el autoencoder disperso de Gemma Scope separa 16.384 conceptos internos; por empresa se toma cuánto se enciende cada uno. Una regresión ridge aprende, sólo con los informes de 2013-2016, qué conceptos anticipan el rendimiento a 4 años contra su industria fina (SIC de 3 dígitos) y su tamaño. Después se mide en 2017-2020, sin tocar nada.</p>
+<p class="nota">Tabla 2. AUC: probabilidad de ordenar bien un par al azar (0,5 = moneda). Fuera de tiempo.</p>
+<p>La asimetría es robusta: aparece con números, con trayectorias, con lo que hacen fondos y directivos, con redes de directores y con el índice S&amp;P 500 (entrar ya no da exceso, como encontraron Greenwood y Sammon, 2022; las empresas que el comité saca tienen tres veces más duplicaciones que su control, y también más desastres). Cada fuente nueva separaba lo seguro de lo riesgoso, no lo que sube de lo que baja.</p>
+<p>Repartir el dinero según esas probabilidades (Kelly, #50) le ganó al mercado en los seis años de prueba, a costa de más peso en empresas que terminaron hundidas. Para descartar que fuera una apuesta a las empresas chicas, barajamos las probabilidades entre empresas del mismo tamaño cien veces (#51):</p>
 <div class="tabla"><table>
-<tr><th>Confirmación, a 4 años</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th></tr>
-<tr><td>10% de arriba menos 20% de abajo, leyendo normal</td><td class="si">+91</td><td class="si">+46</td><td class="si">+32</td><td class="si">+19</td></tr>
-<tr><td>Lo mismo, leyendo a ciegas</td><td class="si">+71</td><td class="si">+28</td><td class="si">+30</td><td class="si">+25</td></tr>
-<tr><td>Desastres, arriba menos abajo (a ciegas)</td><td>−10</td><td>−3</td><td>−8</td><td>−6</td></tr>
+<tr><th>Año</th><th>Kelly</th><th>Mercado</th><th>Placebo (mediana)</th><th>Placebos que le ganan</th></tr>
+<tr><td>2019</td><td>×3,32</td><td>×2,13</td><td>×2,27</td><td>0/100</td></tr>
+<tr><td>2020</td><td>×1,63</td><td>×1,08</td><td>×1,07</td><td>0/100</td></tr>
+<tr><td>2021</td><td>×1,36</td><td>×1,00</td><td>×1,04</td><td>0/100</td></tr>
+<tr><td>2022</td><td>×1,67</td><td>×1,25</td><td>×1,26</td><td>0/100</td></tr>
+<tr><td>2023</td><td>×1,91</td><td>×1,19</td><td>×1,23</td><td>0/100</td></tr>
+<tr><td>2024</td><td>×1,51</td><td>×1,47</td><td>×1,49</td><td>31/100</td></tr>
 </table></div>
-<p>Puntos de logaritmo del múltiplo. «A ciegas» quiere decir sin nombres, siglas, marcas, lugares, años ni números: conserva el 82% del efecto, así que no es que Gemma se acuerde de lo que le pasó a cada empresa. Sumado a Tr, a 4 años le gana a Tr sin Gemma los 3 años probados y baja los desastres; a 12 meses rinde parecido con menos desastres. No cumplió el criterio para ganarle siempre al mercado (en 2019 el mercado rindió más).</p>
+<p class="nota">Tabla 3. Múltiplo a 12 meses. Son años ya usados: muestra que la ventaja no es el tamaño, no que se vaya a repetir.</p>
 
-<h2>Lo que leyó Gemma además, y lo que no sirvió</h2>
-<p>Los riesgos que declara cada empresa (sección 1A) y la explicación de la dirección (sección 7), leídos igual, a ciegas, también anticipan: +33 y +43 puntos a 4 años, positivos los cuatro años. Juntas con «el negocio» separan mejor (+49 contra +38,5). Como cartera, la empresa típica rinde más los cuatro años (mediana a 12 meses) y hay menos hundidas; el promedio queda parecido porque lo mueven unas pocas que se disparan. Por eso Tr juega con las tres secciones.</p>
-<p>Las conferencias de resultados (preguntas de analistas) casi no anticipan nada (+4). Lo que ponen en agenda Davos (riesgos y tecnologías), la Fundación Gates y Bilderberg cada año, ni lo nuevo que dicen los banqueros centrales cada mes (9.217 discursos del BIS, 90 meses de prueba), marcan qué empresas van a rendir: las que más se les parecen rinden igual o algo menos. Cuando un tema llega a la agenda de la élite, el precio ya lo tiene.</p>
-
-<h2>WikiLeaks (pruebas #101 a #109)</h2>
-<p>Qwen2.5-3B leyó los 1.387 cables BEXP y después 9.095 cables económicos 2004-2010 que nombran empresas, y marcó el papel de cada una (ganó, ayudada, con problemas, en disputa, sólo mencionada). Rendimiento a 4 años contra la mediana de su SIC 2.</p>
+<h2>5. Resultado 2: leer el informe anual con un modelo de lenguaje</h2>
+<p>Gemma 2 2B lee el comienzo de tres secciones del 10-K —el negocio, los riesgos y la explicación de la dirección—. En su capa 12, el autoencoder disperso de Gemma Scope (Lieberum y otros, 2024) separa 16.384 conceptos internos. Una regresión ridge aprende, sólo con 2013-2016, qué conceptos anticipan el rendimiento a cuatro años contra la industria fina y el tamaño. Para descartar que el modelo recuerde lo que les pasó a las empresas (Glasserman y Lin, 2023), los informes se leen <i>a ciegas</i>: sin nombres, siglas, marcas, lugares, años ni números.</p>
 <div class="tabla"><table>
-<tr><th>Prueba</th><th>Exploración</th><th>Confirmación</th><th></th></tr>
-<tr><td>#102 ganó − sólo mencionada</td><td>+26</td><td class="si">+20,7</td><td class="si">pasa</td></tr>
-<tr><td>#104 planes de compra del sector</td><td>−13,8</td><td>−4,9</td><td class="no">no</td></tr>
-<tr><td>#106 nombrada en cables secretos − abiertos</td><td colspan="2">−6,9 (p 0,46)</td><td class="no">no</td></tr>
-<tr><td>#107 calló el país en el 10-K − lo contó</td><td colspan="2">−6,3 (p 0,29)</td><td class="no">no</td></tr>
-<tr><td>#103 créditos del EXIM / #105 ventas de armas</td><td colspan="2">no pasan</td><td class="no">no</td></tr>
-<tr><td>#108 gana contratos públicos en la UE (TED, media)</td><td>+0,6</td><td>−4,3</td><td class="no">no</td></tr>
-<tr><td>#109 gana contratos federales en EE.UU. (USAspending, se hunde menos que pares del mismo tamaño)</td><td>−2,9 pts</td><td>−0,1 pts</td><td class="no">no</td></tr>
+<tr><th>Decil arriba − quintil abajo, 4 años</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th><th>Media</th></tr>
+<tr><td>Negocio, con nombres (#65)</td><td>+91,0</td><td>+45,6</td><td>+32,1</td><td>+19,1</td><td>+47,0</td></tr>
+<tr><td>Negocio, a ciegas (#68)</td><td>+71,0</td><td>+28,1</td><td>+29,7</td><td>+25,4</td><td>+38,5</td></tr>
+<tr><td>Riesgos, a ciegas (#87)</td><td>+66,0</td><td>+46,1</td><td>+13,8</td><td>+5,0</td><td>+32,7</td></tr>
+<tr><td>Dirección, a ciegas (#87)</td><td>+64,6</td><td>+56,3</td><td>+35,6</td><td>+17,1</td><td>+43,4</td></tr>
+<tr><td>Las tres, a ciegas (#87)</td><td>+112,9</td><td>+52,7</td><td>+31,4</td><td>−0,8</td><td>+49,1</td></tr>
 </table></div>
-<p>#102 no entra a Tr: los cables terminan en 2010 y falta la misma señal en una fuente actual que pase 2021-2022. De #108 apareció de costado que las ganadoras de contratos en la UE se hunden menos que sus pares del mismo SIC 3 y tamaño en los tres tramos (5,9% contra 11,1%, 7,5% contra 10,3%, 22% contra 27,7%); como ya está visto, se probó aparte con los contratos federales de EE.UU. (#109) y no se confirmó: comparadas con pares del mismo décimo de tamaño, las ganadoras se hundieron casi igual (6,3% contra 6,4% en 2017-2020; 17,4% contra 17,5% en 2021-2022).</p>
-
-<h2>Cómo juega Tr</h2>
-<p>En el juego, Tr compra a partes iguales el 10% de puntaje más alto de Gemma (a ciegas, leyendo el negocio, los riesgos y la explicación de la dirección) dentro de cada industria, con los informes presentados en 2026: 438 empresas, 373 cotizan en Nueva York o Nasdaq. Se sacan 8 que entre mayo y octubre de 2026 tuvieron un pico de visitas en Wikipedia mientras sus directivos vendían (señal #84): juega 365. Las compra el mismo día en que empezás vos.</p>
+<p class="nota">Tabla 4. Puntos de logaritmo del múltiplo, dentro de SIC de 3 dígitos y tercio de tamaño. Confirmación con el modelo congelado de 2013-2016. A ciegas conserva el 82% del efecto.</p>
+<p>Como cartera (el 10% de arriba de cada industria, a partes iguales), la lectura gana en 2017-2020 y se hunde menos. En 2021-2024, con el mismo modelo congelado, sigue hundiéndose menos pero ya no gana:</p>
 <div class="tabla"><table>
-<tr><th>Esa cartera, probada</th><th>2017</th><th>2018</th><th>2019</th><th>2020</th></tr>
-<tr><td>A 1 año: Gemma / mercado</td><td class="si">×1,31 / ×1,24</td><td class="si">×1,24 / ×1,14</td><td class="si">×1,05 / ×0,95</td><td class="si">×2,23 / ×2,16</td></tr>
-<tr><td>Hundidas: Gemma / mercado</td><td>2% / 5%</td><td>4% / 6%</td><td>16% / 19%</td><td>2% / 2%</td></tr>
-<tr><td>A 4 años: Gemma / mercado</td><td class="si">×2,66 / ×2,23</td><td class="si">×1,91 / ×1,81</td><td>×1,66 / ×1,67</td><td class="si">×2,55 / ×2,48</td></tr>
+<tr><th>Cartera / mercado, 12 meses</th><th>Rendimiento</th><th>Hundidas</th><th>Gana</th><th>Se hunde menos</th></tr>
+<tr><td>2017-2020 (#69)</td><td>×1,46 / ×1,37</td><td>5,9% / 7,9%</td><td>4 de 4</td><td>4 de 4</td></tr>
+<tr><td>2021-2024 (#70)</td><td>×1,13 / ×1,15</td><td>11,1% / 13,3%</td><td>1 de 4</td><td>4 de 4</td></tr>
+<tr><td>2021-2024, re-aprendiendo (#74)</td><td>×1,12 / ×1,15</td><td>11,1% / 13,3%</td><td>1 de 4</td><td>4 de 4</td></tr>
 </table></div>
-<p>La lista se cerró antes de jugar y no se muestra, para que nadie pueda copiarla. Su huella sha256:</p>
-<p><code>597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44</code></p>
-<p>Versiones anteriores de Tr, registradas con las suyas: mitad y mitad con «cohetes», retirada (<code>8cbffce0…</code>), Gemma leyendo sólo el negocio, con el filtro (<code>3f31f153…</code>), cartera de Gemma sin el filtro (<code>ec841cab…</code>), Kelly con Gemma (<code>fa70b5e5…</code>) y sin Gemma, 410 empresas a partes iguales (<code>216d486c…</code>).</p>
-<p>Se revela a los cuatro años, en noviembre de 2030.</p>
+<p class="nota">Tabla 5. Promedios de los cuatro años. La versión de tres secciones repite el patrón en 2021-2022 (#97): 22-23% de hundidas contra 24-26% del mercado, sin ganarle.</p>
+<p>La lectura identifica mejor a las empresas que van a ir mal que a las que van a ir bien: es un filtro de desastres. Un detector de empresas que se multiplican (×3 a cuatro años) funcionó en 2013-2020 (#95-#96) y falló en 2021-2022 (#97), los años de las SPAC: lo que se parecía a los ganadores del pasado terminó hundido el 32-40% de las veces.</p>
 
-<h2>Cómo reproducirlo</h2>
-<p>Todo para reproducirlo (código, registro de las pruebas, pesos y huellas de las listas selladas): <a href="https://github.com/fabricionuove-alt/tr-inteligencia-economica">github.com/fabricionuove-alt/tr-inteligencia-economica</a>.</p>
+<h2>6. Resultado 3: lo que se decía en privado</h2>
+<p>Los cables diplomáticos de 2004-2010 fueron secretos hasta 2010-2011: nadie podía operar con ellos. Qwen2.5-3B leyó 1.350 cables de promoción comercial y, por separado, 9.095 cables económicos, y marcó el papel de cada empresa nombrada.</p>
+<div class="tabla"><table>
+<tr><th>Papel en el cable</th><th>n</th><th>Exceso a 4 años</th><th>Hundidas</th></tr>
+<tr><td>Ganó un contrato o licitación</td><td>134</td><td>+7,1</td><td>9,0%</td></tr>
+<tr><td>Ayudada por la embajada</td><td>123</td><td>+1,3</td><td>10,6%</td></tr>
+<tr><td>Con problemas</td><td>72</td><td>−13,1</td><td>6,9%</td></tr>
+<tr><td>Sólo mencionada</td><td>94</td><td>−13,5</td><td>18,1%</td></tr>
+</table></div>
+<p class="nota">Tabla 6. Confirmación (#102) en cables y empresas que no estaban en la exploración. Exceso contra la mediana de su industria (SIC 2). Ganó − sólo mencionada: +20,7 (exploración: +26).</p>
+<p>No es fama: las sólo mencionadas aparecen en más cables por año (15,8 contra 13,5). El efecto se concentra en 2005, 2006 y 2009. No anticiparon nada, con estas medidas, el empuje explícito de la embajada (#101), los créditos del EXIM (#103), los planes de compra de cada país (#104), las ventas de armas (#105), aparecer en cables secretos (#106) ni callar en el 10-K un problema contado a la embajada (#107). La versión actual de «ganó un contrato» —adjudicaciones públicas de la UE (#108)— no sube el rendimiento medio pero sí reduce las hundidas en los tres tramos (5,9% contra 11,1%; 7,5% contra 10,3%; 22,0% contra 27,7%); con contratos federales de EE.UU. (#109) no se confirmó: contra pares del mismo año, SIC 3 y décimo de tamaño, las ganadoras se hundieron 6,1% contra 9,0% en exploración, 6,3% contra 6,4% en confirmación (p = 0,73) y 17,4% contra 17,5% en 2021-2022.</p>
 
-<h2>Lo que falta</h2>
-<p>Todos los años con resultado conocido (2019 a 2024) ya se usaron para probar. Sirven para descartar ideas, no para confirmarlas. La prueba que vale es el futuro: la lista de 2025 se mide cuando salgan los precios. El juego es esa prueba, en vivo, contra vos.</p>
+<h2>7. Lo que no anticipó nada</h2>
+<div class="tabla"><table>
+<tr><th>Familia de hipótesis</th><th>Pruebas</th><th>Pasan su criterio</th><th>Sobreviven después</th></tr>
+<tr><td>Señales contables y de texto (#1-#38)</td><td>38</td><td>1</td><td>0</td></tr>
+<tr><td>Trayectorias, personas, combinaciones (#39-#51)</td><td>13</td><td>2</td><td>1</td></tr>
+<tr><td>Redes, opciones, índice (#52-#58)</td><td>7</td><td>0</td><td>0</td></tr>
+<tr><td>Élite: agendas, familias, fundaciones, plata pública (#59-#61, #71-#83, #89-#91, #98-#100)</td><td>21</td><td>1</td><td>0</td></tr>
+<tr><td>Lectura de informes con modelos (#62-#70, #74, #86-#88, #92-#97)</td><td>19</td><td>6</td><td>4</td></tr>
+<tr><td>Multitud y directivos (#84-#85)</td><td>2</td><td>0</td><td>0</td></tr>
+<tr><td>Cables y contratos (#101-#109)</td><td>9</td><td>1</td><td>1</td></tr>
+<tr><td><b>Total</b></td><td><b>109</b></td><td><b>11</b></td><td><b>6</b></td></tr>
+</table></div>
+<p class="nota">Tabla 7. «Sobreviven después»: siguen en pie tras la prueba siguiente (fuera de tiempo, a ciegas o en otra fuente). El detalle de cada una está en el apéndice.</p>
+<p>La familia de la élite merece una línea aparte porque fue la hipótesis más fuerte del proyecto: que quienes deciden instalan una agenda y el mercado la sigue. Con 21 pruebas —temas de Bilderberg y Davos, cartas y donaciones de la Fundación Gates, 9.217 discursos de banqueros centrales, proyectos del Congreso, compras propias de dinastías europeas, exclusiones del fondo soberano de Noruega— no apareció dirección. Lo más consistente fue lo contrario: las empresas que más se parecen a lo nuevo de la agenda rinden igual o algo menos (#89, #91), como si el precio ya lo tuviera.</p>
+
+<h2>8. Cuánto podría ser azar</h2>
+<p>Con 109 pruebas, alguna pasa por suerte (Harvey, Liu y Zhu, 2016). Si cada criterio fuera un test al 5%, el azar solo daría unas cinco. Pasaron once, pero cinco se cayeron en la prueba siguiente (#35 con control de tamaño, #44 fuera de tiempo, #60 al bajar a cada tecnología, #69 y #96 en años nuevos). Siguen en pie seis: el placebo de Kelly (#51, en años ya usados), la lectura de los informes (#62, #65, #68, #87; desde 2021, como filtro de desastres) y los cables (#102). No todos los criterios son tests con el mismo nivel, así que esto es una cota de orden de magnitud, no un ajuste formal por comparaciones múltiples.</p>
+
+<h2>9. La prueba hacia adelante</h2>
+<p>Todos los años con resultado conocido ya se usaron. Por eso la cartera con la que juega Tr —365 empresas, el 10% de arriba de la lectura a ciegas de las tres secciones dentro de cada industria, con los informes de 2026— quedó sellada antes de jugar. Se publica su huella sha256 y se revela en noviembre de 2030; si el archivo cambia un byte, la huella cambia.</p>
+<div class="tabla"><table>
+<tr><th>Lista sellada</th><th>Huella (inicio)</th><th>Se mide</th></tr>
+<tr><td>Tr en juego (tres secciones, 365)</td><td>597fe03a…</td><td>nov 2030</td></tr>
+<tr><td>Picos de público con venta de directivos (#84)</td><td>97e0304d…</td><td>nov 2027</td></tr>
+<tr><td>Consenso de la élite por sector 2025-2026</td><td>e73bfd76…</td><td>2028-2029</td></tr>
+<tr><td>Extremo × seguro 2025 (#45)</td><td>216d486c…</td><td>2031</td></tr>
+<tr><td>Supervivencia y duplicar, modelo base</td><td>b65e29fd…</td><td>2031-2036</td></tr>
+</table></div>
+<p class="nota">Tabla 8. Huellas completas en el repositorio.</p>
+<p>Con lo probado, lo esperable de Tr es hundirse menos que el mercado, no ganarle por mucho.</p>
+
+<h2>10. Límites</h2>
+<ul>
+<li>2013-2024 es casi una sola época: tasas bajas y el dominio de unas pocas gigantes.</li>
+<li>Los precios se reconstruyeron con archivos públicos de la SEC; faltan empresas sin entregas fallidas ni operaciones de directivos.</li>
+<li>Sólo empresas que presentan en EE.UU.</li>
+<li>La lectura a ciegas reduce la memoria del modelo pero no la elimina: un negocio muy único se reconoce sin nombre.</li>
+<li>El rendimiento promedio de una cartera a partes iguales lo mueven pocas empresas que se multiplican; por eso informamos también la mediana y las hundidas.</li>
+</ul>
+
+<h2>11. Conclusión</h2>
+<p>La información pública, leída con mucho detalle, dice cuánto se va a mover una empresa y si se puede hundir; dice muy poco sobre hacia dónde. Un modelo de lenguaje leyendo a ciegas el informe anual agrega algo real sobre el rendimiento relativo, pero en los años más recientes eso se traduce en evitar desastres, no en ganarle al mercado. Lo que hacían las embajadas en privado sí separó ganadoras, en una época que ya no se repite. La pregunta que queda abierta se contesta sola: el juego compara la cartera sellada contra el mercado y contra cada jugador, con precios reales, hasta 2030.</p>
+
+<h2>Referencias</h2>
+<ul>
+<li>Campbell, J., Hilscher, J. y Szilagyi, J. (2008). In search of distress risk. Journal of Finance.</li>
+<li>Cohen, L., Malloy, C. y Nguyen, Q. (2020). Lazy prices. Journal of Finance.</li>
+<li>Glasserman, P. y Lin, C. (2023). Assessing look-ahead bias in stock return predictions generated by GPT sentiment analysis.</li>
+<li>Greenwood, R. y Sammon, M. (2022). The disappearing index effect.</li>
+<li>Harvey, C., Liu, Y. y Zhu, H. (2016). … and the cross-section of expected returns. Review of Financial Studies.</li>
+<li>Kim, A., Muhn, M. y Nikolaev, V. (2024). Financial statement analysis with large language models. arXiv 2407.17866.</li>
+<li>Lieberum, T. y otros (2024). Gemma Scope: open sparse autoencoders on Gemma 2. Google DeepMind.</li>
+</ul>
+
+<h2>Apéndice: las 109 pruebas</h2>
+<div class="tabla"><table>
+<tr><th>#</th><th>Hipótesis</th><th>Resultado</th></tr>
+<tr><td>1-12</td><td>Ratios de calidad de cinco inversores de valor</td><td>chico (0,51-0,54)</td></tr>
+<tr><td>13-16</td><td>Barato: caja, ganancias, libros, EV/EBIT</td><td>depende de la época</td></tr>
+<tr><td>17-18</td><td>Directivos que compran</td><td>predicen más quiebras</td></tr>
+<tr><td>19-22</td><td>Texto del 10-K que no cambia (Cohen, Malloy y Nguyen, 2020)</td><td>no</td></tr>
+<tr><td>23-29</td><td>Franqueza por palabras</td><td>falla fuera de muestra</td></tr>
+<tr><td>30-34</td><td>Cobros anticipados, contratos, dueño de adentro, franqueza por IA</td><td>no</td></tr>
+<tr><td>35</td><td>Copiar la mejor idea de cada fondo</td><td>pasa; es tamaño</td></tr>
+<tr><td>36-38</td><td>Evitar las frágiles (Campbell, Hilscher y Szilagyi, 2008); el coto</td><td>no</td></tr>
+<tr><td>39-42</td><td>Contradicción, insistencia, creyentes en caídas</td><td>no</td></tr>
+<tr><td>43</td><td>Números + trayectoria + personas</td><td>magnitud sí, lado no</td></tr>
+<tr><td>44</td><td>Extremo × no hundirse</td><td>pasa (misma época)</td></tr>
+<tr><td>45-50</td><td>Fuera de tiempo, dirección, financiación, confirmación, 80/20, Kelly</td><td>no</td></tr>
+<tr><td>51</td><td>Placebo de Kelly</td><td>pasa</td></tr>
+<tr><td>52-58</td><td>Redes de directores, opciones, S&amp;P 500</td><td>no</td></tr>
+<tr><td>59-61</td><td>Agenda de Bilderberg y Davos por sector</td><td>no; #60 pasa, es apuesta fija</td></tr>
+<tr><td>62</td><td>Empresas que hablan el idioma de la élite</td><td>pasa</td></tr>
+<tr><td>63-64</td><td>Red neuronal y plazo de cuatro años con temas</td><td>no</td></tr>
+<tr><td>65</td><td>Espacio latente de Gemma, negocio</td><td>pasa</td></tr>
+<tr><td>66-67</td><td>Gemma sumada a Tr; más capas</td><td>no</td></tr>
+<tr><td>68</td><td>Gemma a ciegas</td><td>pasa</td></tr>
+<tr><td>69</td><td>Cartera de Gemma 2017-2020</td><td>pasa</td></tr>
+<tr><td>70</td><td>Cartera de Gemma 2021-2024</td><td>no; se hunde menos</td></tr>
+<tr><td>71-83</td><td>Dinastías, Davos, plata pública y filantrópica, multitud</td><td>no</td></tr>
+<tr><td>84-85</td><td>Pico de público con venta de directivos</td><td>no por constancia</td></tr>
+<tr><td>86</td><td>Compras de directivos + Gemma</td><td>no</td></tr>
+<tr><td>87</td><td>Gemma lee riesgos y dirección</td><td>pasa</td></tr>
+<tr><td>88-95</td><td>Conferencias, agenda, BIS, filtros, plazos, cohetes</td><td>no</td></tr>
+<tr><td>96</td><td>Mitad lista, mitad cohetes</td><td>pasa (2017-2020)</td></tr>
+<tr><td>97-101</td><td>Mezcla en años nuevos, Noruega, anticipo, Congreso, empuje</td><td>no</td></tr>
+<tr><td>102</td><td>Papel de cada empresa en los cables</td><td>pasa</td></tr>
+<tr><td>103-108</td><td>EXIM, planes de compra, armas, secretos, silencios, contratos UE</td><td>no (#108 se hunde menos)</td></tr>
+<tr><td>109</td><td>Contratos federales y hundimiento</td><td>no</td></tr>
+</table></div>
 
 </section>
 <p class="pie">Dinero ficticio. Nada de esto es una recomendación de inversión.</p>
