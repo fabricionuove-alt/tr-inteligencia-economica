@@ -1244,4 +1244,59 @@ Disparada por los cables (#101/#102): el empuje del gobierno a empresas concreta
 Por año: 2012 +23, 2013 -17, 2014 -26, 2016 -36, 2017 +13, 2018 +42, 2020 +32, 2021 +8, 2022 -101 (en 2022 son 10 empresas chicas con créditos de capital de trabajo de 0,1 a 9 millones; 4 se hundieron, una a cero).
 Informado: créditos de más de 100 millones (los grandes, el empuje tipo Boeing): 17 casos, +21,9. Hundidas: 9,8% de las financiadas contra 17,3% de todas (no es contra el mismo grupo: las financiadas son más grandes).
 Lo que se puede decir, medido así: tener un crédito del EXIM no marca a las empresas que rinden más; cambia mucho de año en año y en los años nuevos va en contra. Queda anotado, sin probar, que los créditos grandes (17 casos) dan a favor.
-Total probadas: 103 (la #102 es la lectura de los cables, en curso).
+Total probadas: 103.
+
+## #102: lo que dicen los cables de cada empresa (leídos por un modelo), a 4 años. Exploración en los cables BEXP; confirmación escrita el 9-nov-2026 ANTES de leer los cables económicos
+**Cómo se leyó:** Qwen2.5-3B (Kaggle, T4) leyó cada cable y devolvió en JSON el tipo de cable (pedido de compra del país, noticia de negocio, control de exportaciones, boletín, problema de empresa, gestión/advocacy, disputa) y cada empresa nombrada con su papel (ayudada, ganó, perdió, en disputa, con problemas, competidora, sólo mencionada). Las empresas se llevan a la madre por nombre (regla de #103, con alias: GE, IBM, HP, ExxonMobil…). Rendimiento: fin de enero Y+1 a fin de enero Y+5, exceso de log contra la mediana del SIC 2 (como #101).
+
+### Exploración (cables BEXP, 1.350 de 1.387 leídos; 373 menciones de 129 empresas del dataset; 133 empresas-año con precio). Ya mirada: NO es prueba
+| grupo | n | exceso a 4 años |
+|---|---|---|
+| todas las nombradas | 133 | +11,8 (hundidas 4,5% contra 17,1% del mercado) |
+| ganó (contrato, venta) | 66 | **+13,3** |
+| ayudada | 63 | +4,8 |
+| con problemas | 16 | +21,9 |
+| sólo mencionada | 34 | **-12,8** |
+| base: nombradas en cualquier cable / en ≥ 20 cables | 738 / 87 | +4,2 / +7,4 |
+Ganó − sólo mencionada: **+26 puntos**, y no es fama: las sólo mencionadas salen en más cables (29 por año contra 15). La pista: lo que el cable cuenta (que la empresa ganó algo) separa, la mera mención no.
+
+### Confirmación (escrita antes de leerlos): los 9.095 cables económicos 2004-2010 que nombran empresas, sin los cables BEXP ya leídos
+- **Empresas-año:** sólo las que NO aparecieron en la exploración (para que sea independiente). Años de cable 2005-2009.
+- **Pasa si:** ganó − sólo mencionada ≥ +10 puntos, y el exceso de las que ganaron es > 0.
+- Informado: con problemas, en disputa, ayudada, por tipo de cable; y con todas las empresas-año (aunque estén en la exploración).
+- **Uso en Tr:** los cables terminan en 2010; si pasa, la siguiente prueba busca la misma señal («ganó un contrato afuera», contada por un tercero) en una fuente pública actual y tiene que pasar 2021-2022.
+
+## #104: los planes de compra de los países que cuentan los cables, por sector, a 4 años. Exploración en los BEXP; confirmación escrita el 9-nov-2026 ANTES de leer los cables económicos
+Disparada por la lectura de #102: el tipo de cable más común entre los BEXP es «el país X planea comprar» (359 de 1.350: defensa, aviones, petróleo, telecom, trenes, nuclear). Pregunta: cuando un sector aparece más que lo normal en esos planes, ¿al sector le va mejor después?
+- **Medida:** por sector (10, con sus SIC) y año de cable 2005-2009: parte de los cables de ese año que son plan de compra del sector, dividida por el promedio del mismo sector (así no gana el sector que siempre sale). Rendimiento del sector: mediana del log de sus empresas (fin de enero Y+1 a Y+5) menos la mediana del mercado.
+- **Exploración (BEXP, ya mirada):** correlación de rangos **−0,33**; años en que el sector sale más que lo normal **−5,6** contra +8,3 los otros (**−13,8**). Va en la misma dirección que #89 (donde la élite se mete, el sector después rinde menos). Ej.: nuclear sube de 5 cables en 2007 a 17 en 2008 y rinde −15.
+- **Confirmación:** los cables económicos (sin los BEXP). Pasa si la correlación es ≤ −0,20 y la diferencia altos − bajos ≤ −10 puntos.
+- **Límite que ya se sabe:** los rendimientos son los mismos 50 sector-año; la confirmación sólo prueba que otros cables cuentan lo mismo, no es independiente en los precios. Para Tr hace falta una fuente actual de planes de compra públicos (licitaciones) y pasar 2021-2022.
+
+## #105: ventas de armas al exterior aprobadas por el gobierno de EE.UU., por contratista, a 4 años. Escrita el 9-nov-2026 ANTES de bajar los avisos
+Disparada por #102/#104: en los cables el empuje más común es «el país X planea comprar» y el sector que más sale es defensa; y lo que separaba era que la empresa *ganara* algo. La versión pública y actual: cada venta de armas a otro gobierno (Foreign Military Sales) se avisa al Congreso y se publica en el Federal Register («36(b) Notification», 2.037 avisos desde 1996), con el monto estimado y el «principal contractor».
+- **Empresa:** cada contratista principal nombrado se lleva a la empresa madre con la regla de #103 (núcleo del nombre, filiales por el comienzo del nombre, alias como #102: Lockheed, Raytheon, Boeing…).
+- **Señal del año Y:** monto estimado total de los avisos publicados en Y que la nombran (si nombra varias, el monto se reparte por igual). Se cruza con el 10-K presentado en Y+1 y su `_ret4`.
+- **Medida:** exceso de log rendimiento contra la mediana de las empresas del mismo SIC 3 × tercio de tamaño sin avisos (como #103).
+- **Años:** exploración 10-K 2012-2016, confirmación 2017-2020, nunca usados 2021-2022.
+- **Pasa si:** exceso medio ≥ +10 puntos en la confirmación, positivo en la exploración, y > 0 en 2021-2022. Si pasa entra a Tr y se congela con los avisos de 2025-2026.
+- Informado: avisos de más de 1.000 millones de dólares; y a qué parte de las empresas de defensa del dataset alcanza.
+
+## #106: empresas nombradas en cables económicos secretos o confidenciales (lo que se habla en privado) contra las nombradas sólo en cables abiertos, a 4 años. Escrita el 9-nov-2026 ANTES de medir
+Disparada por la pregunta de Fabri (qué hace la élite en privado, no lo que dice): los 39.674 cables económicos 2004-2010 traen su clasificación (13.065 confidenciales o secretos, 26.141 abiertos o de uso oficial).
+- **Empresas:** nombres de las empresas del dataset (cik-lookup de la SEC, regla de nombres de #103 + alias de #102) buscados en el texto guardado de cada cable (asunto + primeros 4.000 caracteres).
+- **Grupos por empresa-año (cable 2005-2009):** «en privado» = nombrada en al menos un cable CONFIDENTIAL o SECRET ese año; «sólo abierta» = nombrada ese año sólo en cables UNCLASSIFIED.
+- **Medida:** exceso de log rendimiento contra la mediana del SIC 2 (fin de enero Y+1 a Y+5, como #101). Diferencia privado − abierto, y permutación dentro de año × SIC 2 (2.000).
+- **Dirección:** no sé cuál esperar (en #102 las «con problemas», casi siempre confidenciales, dieron +22 con 16 casos), así que se escribe para los dos lados.
+- **Pasa si:** |diferencia| ≥ 10 puntos, permutación de dos colas p < 0,05, y el mismo signo en 2005-2007 y en 2008-2009.
+- Informado: secret contra confidential; la cantidad de cables (fama) en cada grupo.
+
+### Resultado #106 (9-nov-2026, local priv106.py): **no pasa con esta medida**
+339 empresas-año con precio (196 nombradas en privado, 143 sólo en abierto).
+| | exceso a 4 años | hundidas | cables por año |
+|---|---|---|---|
+| nombradas en cables confidenciales o secretos | +3,5 | 10,7% | 12,7 |
+| sólo en cables abiertos | +10,4 | 7,7% | 2,2 |
+Diferencia **−6,9**, permutación p 0,46; 2005-07 −4,5, 2008-09 −8,2. Secret +3,9 (46), sólo confidential +3,4.
+Lo que se puede decir, medido así: que a una empresa la nombren en privado no separa su rendimiento a 4 años. Límites: pocas empresas con precio; la búsqueda de nombres trae también lugares y palabras (IRELAND, STAFFING, EVOLVING, GEORGETOWN, que son empresas del dataset con nombre de cosa) y ese ruido cae en los dos grupos; sólo mira el texto guardado (primeros 4.000 caracteres); y la mención no dice qué se dijo — eso lo mide #102 con la lectura.
+Total probadas: 106 (#102, #104 y #105 en curso).
