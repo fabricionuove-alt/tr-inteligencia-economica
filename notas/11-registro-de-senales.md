@@ -1083,3 +1083,20 @@ El criterio de #87 medía la separación entre el décimo de arriba y el 20% de 
 ### Resultado #92: **no pasa, no cambia nada**
 El filtro saca sólo 4 a 7 empresas por año de la cartera (las dos lecturas casi coinciden arriba): a 12 meses igual o más 2 de 4, menos hundidas 2 de 4. Diferencias de ×0,001-0,007. Tr sigue igual.
 Total probadas: 92.
+
+## #93: Gemma aprendida para el plazo del juego (12 meses), escrita el 8-nov-2026 ANTES de correr
+Hasta ahora el ridge de Gemma aprendió el rendimiento a 4 años; el juego dura 1.
+- Mismo método que #68 y #87 (a ciegas, 2013-2016 para aprender, alfa por exploración), pero el objetivo es `_ret1` (12 meses) contra SIC 3 × tamaño. Tres variantes: negocio (1), dirección (7), y las tres secciones.
+- Medida de juego: la cartera #69 (10% de arriba por industria, a partes iguales) contra el mercado y contra la lista en juego, 2017-2020, a 12 meses.
+- **Reemplaza a la lista en juego si:** a 12 meses le gana a la cartera #69 actual en ≥ 3 de 4 años con promedio mayor, y no tiene más hundidas en ≥ 3 de 4. Si más de una variante pasa, se elige la de mayor promedio.
+
+### Resultado #93 (8-nov-2026, local): **no pasa ninguna; la lista en juego sigue siendo la mejor**
+Separación a 12 meses (aprendida para 12 meses), 2017-2020: negocio +0,2/+17,3/-1,4/+5,1; dirección +5,2/+17,6/+14,6/+8,6; tres secciones +15,0/+17,6/+13,8/+3,5.
+| Cartera a 12 meses | 2017 | 2018 | 2019 | 2020 | promedio |
+|---|---|---|---|---|---|
+| lista en juego (#69, aprendida a 4 años) | ×1,296 | ×1,230 | ×1,048 | ×2,202 | ×1,444 |
+| negocio aprendida a 12 meses | ×1,207 | ×1,192 | ×0,894 | ×2,204 | ×1,374 |
+| dirección aprendida a 12 meses | ×1,251 | ×1,150 | ×0,952 | ×2,236 | ×1,397 |
+| tres secciones aprendidas a 12 meses | ×1,322 | ×1,237 | ×0,954 | ×2,228 | ×1,435 |
+Aprender a 12 meses es aprender ruido: el precio de un año mezcla demasiado. Lo que Gemma aprendió mirando 4 años elige mejor también para 1 año. Tr no cambia.
+Total probadas: 93.
