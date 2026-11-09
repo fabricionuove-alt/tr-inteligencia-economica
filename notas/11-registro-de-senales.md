@@ -1391,3 +1391,18 @@ Aparte: ≥ 1.000 millones n 58, ninguna hundida (esperado 5,7%); < 1.000 millon
 Criterio (confirmación ≤ −2 puntos con p < 0,05 y negativo en los otros dos): **no pasa** (−0,1, p 0,73).
 Lo que se puede decir: con contratos federales de EE.UU. y pares del mismo décimo de tamaño, ganar contratos no se hunde menos en la confirmación. Con este método no apareció; lo de #108 puede ser tamaño fino o propio de la UE. No entra a Tr. Las 58 con ≥ 1.000 millones sin ninguna hundida se anota como dato, no como señal (no estaba escrito como criterio).
 Total probadas: 109 (#102 pasa; #104, #107, #108 y #109 no).
+
+## #110: «ganó un contrato afuera», versión pública de hoy (avisos 8-K a la SEC). Escrita el 9-nov-2026 ANTES de bajar los datos
+Lo que funcionó en #102 no era el cable en sí sino el dato «esta empresa ganó un contrato en otro país». Ese dato hoy lo publica la propia empresa en sus avisos a la SEC (8-K y sus anexos, comunicados de prensa). Si es público el día que sale puede estar ya en el precio; por eso se prueba, no se supone.
+- **Fuente:** buscador de texto completo de EDGAR (efts.sec.gov), formularios 8-K, años 2009-2021, dos búsquedas fijas: `"awarded" "contract" "government of"` y `"awarded" "contract" "ministry of"`.
+- **Filtro a otro país:** se baja cada documento encontrado y cuenta sólo si a ≤ 300 caracteres de «awarded» aparece «Government of» o «Ministry of» seguido del nombre de un país que no sea EE.UU. (lista fija de países de la ONU). Sin modelo de lenguaje.
+- **Señal del año Y:** la empresa (CIK) tiene al menos un aviso así presentado en el año calendario Y. Se cruza con su 10-K presentado en Y+1 y su `_ret4`.
+- **Medida:** exceso = `_ret4` − mediana de `_ret4` de sus pares sin aviso del mismo año × SIC 3 × décimo de tamaño (grupos ≥ 5), en puntos. Permutación de la etiqueta dentro de los grupos (2.000), una cola.
+- **Años (10-K):** exploración 2010-2016, confirmación 2017-2020, nunca usados 2021-2022.
+- **Pasa si:** en la confirmación el exceso medio es ≥ +5 puntos con p < 0,05, y también positivo en la exploración y en 2021-2022. Si pasa, entra a Rt (no a Tr, que está sellada) como regla escrita aparte.
+- Informado: hundidas contra lo esperado, mediana del exceso, primera vez contra seguido.
+
+### Resultado #110 (9-nov-2026, entrenar/fts110.py): **no pasa — muestra insuficiente**
+El buscador encontró 3.810 avisos 8-K de 1.730 empresas con las dos búsquedas. Con el filtro escrito (a ≤ 300 caracteres de «awarded», «Government of» o «Ministry of» + nombre de un país) quedan **56 avisos de 33 empresas** (Turquía 6, Honduras 5, India 4…; Puerto Rico entró por error en la lista, no es otro país). Al cruzar con el 10-K del año siguiente y pares del mismo año × SIC 3 × décimo de tamaño quedan **7 casos**: 4 en exploración (exceso medio +417 puntos, por una sola empresa; mediana −7), 1 en confirmación (+16, p 0,43), 2 en 2021-2022 (−50).
+Criterio (confirmación ≥ +5 con p < 0,05 y positivo en los otros dos): **no pasa**. Con 1 caso en confirmación no hay nada que medir: con este método la señal no se pudo encontrar en los avisos, que nombran al cliente de otras formas («the Saudi Ministry of Health», «a Middle East customer», el nombre de la empresa estatal). No se cambia el filtro mirando el resultado; una versión que lea los avisos con un modelo de lenguaje (como en #102) sería otra prueba, escrita aparte.
+Total probadas: 110 (#102 pasa; #104, #107, #108, #109 y #110 no).
