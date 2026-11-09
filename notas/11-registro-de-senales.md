@@ -1370,3 +1370,24 @@ Criterio (media ≥ +5 en confirmación): **no pasa**. Primera vez que ganan: �
 **Lo que apareció de costado, en los tres tramos:** las que ganan contratos públicos en Europa se hunden mucho menos que sus pares del mismo rubro y tamaño, y su mediana va por arriba; la media no sube porque les faltan también los saltos grandes para arriba. La permutación (que compara contra la media de los pares, que también es negativa) da que les va mejor en los tres tramos. Es la misma forma que en #102 (las que «ganaron» en los cables se hundían 9,0% contra 17,1% del mercado).
 Lo que se puede decir: con la media como estaba escrita, ganar contratos en la UE no da más rendimiento a 4 años; lo que sí se repite es menos hundimiento. **Eso ya está visto en los tres tramos, así que no se puede confirmar con estos años**: Control hecho después (mismo SIC 3 × tercio de tamaño): hundidas ganadoras contra lo esperado por sus pares **5,9% / 11,1%**, **7,5% / 10,3%**, **22,0% / 27,7%**: la diferencia se achica pero sigue en los tres tramos. Tres de cada cuatro ganadoras están en el tercio grande; ser de las más grandes dentro del tercio puede explicar parte. La pista #109 tiene que controlar tamaño fino (activos) además del tercio. queda como pista #109 para confirmar con 10-K que todavía no tienen rendimiento (adjudicaciones 2023-2026 → hundidas a 4 años), y sirve como defensa (no como ganancia) en Tr.
 Total probadas: 108 (#102 pasa la confirmación con cables; #104, #107 y #108 no; pista: las que ganan contratos públicos se hunden menos).
+
+## #109: las que ganan contratos públicos se hunden menos — confirmación con otra fuente (contratos federales de EE.UU., USAspending). Escrita el 9-nov-2026 ANTES de bajar los datos
+Disparada por lo que apareció de costado en #108 (y en #102): las ganadoras de contratos en la UE se hundían menos que sus pares en los tres tramos. Esos años ya están vistos con TED; para confirmar hace falta otra fuente que nunca miré: los contratos federales de EE.UU. (api.usaspending.gov, por empresa madre y año fiscal, desde 2008).
+- **Empresa:** nombre del receptor (padre) con la misma regla `madre()` de #102.
+- **Señal del año Y:** contratos federales por ≥ 10 millones de dólares en el año fiscal Y. Se cruza con el 10-K presentado en Y+1 y su `_ret4`.
+- **Medida:** hundida = `_ret4` ≤ 0,5. Comparación contra lo esperado por sus pares sin contratos del mismo año × SIC 3 × **décimo** de tamaño (más fino que en #108, para que no lo explique el tamaño). Permutación de la etiqueta dentro de esos grupos (2.000), una cola.
+- **Años (10-K):** exploración 2010-2016, confirmación 2017-2020, nunca usados 2021-2022.
+- **Pasa si:** en la confirmación las ganadoras se hunden al menos 2 puntos menos que lo esperado con p < 0,05, y también menos (cualquier diferencia) en la exploración y en 2021-2022. Si pasa entra a Tr como defensa (bajar la nota de hundimiento) y se congela con los contratos de 2024-2026.
+- Informado: exceso medio y mediano (como #108); montos ≥ 1.000 millones; primera vez contra ganan seguido.
+
+### Resultado #109 (9-nov-2026, entrenar/usa109.py): **no pasa**
+USAspending, años fiscales 2009-2021, ~4.900 receptores por año (los de ≥ 10 millones); casan con la regla `madre()` 825 nombres = 523 empresas (las más grandes: Lockheed, Boeing, Raytheon, Northrop, McKesson, Leidos, Booz Allen, General Dynamics).
+| tramo | n | hundidas ganadoras | esperado por pares (año × SIC 3 × décimo de tamaño) | dif | p | exceso medio / mediano |
+|---|---|---|---|---|---|---|
+| exploración 2010-2016 | 311 | 6,1% | 9,0% | −2,9 | 0,24 | +0,031 / −0,006 |
+| confirmación 2017-2020 | 255 | 6,3% | 6,4% | −0,1 | 0,73 | −0,058 / −0,003 |
+| nunca usados 2021-2022 | 149 | 17,4% | 17,5% | −0,1 | 0,54 | −0,036 / +0,037 |
+Aparte: ≥ 1.000 millones n 58, ninguna hundida (esperado 5,7%); < 1.000 millones 9,3% / 10,2%; primera vez 12,5% / 13,0%; ganan seguido 8,0% / 9,4%.
+Criterio (confirmación ≤ −2 puntos con p < 0,05 y negativo en los otros dos): **no pasa** (−0,1, p 0,73).
+Lo que se puede decir: con contratos federales de EE.UU. y pares del mismo décimo de tamaño, ganar contratos no se hunde menos en la confirmación. Con este método no apareció; lo de #108 puede ser tamaño fino o propio de la UE. No entra a Tr. Las 58 con ≥ 1.000 millones sin ninguna hundida se anota como dato, no como señal (no estaba escrito como criterio).
+Total probadas: 109 (#102 pasa; #104, #107, #108 y #109 no).
