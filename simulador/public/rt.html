@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--fondo:#0a1135;--tinta:#eef0f8;--gris:#8b93b8;--linea:rgba(255,255,255,.14);--lima:#e2ff32;--salmon:#ff6a5a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--fondo);color:var(--tinta)}
+body{font:17px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+.arriba{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;font:600 13px "Inter Tight",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.arriba a{color:var(--tinta);text-decoration:none}.arriba a:hover{color:var(--lima)}
+main{max-width:720px;margin:0 auto;padding:24px 16px 120px}
+h1,h2,.num{font-family:"Inter Tight",sans-serif}
+h1{font-size:clamp(40px,7vw,68px);font-weight:700;letter-spacing:-.04em;line-height:1;margin:24px 0 18px}
+.bajada{font-size:19px;color:var(--gris);margin:0 0 32px}
+h2{font-size:24px;font-weight:600;letter-spacing:-.02em;margin:56px 0 12px;padding-top:18px;border-top:1px solid var(--linea)}
+p,li{margin:0 0 14px}
+ol{padding-left:22px}
+a{color:var(--lima)}
+.cifras{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 8px}
+.cifras div{border:1px solid var(--linea);border-radius:16px;padding:16px}
+.num{display:block;font-size:34px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.cifras small{display:block;margin-top:8px;font-size:13.5px;line-height:1.35;color:var(--gris)}
+.grafico{margin:20px 0 4px;border:1px solid var(--linea);border-radius:16px;padding:12px}
+.grafico svg{display:block;width:100%;height:180px}
+.leyenda{display:flex;gap:18px;font-size:13.5px;color:var(--gris);margin:8px 4px 0}
+.leyenda i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.tabla{overflow-x:auto;margin:12px 0 8px}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--linea);white-space:nowrap}
+th:first-child,td:first-child,td.izq,th.izq{text-align:left}
+td.motivo{white-space:normal;text-align:left;color:var(--gris);font-size:13.5px;min-width:220px}
+th{font:500 12.5px "Inter Tight",sans-serif;color:var(--gris);letter-spacing:.04em;text-transform:uppercase}
+.si{color:var(--lima)}.no{color:var(--salmon)}
+.vacio{color:var(--gris)}
+.pie{margin-top:64px;font-size:14px;color:var(--gris)}
+@media (max-width:560px){.cifras{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="arriba"><a href="/">← Vos vs Tr</a><a href="/como-piensa.html">Cómo piensa Tr</a></header>
+<main>
+<h1>Rt</h1>
+<p class="bajada">Tr no deja de leer. Cada vez que una empresa de la bolsa publica su informe anual, Rt lo lee como Tr y decide en ese momento si la compra, la vende o no hace nada. Plata ficticia, operando sola, todos los días.</p>
+
+<div class="cifras">
+  <div><span class="num" id="cValor">—</span><small id="cValorT">valor de los 10.000 dólares del arranque</small></div>
+  <div><span class="num" id="cVs">—</span><small>contra haber dejado todo en el mercado (S&amp;P 500)</small></div>
+  <div><span class="num" id="cEmp">—</span><small id="cEmpT">empresas elegidas; el resto está en el mercado</small></div>
+</div>
+<div class="grafico"><svg id="graf" viewBox="0 0 600 180" preserveAspectRatio="none" role="img" aria-label="Valor de Rt contra el mercado"></svg>
+<div class="leyenda"><span><i style="background:var(--lima)"></i>Rt</span><span><i style="background:var(--gris)"></i>Sólo el mercado</span></div></div>
+
+<h2>Lo que hizo</h2>
+<div class="tabla"><table><thead><tr><th class="izq">Fecha</th><th class="izq">Operación</th><th>Precio</th><th>Monto</th><th class="izq">Por qué</th></tr></thead><tbody id="ops"><tr><td colspan="5" class="vacio">Cargando…</td></tr></tbody></table></div>
+
+<h2>Lo último que leyó</h2>
+<p>Cada informe anual nuevo, con el puntaje que le da Gemma y el corte que tiene que pasar para entrar al 10% de arriba de su industria.</p>
+<div class="tabla"><table><thead><tr><th class="izq">Publicado</th><th class="izq">Empresa</th><th>Puntaje</th><th>Corte</th><th></th></tr></thead><tbody id="lee"><tr><td colspan="5" class="vacio">Cargando…</td></tr></tbody></table></div>
+
+<h2>Cómo opera</h2>
+<ol>
+<li>Arrancó con los 10.000 dólares en el mercado entero (S&amp;P 500). La plata que no está en una empresa elegida vuelve siempre ahí.</li>
+<li>Cada tres horas mira si salió algún informe anual nuevo de una empresa de Nueva York o Nasdaq.</li>
+<li>Lo lee como Tr: con Gemma, a ciegas (sin nombres, marcas, años ni números), el negocio, los riesgos y la explicación de la dirección, con el mismo modelo congelado.</li>
+<li>Si queda en el 10% de arriba de su industria, la compra con lo que vale una de las 365 partes de su cartera. Si ya la tenía y su informe nuevo la deja afuera, la vende.</li>
+<li>Opera al primer cierre de la bolsa después de leer, nunca con un precio que ya conocía, y paga comisión en cada operación.</li>
+</ol>
+<p>Por qué no compra y vende a cada minuto: en 108 pruebas, nada de lo que funciona se cobra en horas o días. Lo que Tr reconoce se nota en meses o años. Operar más rápido sin saber más sólo paga comisiones. Rt va a la velocidad de lo que se publica.</p>
+<p>Las reglas se escribieron antes de que operara: <a href="https://github.com/fabricionuove-alt/tr-inteligencia-economica/blob/main/notas/15-rt.md">notas/15-rt.md</a>. Su registro completo está en <a href="https://github.com/fabricionuove-alt/tr-inteligencia-economica/tree/main/rt">rt/</a>: cada corrida queda guardada en el historial del repositorio.</p>
+
+<p class="pie">Dinero ficticio. Nada de esto es una recomendación de inversión.</p>
+</main>
+<script>
+const RAW = 'https://raw.githubusercontent.com/fabricionuove-alt/tr-inteligencia-economica/main/rt/';
+const usd = v => v.toLocaleString('es-AR', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const pct = v => (v >= 0 ? '+' : '−') + Math.abs(v * 100).toLocaleString('es-AR', { maximumFractionDigits: 1 }) + '%';
+const fecha = f => { const [a, m, d] = f.split('-'); return `${+d}/${+m}/${a.slice(2)}`; };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const traer = async (f, tipo) => { try { const r = await fetch(RAW + f + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }); return r.ok ? (tipo === 'json' ? r.json() : r.text()) : null; } catch (e) { return null; } };
+const lineas = t => (t || '').split('\n').filter(Boolean).map(l => { try { return JSON.parse(l); } catch (e) { return null; } }).filter(Boolean);
+(async () => {
+  const [valor, ops, lee] = await Promise.all([traer('valor.csv'), traer('operaciones.jsonl'), traer('lecturas.jsonl')]);
+  const filas = (valor || '').trim().split('\n').slice(1).map(l => l.split(',')).map(([f, v, s, n]) => ({ f, v: +v, s: +s, n: +n })).filter(x => x.v > 0);
+  if (filas.length) {
+    const u = filas[filas.length - 1];
+    document.getElementById('cValor').textContent = usd(u.v);
+    document.getElementById('cValorT').textContent = `valor de los 10.000 dólares del arranque (${fecha(filas[0].f)}), al cierre del ${fecha(u.f)}`;
+    const d = u.v / u.s - 1, e = document.getElementById('cVs'); e.textContent = pct(d); e.className = 'num ' + (d >= 0 ? 'si' : 'no');
+    document.getElementById('cEmp').textContent = u.n;
+    const svg = document.getElementById('graf'), W = 600, H = 180, P = 10;
+    const vs = filas.flatMap(x => [x.v, x.s]), lo = Math.min(...vs), hi = Math.max(...vs), r = (hi - lo) || 1;
+    const X = i => filas.length < 2 ? W / 2 : P + i * (W - 2 * P) / (filas.length - 1), Y = v => H - P - (v - lo) / r * (H - 2 * P);
+    const camino = k => filas.map((x, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(x[k]).toFixed(1)).join(' ');
+    svg.innerHTML = filas.length < 2
+      ? `<circle cx="${W / 2}" cy="${H / 2}" r="5" fill="#e2ff32"/><text x="${W / 2}" y="${H / 2 + 28}" fill="#8b93b8" font-size="13" text-anchor="middle">Un solo día por ahora</text>`
+      : `<path d="${camino('s')}" fill="none" stroke="#8b93b8" stroke-width="2" vector-effect="non-scaling-stroke"/><path d="${camino('v')}" fill="none" stroke="#e2ff32" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
+  } else document.getElementById('cValorT').textContent = 'todavía no cerró su primer día';
+  const O = lineas(ops).reverse();
+  document.getElementById('ops').innerHTML = O.length ? O.slice(0, 200).map(o => `<tr><td>${fecha(o.fecha)}</td><td class="izq ${o.lado === 'compra' ? 'si' : 'no'}">${o.lado === 'compra' ? 'Compra' : 'Venta'} ${esc(o.ticker)}${o.nombre ? ' · ' + esc(o.nombre) : ''}</td><td>${o.precio ? '$' + o.precio.toLocaleString('es-AR', { maximumFractionDigits: 2 }) : '—'}</td><td>${usd(o.monto)}${o.resultado != null ? ' (' + pct(o.resultado) + ')' : ''}</td><td class="motivo">${esc(o.motivo)}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="vacio">Todavía no operó.</td></tr>';
+  const L = lineas(lee).reverse();
+  document.getElementById('lee').innerHTML = L.length ? L.slice(0, 60).map(x => `<tr><td>${fecha(x.fecha)}</td><td class="izq">${esc(x.ticker)}${x.nombre ? ' · ' + esc(x.nombre) : ''}</td><td>${x.puntaje != null ? x.puntaje.toFixed(2) : '—'}</td><td>${x.corte != null ? x.corte.toFixed(2) : '—'}</td><td class="izq ${x.arriba ? 'si' : ''}">${x.puntaje == null ? esc(x.lectura) : x.arriba ? 'entra' : 'no entra'}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="vacio">Todavía no leyó ningún informe nuevo.</td></tr>';
+})();
+</script>
+</body>
+</html>
