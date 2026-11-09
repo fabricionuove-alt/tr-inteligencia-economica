@@ -1346,7 +1346,6 @@ Disparada por la lectura de los cables: ExxonMobil le dice a la embajada en Tún
 Diferencia **−6,3**, p 0,29 (criterio ≤ −10 y p < 0,05). Dirección la esperada, chica y sin fuerza.
 Los que más callan: Microsoft (8 casos), ExxonMobil (6), Boeing (5), General Motors (4+2), ConocoPhillips, Chrysler, GE.
 Lo que se puede decir, medido así: callar en el 10-K un problema que se le contó a la embajada no separa el rendimiento a 4 años. Límites: la regla de nombres casa también bancos centrales y países con empresas del dataset («China», «National Bank of Ukraine», «Bank of Jamaica»: ruido en los dos grupos); una empresa grande puede no nombrar un país chico por materialidad, no por esconder; la búsqueda de EDGAR sólo cubre 10-K desde 2001 con texto completo.
-Total probadas: 107 (#102 pasa la confirmación con cables; #104 y #107 no; #108 pre-registrada).
 
 ## #108: empresas que ganan contratos públicos en Europa (TED), a 4 años. Escrita el 9-nov-2026 ANTES de cruzar ganadores con rendimientos
 Disparada por #102, que pasó: en los cables, las empresas que la embajada cuenta como «ganó» rinden después +20,7 más que las sólo mencionadas. Los cables terminan en 2010; hace falta la misma señal («ganó un contrato afuera, lo cuenta un tercero») en una fuente pública que siga hoy. El Banco Mundial no sirve (casi no hay empresas cotizadas de EE.UU. entre sus adjudicatarios). TED publica cada adjudicación de contrato público de la UE con el nombre del ganador (data.europa.eu, 2006-2023).
@@ -1357,3 +1356,17 @@ Disparada por #102, que pasó: en los cables, las empresas que la embajada cuent
 - **Pasa si:** exceso medio ≥ +5 puntos en la confirmación con p < 0,05, positivo en la exploración y > 0 en 2021-2022. Si pasa entra a Tr como señal congelada con las adjudicaciones de 2024-2026 (TED sigue publicando).
 - Informado: empresas que ganan por primera vez (sin adjudicación en los 3 años anteriores) contra las que ganan siempre; monto adjudicado ≥ 10 millones de euros; a qué parte del dataset alcanza; y los nombres que más casan, para ver errores de la regla.
 - **Límite que ya se sabe:** las grandes (IBM, HP, Microsoft) ganan algo todos los años; ahí la señal casi no cambia. Por eso se informa «primera vez» aparte, pero el criterio es el de arriba.
+
+### Resultado #108 (9-nov-2026, ted108_bajar.py + ted108_eval.py): **no pasa como estaba escrita; aparece otra cosa, la registro como pista**
+9,6 millones de adjudicaciones 2006-2023; 274.573 casan con 1.600 empresas del dataset (casi todo filiales europeas de salud: Johnson & Johnson, Stryker, Covidien, Boston Scientific, Pfizer, Abbott; también ruido de la regla: «Alliance Healthcare», «Bionovo Aneta Ludwig»). Alcanza al 11,9% de las empresas-año.
+| | exploración 2010-2016 | confirmación 2017-2020 | nunca usados 2021-2022 |
+|---|---|---|---|
+| n | 988 | 724 | 394 |
+| exceso medio (criterio) | +0,6 | **−4,3** | −2,3 |
+| exceso mediano | +5,2 | +5,1 | +11,5 |
+| permutación una cola (contra sus pares, mismas reglas) | p 0,001 | p 0,03 | p 0,01 |
+| hundidas (≤ la mitad) ganadoras / todas | **5,9% / 15,5%** | **7,5% / 12,6%** | **22,6% / 28,8%** |
+Criterio (media ≥ +5 en confirmación): **no pasa**. Primera vez que ganan: −24,6 (304); ganan seguido: +2,3.
+**Lo que apareció de costado, en los tres tramos:** las que ganan contratos públicos en Europa se hunden mucho menos que sus pares del mismo rubro y tamaño, y su mediana va por arriba; la media no sube porque les faltan también los saltos grandes para arriba. La permutación (que compara contra la media de los pares, que también es negativa) da que les va mejor en los tres tramos. Es la misma forma que en #102 (las que «ganaron» en los cables se hundían 9,0% contra 17,1% del mercado).
+Lo que se puede decir: con la media como estaba escrita, ganar contratos en la UE no da más rendimiento a 4 años; lo que sí se repite es menos hundimiento. **Eso ya está visto en los tres tramos, así que no se puede confirmar con estos años**: Control hecho después (mismo SIC 3 × tercio de tamaño): hundidas ganadoras contra lo esperado por sus pares **5,9% / 11,1%**, **7,5% / 10,3%**, **22,0% / 27,7%**: la diferencia se achica pero sigue en los tres tramos. Tres de cada cuatro ganadoras están en el tercio grande; ser de las más grandes dentro del tercio puede explicar parte. La pista #109 tiene que controlar tamaño fino (activos) además del tercio. queda como pista #109 para confirmar con 10-K que todavía no tienen rendimiento (adjudicaciones 2023-2026 → hundidas a 4 años), y sirve como defensa (no como ganancia) en Tr.
+Total probadas: 108 (#102 pasa la confirmación con cables; #104, #107 y #108 no; pista: las que ganan contratos públicos se hunden menos).

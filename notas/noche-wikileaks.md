@@ -11,4 +11,4 @@ Estado de cada paso: [ ] pendiente, [~] corriendo, [x] hecho (resultado en notas
 
 7. [~] Fuente actual de «ganó un contrato afuera» contado por un tercero (lo que pasó en #102):
    - Banco Mundial (adjudicaciones desde FY2020, api datacatalogapi DS00005): 1.514 contratos a proveedores de EE.UU., casi todos consultoras y ONG; empresas cotizadas sólo Pfizer, Microsoft, Motorola, Willis. Con esta fuente no alcanza para medir.
-   - TED (adjudicaciones de contratos públicos de la UE 2006-2023, con el ganador): #108 pre-registrada, bajando.
+   - TED (9,6 millones de adjudicaciones UE 2006-2023): #108 no pasa por la media; las ganadoras se hunden menos en los tres tramos (5,9/7,5/22,6% contra 15,5/12,6/28,8%). Pista para confirmar con años nuevos.
