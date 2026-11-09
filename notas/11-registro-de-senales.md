@@ -1065,6 +1065,9 @@ Hipótesis salida de #89 (no estaba en su criterio). Se prueba sólo sobre años
 ### Resultado #91 (8-nov-2026, ie-agenda89g v3): **no pasa; la dirección se mantiene pero chica**
 10-K 2021-2024, 12 meses: +4,3 / -3,4 / -4,7 / -5,2, media **-2,2** (3 de 4 negativos; pedía ≤ -5). Placebo +1,8. Lo de #89 no era casualidad del todo (la dirección «parecerse a la agenda va peor» se repite 3 de 4 años y le gana al placebo), pero es demasiado chico para usarlo. Tr no cambia.
 
+Lo de #91 se informa a 4 años en 2021-2022 (9-nov-2026, local, agenda91r4_eval.py; ya estaba anunciado en #91, no es prueba nueva)
+10-K 2021: **+11,3**; 10-K 2022: **-11,8**; media **-0,2**. Placebo (agenda de 4 años antes): +10,0 / -28,2. La señal de #89 dada vuelta (que parecerse a la agenda de la élite rinda menos a 4 años) no se repite en los años nuevos: un año da a favor, otro en contra, y el placebo se mueve igual. Tr no cambia.
+
 ### #87 como cartera (8-nov-2026, local, misma medida que #69) — decisión: Tr NO cambia la lista en juego
 | | 2017 | 2018 | 2019 | 2020 |
 |---|---|---|---|---|
