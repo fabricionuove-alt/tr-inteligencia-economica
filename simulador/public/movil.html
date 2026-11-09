@@ -36,6 +36,8 @@ main{padding:0 16px}
 .carta.lima{background:var(--lima)}.carta.salmon{background:var(--salmon)}
 .carta .cab{display:flex;justify-content:space-between;align-items:center}
 .carta .capsula{font-size:13px;padding:3px 11px}
+.carta .tabs{display:flex;gap:6px}.carta .tabs button{font-family:inherit;color:inherit;background:none;cursor:pointer}.carta .tabs button[aria-pressed=true]{background:var(--negro);color:var(--blanco);border-color:var(--negro)}
+.carta .rtlink{font-size:12px;color:inherit;opacity:.75}
 .carta svg{width:100%;height:54px;margin:8px 0 2px;overflow:visible}
 .carta .grande{font-weight:700;font-size:38px;letter-spacing:-.04em;line-height:1}
 .carta .grande small{font-size:.45em;margin-left:1px}
@@ -150,7 +152,7 @@ body.c .pestanas{display:grid;grid-template-columns:repeat(3,1fr);position:fixed
   <section class="seccion activa" data-s="duelo">
     <div class="duelo">
       <article class="carta" id="cVos"><div class="cab"><span class="capsula">Vos</span></div><svg id="sVos" viewBox="0 0 300 54" preserveAspectRatio="none"></svg><div class="grande" id="pVos">—</div><div class="valor" id="vVos">—</div></article>
-      <article class="carta" id="cIa"><div class="cab"><span class="capsula">Tr</span></div><svg id="sIa" viewBox="0 0 300 54" preserveAspectRatio="none"></svg><div class="grande" id="pIa">—</div><div class="valor" id="vIa">—</div></article>
+      <article class="carta" id="cIa"><div class="cab"><span class="tabs" role="tablist"><button class="capsula" data-c="tr" aria-pressed="true">Tr</button><button class="capsula" data-c="rt" aria-pressed="false">Rt</button></span><a class="rtlink" id="rtLink" href="/rt.html" hidden>Qué hizo ↗</a></div><svg id="sIa" viewBox="0 0 300 54" preserveAspectRatio="none"></svg><div class="grande" id="pIa">—</div><div class="valor" id="vIa">—</div></article>
     </div>
     <p class="veredicto" id="veredicto">Arrancás con 10.000 dólares ficticios contra Tr.</p>
   </section>
@@ -164,7 +166,7 @@ body.c .pestanas{display:grid;grid-template-columns:repeat(3,1fr);position:fixed
   </section>
   <section class="seccion activa" data-s="cartera">
     <div class="cartera"><span class="capsula">Cartera</span><div id="lista"></div></div>
-    <div class="enlaces"><a href="/como-piensa.html">Cómo piensa Tr →</a><a href="https://app.alpaca.markets/signup" target="_blank" rel="noopener">Comprar de verdad</a></div>
+    <div class="enlaces"><a href="/como-piensa.html">Cómo piensa Tr →</a><a href="/paper.html">El paper completo →</a><a href="https://app.alpaca.markets/signup" target="_blank" rel="noopener">Comprar de verdad</a></div>
     <p class="pie" id="pie">Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora.</p>
   </section>
 </main>
@@ -267,15 +269,39 @@ document.getElementById('lista').addEventListener('click', e => {
     fetch('/api/empresa?s=' + encodeURIComponent(s)).then(r => r.json()).then(j => { INFO[s] = j.error ? { estado: 'error' } : { estado: 'listo', ...j }; }).catch(() => { INFO[s] = { estado: 'error' }; })
       .finally(() => { if (abierta === s) ponerFicha(s); }); }
 });
+let CARTA = 'tr', RT = null;
+(async () => {
+  try {
+    const t = await (await fetch('https://raw.githubusercontent.com/fabricionuove-alt/tr-inteligencia-economica/main/rt/valor.csv?t=' + Math.floor(Date.now() / 3e5), { cache: 'no-store' })).text();
+    const f = t.trim().split(String.fromCharCode(10)).slice(1).map(l => l.split(',')).filter(x => +x[1] > 0);
+    RT = { fechas: f.map(x => x[0]), valores: f.map(x => +x[1]), spy: f.map(x => +x[2]), empresas: f.map(x => +x[3]) };
+  } catch (e) { RT = { fechas: [], valores: [], spy: [], empresas: [] }; }
+})();
+function rtDesde(inicio) {
+  if (!RT || !RT.fechas.length) return null;
+  let k = RT.fechas.findIndex(f => f >= inicio); if (k < 0) k = RT.fechas.length - 1;
+  const b = RT.valores[k], bs = RT.spy[k], u = RT.fechas.length - 1;
+  return { valores: RT.valores.slice(k).map(v => CAPITAL * v / b), contraMercado: (RT.valores[u] / b) / (RT.spy[u] / bs) - 1 };
+}
+document.querySelectorAll('#cIa .tabs button').forEach(bt => bt.addEventListener('click', () => {
+  CARTA = bt.dataset.c; document.querySelectorAll('#cIa .tabs button').forEach(x => x.setAttribute('aria-pressed', String(x === bt))); refrescar();
+}));
 async function refrescar() {
   let D; try { D = await datos(CINTA); } catch (e) { return; }
   const { ia, vos, S } = D, u = ia.fechas.length - 1, vV = vos[vos.length - 1], vI = ia.valores[u], pV = (vV / CAPITAL - 1) * 100, pI = (vI / CAPITAL - 1) * 100;
   if (typeof publicar === 'function') publicar(vV, vI);
   const todos = [...vos, ...ia.valores], mid = (Math.min(...todos) + Math.max(...todos)) / 2, med = Math.max((Math.max(...todos) - Math.min(...todos)) / 2, CAPITAL * 0.01);
-  curva(document.getElementById('sVos'), vos, mid - med, mid + med); curva(document.getElementById('sIa'), ia.valores, mid - med, mid + med);
-  document.getElementById('cVos').className = 'carta ' + color(pV); document.getElementById('cIa').className = 'carta ' + color(pI);
-  contar(document.getElementById('pVos'), pV); contar(document.getElementById('pIa'), pI);
-  document.getElementById('vVos').textContent = usd(vV); document.getElementById('vIa').textContent = usd(vI);
+  // (09-11) la tarjeta de Tr tiene dos pestañas: Tr y Rt (Tr que no deja de leer, registro público en GitHub)
+  const rt = CARTA === 'rt' ? rtDesde(P.inicio) : null, sT = CARTA === 'rt' ? (rt ? rt.valores : []) : ia.valores;
+  const vT = CARTA === 'rt' ? (rt ? rt.valores[rt.valores.length - 1] : null) : vI, pT = vT == null ? null : (vT / CAPITAL - 1) * 100;
+  const todosT = [...todos, ...sT], midT = (Math.min(...todosT) + Math.max(...todosT)) / 2, medT = Math.max((Math.max(...todosT) - Math.min(...todosT)) / 2, CAPITAL * 0.01);
+  curva(document.getElementById('sVos'), vos, midT - medT, midT + medT); curva(document.getElementById('sIa'), sT, midT - medT, midT + medT);
+  document.getElementById('cVos').className = 'carta ' + color(pV); document.getElementById('cIa').className = 'carta ' + (pT == null ? '' : color(pT));
+  contar(document.getElementById('pVos'), pV);
+  if (pT == null) document.getElementById('pIa').textContent = '—'; else contar(document.getElementById('pIa'), pT);
+  document.getElementById('vVos').textContent = usd(vV);
+  document.getElementById('vIa').textContent = vT == null ? (CARTA === 'rt' ? 'Rt cierra su primer día hoy' : '—') : usd(vT) + (rt ? ` · ${pct(rt.contraMercado * 100)} contra el mercado` : '');
+  document.getElementById('rtLink').hidden = CARTA !== 'rt';
   for (const [id, v] of [['bVos', pV], ['bIa', pI], ['tVos', pV]]) document.getElementById(id).textContent = pct(v);
   document.getElementById('tCaja').textContent = corto(P.caja);
   const dif = pV - pI;
