@@ -1,0 +1,43 @@
+name: Rt
+# Rt lee los 10-K nuevos y opera con plata ficticia. Reglas: notas/15-rt.md
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      control:
+        description: 'Leer las 5 empresas de control (comprueba que la lectura en CPU da lo mismo que en Kaggle)'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: rt
+  cancel-in-progress: false
+jobs:
+  correr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: rt/requisitos.txt
+      - run: pip install --index-url https://download.pytorch.org/whl/cpu torch==2.5.1 && pip install -r rt/requisitos.txt
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: gemma-2-2b-scope-l12
+      - name: Control
+        if: ${{ inputs.control }}
+        run: python rt/rt.py control
+      - name: Rt
+        run: python rt/rt.py
+      - name: Guardar
+        run: |
+          git config user.name "Rt"
+          git config user.email "rt@users.noreply.github.com"
+          git add rt/estado.json rt/operaciones.jsonl rt/valor.csv rt/lecturas.jsonl 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "Rt $(date -u +%Y-%m-%dT%H:%MZ)" && git pull --rebase && git push)
