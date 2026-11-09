@@ -1,6 +1,6 @@
 # Tr — inteligencia económica con datos públicos
 
-Tr es el rival del juego [Vos vs Tr](https://vos-contra-la-ia.vercel.app). Este repositorio tiene todo lo necesario para rehacerlo desde cero: el código, el registro de las 92 pruebas (las que funcionaron y las que no), los pesos de los modelos chicos y las huellas de las listas selladas.
+Tr es el rival del juego [Vos vs Tr](https://vos-contra-la-ia.vercel.app). Este repositorio tiene todo lo necesario para rehacerlo desde cero: el código, el registro de las 99 pruebas (las que funcionaron y las que no), los pesos de los modelos chicos y las huellas de las listas selladas.
 
 Tr no es una sola red neuronal guardada en un archivo. Es una **cadena de pasos**, y cada paso se puede volver a correr:
 
@@ -14,7 +14,7 @@ datos públicos ──► rasgos de cada empresa ──► modelos ──► car
 ## Qué decide Tr hoy (noviembre de 2026)
 
 1. **Gemma lee «el negocio», «los riesgos» y «la explicación de la dirección» de cada 10-K a ciegas** (secciones 1, 1A y 7; #87) (sin nombres, marcas, lugares, años ni números). Gemma 2 2B + el autoencoder disperso de Gemma Scope (capa 12, 16.384 conceptos) + una regresión ridge aprendida sólo con 2013-2016. Señales #65, #68, #69 en `notas/11-registro-de-senales.md`.
-2. **Cartera (#96), para 4 años:** mitad de la plata en el 10% de puntaje más alto dentro de cada industria (se hunde menos), mitad en el 10% que Gemma reconoce como posible ×3 o más (`modelos/cohete_modelo.npz`, `codigo/entrenar/cohetes.py`).
+2. **Cartera, para 4 años:** el 10% de puntaje más alto dentro de cada industria, a partes iguales. (La mitad «cohetes» de #96 se retiró: no se confirmó en 2021-2022, #97.)
 3. **Filtro #84:** afuera las empresas con un pico de visitas en Wikipedia mientras sus directivos venden.
 
 ## Qué se probó
@@ -62,9 +62,9 @@ Las listas de Tr no se publican mientras se juegan, para que nadie las copie. Su
 | Tr cartera de Gemma (416 empresas) | `ec841cab71a13934f9007d4f16ff0e729e8d666b8f2ce749fadbc2cc692a5f66` | nov-2030 (a 4 años) |
 | Tr Gemma (sólo negocio) + filtro #84 (342) | `3f31f1539cfbefe539c1ad306c5266592195387699e127c29767329cbcc381bb` | nov-2030 (a 4 años) |
 | Consenso de la élite 2025-2026 | `e73bfd76e79d7145e8cbcfcd8272bef34cfd9b3b5f7ccdc1a90ed80a49a85433` | jul-2028 / jul-2029 |
-| **Tr en juego: mitad tres secciones, mitad cohetes (#96, 639 con pesos)** | `8cbffce0c594f309e564a74c04a9c575f5fa92661413ae1a123dabc5546dc29c` | nov-2030 (a 4 años) |
+| Tr mitad tres secciones, mitad cohetes (#96, retirada por #97) | `8cbffce0c594f309e564a74c04a9c575f5fa92661413ae1a123dabc5546dc29c` | nov-2030 (a 4 años) |
 | Picos de público con y sin venta de directivos (#84) | `97e0304d1fa13bc9a980d923ede560e91ab6da10ab493a5b30a192247c6a0caa` | nov-2027 |
-| Tr tres secciones del 10-K + filtro #84 (365) | `597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44` | nov-2030 (a 4 años) |
+| **Tr en juego: tres secciones del 10-K + filtro #84 (365)** | `597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44` | nov-2030 (a 4 años) |
 
 ## El juego
 

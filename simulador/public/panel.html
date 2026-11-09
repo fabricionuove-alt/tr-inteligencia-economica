@@ -155,7 +155,7 @@ async function refrescar() {
   if (cin.length) { const t = cin.join('<i>•</i>') + '<i>•</i>'; document.getElementById('cinta').innerHTML = t + t; }
   const h = Math.max(0, ...Object.values(S).map(x => x.hora || 0));
   if (h > 0) document.getElementById('hora').textContent = new Date(h * 1000).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-  document.getElementById('pie').textContent = `Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora. Tr compró ${ia.empresas} empresas el día que empezaste, mitad en las que menos se hunden y mitad en las que pueden multiplicarse; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela a los cuatro años.`;
+  document.getElementById('pie').textContent = `Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora. Tr compró ${ia.empresas} empresas a partes iguales el día que empezaste; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela a los cuatro años.`;
 }
 refrescar(); setInterval(refrescar, 60000);
 </script>

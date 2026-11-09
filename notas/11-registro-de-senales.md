@@ -1147,3 +1147,40 @@ A le gana en promedio a la lista en juego y al mercado los 4 años, pero se hund
 Le gana a la lista en juego 4 de 4 y al mercado 4 de 4, con menos hundidas que el mercado 3 de 4. 2021-2022 no se pudo informar (faltan las secciones 1A y 7 de esos años leídas por Gemma).
 **Juega desde el 8-nov-2026:** datos/tr96_cartera_2026.csv, 639 empresas (365 de tres secciones + 347 cohetes, 73 en las dos), con pesos. sha256 **8cbffce0c594f309e564a74c04a9c575f5fa92661413ae1a123dabc5546dc29c**, se revela en noviembre de 2030. La anterior (597fe03a…) queda en anteriores.
 Total probadas: 96.
+
+## #97: la mezcla #96 en años nunca usados (10-K 2021 y 2022, resultado a 4 años), escrita el 8-nov-2026 ANTES de correr
+- Modelos congelados tal cual (tres secciones #87 y cohetes #95, aprendidos sólo con 2013-2016). Gemma lee a ciegas las secciones 1A y 7 de los 10-K de 2021 y 2022 bajados de la SEC (igual que 2026); la sección 1 ya está leída (#70).
+- Misma cartera que #96 (mitad tres secciones, mitad cohetes, 10% de arriba por industria), contra el mercado (todas las empresas con las tres secciones y resultado).
+- **Se confirma si:** en 2021 y en 2022 el promedio a 4 años de la mezcla supera al del mercado, y en al menos uno de los dos tiene menos hundidas que el mercado. Si falla, Tr vuelve a la lista de tres secciones sola (597fe03a…) y se dice.
+
+## #98: cuando el fondo soberano de Noruega excluye a una empresa, ¿después rinde menos? Escrita el 8-nov-2026 ANTES de correr
+El fondo más grande del mundo (NBIM, ~1,5% de las acciones del planeta) publica a quién excluye y cuándo; otros fondos lo siguen. Es plata de largo plazo con decisión fechada: influencia que no está en la propiedad de una familia sino en una lista.
+- **Datos:** lista vigente de exclusiones y observaciones de nbim.no (201 decisiones 2006-2026); se cruzan con la SEC por nombre exacto (52 empresas). Sesgo dicho antes: es la lista VIGENTE, faltan las exclusiones revocadas.
+- **Evento:** el mes de la decisión. Rendimiento desde fin del mes siguiente a 48 meses (principal, el plazo de Tr) y a 12 meses (informado), contra la mediana de las empresas de su misma industria (SIC 3; SIC 2 si hay menos de 10) en la misma ventana. Saltos de desdoblamiento descartados como en #90.
+- **Pasa (la exclusión anticipa rendir menos) si:** a 48 meses el exceso medio (log) es ≤ -10 puntos, con IC95 por remuestreo que no toca el 0, y ≥ 60% de los eventos negativos.
+- Si pasa: Tr saca de su lista a las empresas excluidas u observadas por el fondo (hoy).
+
+### Resultado #98 (8-nov-2026, Kaggle ie-nbim): **no pasa; da al revés**
+52 empresas cruzadas, 40 con precios, 28 con ventana de 48 meses. Exceso contra su industria a 48 meses: **+6,5 puntos** (IC95 -14,9 a +25,7), negativos sólo 29%, mediana +7,9. A 12 meses +8,3 (n 34). Las excluidas por el fondo de Noruega (carbón, armas, tabaco) rinden IGUAL O MÁS que su industria después, no menos: es la «prima de las acciones del pecado» que documentaron Hong y Kacperczyk (2009). Las únicas caídas grandes son Fluor (2018) y el cannabis (2022). Muestra chica y sólo con la lista vigente. Tr no cambia.
+Total probadas: 98.
+
+## #99: llegar antes que el precio — ¿lo que dice la élite en privado anticipa lo que Davos instala después? Escrita el 8-nov-2026 ANTES de correr
+Lo aprendido (#89, #91, #98): la élite mueve el precio cuando habla en público; después ya no se gana. Para aprovecharlo hay que llegar ANTES. Bilderberg se reúne en junio y es cerrada; los banqueros centrales hablan todos los meses; Davos publica en enero.
+- **(a) ¿Se anticipa?** Coseno entre lo nuevo de Bilderberg (junio del año Y-1) y lo nuevo de los Riesgos Globales de Davos (enero del año Y), contra el mismo coseno con años cambiados (placebo: todas las otras parejas de años). Igual con lo nuevo de los discursos del BIS de julio a diciembre de Y-1 contra Davos Y.
+- **(b) ¿Se gana?** Empresas más parecidas a lo nuevo de Bilderberg Y-1 (vectores de su último 10-K, como #89): rendimiento de fin de junio de Y-1 a fin de junio de Y+3 (4 años, el plazo de Tr), décimo de arriba contra 20% de abajo dentro de industria y tamaño. Años 2013-2019 y 2022.
+- **Pasa (a) si** el coseno de los años correctos supera al 90% de los placebos para Bilderberg o para el BIS. **Pasa (b) si** la diferencia media es ≥ +10 puntos con ≥ 5 de 8 años positivos. Sólo si pasan las dos entra a Tr.
+
+### Resultado #99 (a) (8-nov-2026, local): **no pasa**; (b) no se corre (pedía las dos)
+Bilderberg (junio Y-1) → Davos (enero Y), 8 parejas: coseno medio +0,022 contra placebo -0,001; el correcto supera sólo al 55% de los placebos (pedía 90%). BIS (julio-diciembre Y-1) → Davos Y, 9 parejas: +0,054 contra +0,009, supera al 68%. Hay un poco de anticipo (los dos van en la dirección esperada), pero no alcanza: lo nuevo que dice Davos en enero no se lee claro en lo que dijeron Bilderberg o los bancos centrales seis meses antes.
+Total probadas: 99.
+
+### Resultado #97 (8-nov-2026, Kaggle ie-lee2021/2022 + local): **no se confirma; Tr vuelve a la lista de tres secciones**
+| 10-K | A 4 años | mezcla #96 | tres secciones | cohetes | mercado |
+|---|---|---|---|---|---|
+| 2021 | promedio | ×1,295 | ×1,280 | ×1,309 | ×1,415 |
+| 2021 | hundidas | 31,4% | **22,9%** | 39,9% | 26,4% |
+| 2022 | promedio | ×1,652 | ×1,707 | ×1,597 | ×1,724 |
+| 2022 | hundidas | 26,8% | **22,1%** | 31,6% | 24,3% |
+La mezcla no le gana al mercado en ninguno de los dos años y se hunde más (0 de 2 y 0 de 2). La mitad «cohetes» es la que falla: en 2021-2022 lo que se parecía a los que se multiplicaron en 2013-2020 terminó hundido el 32-40% de las veces (los años de las SPAC y del dinero barato que se cortó). La de tres secciones sola tampoco le gana al mercado, pero se hunde menos los dos años: repite lo de #70 (protege, no gana).
+Como estaba escrito: Tr vuelve a la lista de tres secciones (597fe03a…), y la #96 (8cbffce0…) pasa a anteriores.
+Total probadas: 99.
