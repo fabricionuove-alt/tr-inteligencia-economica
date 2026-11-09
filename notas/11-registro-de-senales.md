@@ -1116,3 +1116,34 @@ La de tres secciones es mejor para la empresa típica los 4 años, y sin las 5 d
 
 ### Plazo del juego: 4 años (8-nov-2026, pedido de Fabri)
 El año era un estimado. Tr juega a 4 años, que es el plazo con el que aprendió Gemma: las listas de Tr se revelan en noviembre de 2030. A 4 años, 2017-2020, la lista de tres secciones: mediana ×1,774 / 1,411 / 1,334 / 1,628 contra mercado ×1,465 / 1,335 / 1,244 / 1,663 (3 de 4), hundidas 6,0 / 7,5 / 8,0 / 7,6% contra 10,5 / 13,0 / 14,1 / 11,4% (4 de 4); promedio ×2,76 / 1,79 / 1,56 / 2,47 contra ×2,21 / 1,81 / 1,68 / 2,49 (1 de 4: el promedio lo mueven las pocas que se multiplican).
+
+## #95: Gemma aprende a reconocer a las que se multiplican (×3 o más a 4 años), escrita el 8-nov-2026 ANTES de correr
+Lo que vimos en #87/#94: Tr esquiva a las que se hunden pero no agarra más «cohetes» que el mercado (x3 o más: 19,7/13,3/7,2/21,7% contra 15,6/10,5/9,0/21,4%), y el promedio lo mueven ellos.
+- Mismos vectores de tres secciones (#87), a ciegas. Objetivo: 1 si `_ret4` ≥ 3, si no 0. Regresión logística con penalización L2 (C elegido en la exploración 2013-2016 dejando un año afuera, por AUC), aprendida sólo con 2013-2016.
+- Cartera A: 10% de arriba por industria del puntaje de cohete. Cartera B: 10% de arriba del promedio de percentiles (cohete + tres secciones). Reglas de industria como #69.
+- **Reemplaza a la lista en juego si:** a 4 años, 2017-2020, contra la lista en juego (tres secciones): promedio del múltiplo mayor en ≥ 3 de 4 años, hundidas no más en ≥ 3 de 4, y mediana no menor en ≥ 3 de 4. Dos variantes: se dice.
+
+### Resultado #95 (8-nov-2026, local): **no pasa**, pero el detector de cohetes funciona
+AUC (×3 o más a 4 años): exploración 0,76; confirmación 0,71 / 0,63 / 0,57 / 0,45.
+| A 4 años, 2017-2020 | promedio | hundidas | mediana | ×3 o más |
+|---|---|---|---|---|
+| lista en juego (tres secciones) | ×2,81 / 1,78 / 1,59 / 2,54 | 5,1 / 8,6 / 7,2 / 8,2% | ×1,71 / 1,42 / 1,36 / 1,67 | 19,8 / 12,1 / 6,8 / 22,6% |
+| mercado | ×2,21 / 1,81 / 1,68 / 2,49 | 10,5 / 13,0 / 14,1 / 11,4% | ×1,47 / 1,34 / 1,24 / 1,66 | 15,6 / 10,5 / 9,0 / 21,4% |
+| A: 10% de arriba en cohete | **×3,31 / 1,93 / 1,77 / 2,79** | 12,6 / 15,6 / 15,5 / 16,7% | ×1,88 / 1,38 / 1,27 / 1,57 | 30,8 / 14,8 / 10,4 / 21,4% |
+| B: cohete + tres secciones | ×2,93 / 1,95 / 1,65 / 2,74 | 6,0 / 9,2 / 9,7 / 12,7% | ×1,85 / 1,49 / 1,31 / 1,64 | 21,8 / 15,2 / 8,4 / 22,0% |
+A le gana en promedio a la lista en juego y al mercado los 4 años, pero se hunde más que el mercado. B gana en promedio 4 de 4 pero se hunde más que la lista en juego 4 de 4. Ninguna cumple las tres condiciones.
+
+## #96: mitad lista en juego, mitad cohetes (A), escrita el 8-nov-2026 ANTES de correr, después de ver #95
+- Cartera: 50% de la plata en la lista de tres secciones (a partes iguales dentro) y 50% en la A de cohetes; si una empresa está en las dos, recibe las dos mitades.
+- **Entra a Tr si:** a 4 años, 2017-2020: promedio mayor que la lista en juego en ≥ 3 de 4, promedio mayor que el mercado en ≥ 3 de 4, y hundidas (peso en empresas que terminan ≤ ×0,5) menores que el mercado en ≥ 3 de 4. Se informa también en 2021-2022 (10-K con resultado a 4 años, nunca usados).
+
+### Resultado #96 (8-nov-2026, local): **PASA, entra a Tr**
+| A 4 años | 2017 | 2018 | 2019 | 2020 |
+|---|---|---|---|---|
+| mezcla mitad y mitad | **×3,061** | **×1,857** | **×1,680** | **×2,665** |
+| lista de tres secciones | ×2,809 | ×1,781 | ×1,586 | ×2,544 |
+| mercado | ×2,209 | ×1,806 | ×1,677 | ×2,487 |
+| hundidas: mezcla / mercado | 8,9 / 10,5% | 12,1 / 13,0% | 11,4 / 14,1% | 12,5 / 11,4% |
+Le gana a la lista en juego 4 de 4 y al mercado 4 de 4, con menos hundidas que el mercado 3 de 4. 2021-2022 no se pudo informar (faltan las secciones 1A y 7 de esos años leídas por Gemma).
+**Juega desde el 8-nov-2026:** datos/tr96_cartera_2026.csv, 639 empresas (365 de tres secciones + 347 cohetes, 73 en las dos), con pesos. sha256 **8cbffce0c594f309e564a74c04a9c575f5fa92661413ae1a123dabc5546dc29c**, se revela en noviembre de 2030. La anterior (597fe03a…) queda en anteriores.
+Total probadas: 96.

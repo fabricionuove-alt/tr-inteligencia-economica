@@ -440,7 +440,7 @@ function web() {
   // .pie
   y += 32; g.font = F(400, 12.5); g.fillStyle = C.gris;
   const ia = D && D.ia;
-  const pie = 'Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora.' + (ia ? ` Tr compró ${ia.empresas} empresas a partes iguales el día que empezaste; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela al cumplirse el año.` : '');
+  const pie = 'Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora.' + (ia ? ` Tr compró ${ia.empresas} empresas el día que empezaste, mitad en las que menos se hunden y mitad en las que pueden multiplicarse; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela a los cuatro años.` : '');
   const ls = renglones(pie, 12.5 * 70 * .5); ls.forEach((l, i) => g.fillText(l, 24, y + 14 + i * 18)); y += ls.length * 18 + 96;
   g.restore(); ALFA = 1; g.globalAlpha = 1;
   T.alto = y + BANDA;

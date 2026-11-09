@@ -290,7 +290,7 @@ async function refrescar() {
   const h = Math.max(0, ...Object.values(S).map(x => x.hora || 0));
   const horaTxt = h > 0 ? new Date(h * 1000).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
   if (h > 0 && document.getElementById('hora')) document.getElementById('hora').textContent = new Date(h * 1000).toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-  document.getElementById('pie').textContent = `Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora. Tr compró ${ia.empresas} empresas a partes iguales el día que empezaste; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela al cumplirse el año.`;
+  document.getElementById('pie').textContent = `Dinero ficticio. Precios de Yahoo Finance, con hasta 15 minutos de demora. Tr compró ${ia.empresas} empresas el día que empezaste, mitad en las que menos se hunden y mitad en las que pueden multiplicarse; su lista quedó congelada antes del juego (sha256 ${ia.sha256.slice(0, 12)}…) y se revela a los cuatro años.`;
   if (abierta && P.pos[abierta]) ponerFicha(abierta);
   window.__pantallaDatos = ({ pV, pI, vV, vI, vos, ia: ia.valores, caja: P.caja, filas, pie: document.getElementById('pie').textContent, acciones: Object.keys(P.pos).length, empresas: ia.empresas, lista: ia.sha256.slice(0, 10) + '…',
     desde: P.inicio.split('-').reverse().join('/'), hora: horaTxt, cinta: CINTA.filter(s => S[s]).flatMap(s => { const x = S[s], prev = x.cierres[x.cierres.length - 2] ?? x.ultimo, ch = (x.ultimo / prev - 1) * 100;
