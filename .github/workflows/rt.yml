@@ -3,6 +3,9 @@ name: Rt
 on:
   schedule:
     - cron: '17 */3 * * *'
+  push:
+    branches: [main]
+    paths: ['rt/rt.py', 'rt/cortes.json', '.github/workflows/rt.yml']
   workflow_dispatch:
     inputs:
       control:
@@ -31,7 +34,7 @@ jobs:
           path: ~/.cache/huggingface
           key: gemma-2-2b-scope-l12
       - name: Control
-        if: ${{ inputs.control }}
+        if: ${{ inputs.control || hashFiles('rt/estado.json') == '' }}
         run: python rt/rt.py control
       - name: Rt
         run: python rt/rt.py
