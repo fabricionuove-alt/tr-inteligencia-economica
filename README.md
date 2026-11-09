@@ -57,13 +57,13 @@ Las listas de Tr no se publican mientras se juegan, para que nadie las copie. Su
 
 | Lista | sha256 | Se revela |
 |---|---|---|
-| Tr original (cruce #45, 410 empresas) | `216d486c2abb4b34a7d20cc7fd601ad8e6009c2655a4b341a00722b3fd9e36f7` | nov-2027 |
-| Tr Kelly + Gemma (2.923 empresas) | `fa70b5e519c55662f159a6b120439a5b115c83b81561138596918821ab9a52ab` | nov-2027 |
-| Tr cartera de Gemma (416 empresas) | `ec841cab71a13934f9007d4f16ff0e729e8d666b8f2ce749fadbc2cc692a5f66` | nov-2027 |
-| Tr Gemma (sólo negocio) + filtro #84 (342) | `3f31f1539cfbefe539c1ad306c5266592195387699e127c29767329cbcc381bb` | nov-2027 |
+| Tr original (cruce #45, 410 empresas) | `216d486c2abb4b34a7d20cc7fd601ad8e6009c2655a4b341a00722b3fd9e36f7` | nov-2030 (a 4 años) |
+| Tr Kelly + Gemma (2.923 empresas) | `fa70b5e519c55662f159a6b120439a5b115c83b81561138596918821ab9a52ab` | nov-2030 (a 4 años) |
+| Tr cartera de Gemma (416 empresas) | `ec841cab71a13934f9007d4f16ff0e729e8d666b8f2ce749fadbc2cc692a5f66` | nov-2030 (a 4 años) |
+| Tr Gemma (sólo negocio) + filtro #84 (342) | `3f31f1539cfbefe539c1ad306c5266592195387699e127c29767329cbcc381bb` | nov-2030 (a 4 años) |
 | Consenso de la élite 2025-2026 | `e73bfd76e79d7145e8cbcfcd8272bef34cfd9b3b5f7ccdc1a90ed80a49a85433` | jul-2028 / jul-2029 |
 | Picos de público con y sin venta de directivos (#84) | `97e0304d1fa13bc9a980d923ede560e91ab6da10ab493a5b30a192247c6a0caa` | nov-2027 |
-| **Tr en juego: tres secciones del 10-K + filtro #84 (365)** | `597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44` | nov-2027 |
+| **Tr en juego: tres secciones del 10-K + filtro #84 (365)** | `597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44` | nov-2030 (a 4 años) |
 
 ## El juego
 

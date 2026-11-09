@@ -1113,3 +1113,6 @@ Error mío: después de que #87 pasó su criterio escrito, agregué una medida (
 | lista anterior (#69) | ×1,177 / 1,062 / 0,842 / 1,604 | ×1,198 / 1,083 / 0,849 / 2,022 | 2,4 / 4,3 / 15,7 / 1,3% |
 | **tres secciones** | **×1,186 / 1,094 / 0,852 / 1,605** | **×1,247 / 1,122 / 0,872** / 1,971 | **2,2 / 3,5 / 15,0** / 1,7% |
 La de tres secciones es mejor para la empresa típica los 4 años, y sin las 5 de suerte gana 3 de 4. Juega desde el 8-nov-2026: datos/tr87_cartera_2026.csv, 365 empresas, sha256 **597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44**. La anterior (3f31f153…) queda en anteriores. #94: ninguna variante más amplia le gana.
+
+### Plazo del juego: 4 años (8-nov-2026, pedido de Fabri)
+El año era un estimado. Tr juega a 4 años, que es el plazo con el que aprendió Gemma: las listas de Tr se revelan en noviembre de 2030. A 4 años, 2017-2020, la lista de tres secciones: mediana ×1,774 / 1,411 / 1,334 / 1,628 contra mercado ×1,465 / 1,335 / 1,244 / 1,663 (3 de 4), hundidas 6,0 / 7,5 / 8,0 / 7,6% contra 10,5 / 13,0 / 14,1 / 11,4% (4 de 4); promedio ×2,76 / 1,79 / 1,56 / 2,47 contra ×2,21 / 1,81 / 1,68 / 2,49 (1 de 4: el promedio lo mueven las pocas que se multiplican).
