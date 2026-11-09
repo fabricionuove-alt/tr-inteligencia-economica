@@ -1205,3 +1205,24 @@ Camino de la influencia: la idea pasa de fundaciones y grupos a un proyecto de l
 | leyes, dentro de industria | -0,8 | +4,3 | 2,11 | -0,2 |
 Lo principal no pasa (pedía +10 con t ≥ 2). Queda una señal chica y consistente dentro de industria con los proyectos (+3 puntos a 4 años, t 2,1, exploración y placebo del lado correcto): de dos empresas del mismo rubro, la que se parece más a lo nuevo que entra al Congreso rinde un poco más. Es demasiado chica para mover a Tr; queda anotada.
 Total probadas: 100.
+
+
+## #101: las empresas que las embajadas de EE.UU. empujaban en secreto (cables de WikiLeaks), a 4 años. Escrita el 9-nov-2026 ANTES de correr
+Lo que la élite dice en público (#89-#100) no sirvió con mi método. Esto mira lo que hacía en privado: los cables diplomáticos filtrados (Cablegate, 251.287 cables, copia pública fn5/wikileaks-cables en Hugging Face). Eran secretos hasta nov-2010/sep-2011: nadie podía comprar sabiéndolos.
+- **Cables:** fechados 2005-01 a 2010-02. Empuje = cable con la etiqueta **BEXP** (promoción de negocios y exportaciones) en su línea TAGS.
+- **Empresas:** nombres de las que presentaron 10-K en EDGAR 2005-2010 (full-index), sin sufijos (INC, CORP, CO…). Se busca el nombre como palabra entera. Afuera: nombres de menos de 5 letras, nombres de una palabra común en inglés (wordfreq ≥ 4,0) y nombres que corresponden a más de una empresa. Rubro: SIC de etiquetas.csv (cualquier año; se pierde la que murió antes de 2010).
+- **Grupos, por año Y (2005-2009):** empujadas = nombradas en ≥ 1 cable BEXP de Y. Control = nombradas en cables de Y pero en ninguno BEXP (igual de conocidas para los diplomáticos).
+- **Resultado:** rendimiento de fin de enero de Y+1 a fin de enero de Y+5 (48 meses, el plazo de Tr), con precios mensuales de la SEC (desde 2006), sin saltos por split. Exceso = log rendimiento − mediana del control del mismo SIC 2 y año.
+- **Pasa si:** el exceso medio de las empujadas es ≥ +10 puntos, positivo en ≥ 4 de 5 años, y la permutación (mezclar quién es empujada dentro de año × SIC 2, 2.000 veces) da p < 0,05.
+- Informado aparte: contra todas las empresas del SIC 2 (no sólo las nombradas), y la parte de empujadas que se hunde (≤ ×0,5).
+- **Uso en Tr:** los cables terminan en 2010, así que no entran directo. Si pasa, la siguiente prueba busca lo mismo en una fuente actual y pública del empuje del gobierno (créditos del EXIM Bank, casos del Advocacy Center de Comercio) y tiene que pasar 2021-2022 antes de entrar.
+- **Cambio del filtro de nombres (9-nov, ANTES de mirar ningún rendimiento):** el filtro por frecuencia dejaba pasar frases comunes (NATIONAL SECURITY, EDUCATE, AMBASSADORS, que son nombres de empresas). Regla nueva: el nombre tiene que tener al menos una palabra de ≥ 4 letras que no esté en el diccionario inglés (web2 + gcide, también en singular). De 1.797 empresas nombradas quedan 707, y 145 con algún cable BEXP. Se pierden empresas reales de nombre común (General Electric, Chevron, Caterpillar) y quedan algunos lugares (HAGUE, NEWARK): ese ruido cae en los dos grupos y achica la diferencia, no la inventa.
+
+### Resultado #101 (9-nov-2026, Kaggle ie-cables101 + local cab101_eval.py): **no pasa con esta medida; muestra muy chica**
+112.446 cables de 2005-2010, 1.227 con BEXP. Con precio, rubro y control en el mismo SIC 2 quedan **60 empresas-año empujadas** contra 168 nombradas sin empuje (2009 tiene la mitad).
+| | 2005 | 2006 | 2007 | 2008 | 2009 | total |
+|---|---|---|---|---|---|---|
+| exceso de las empujadas sobre el control, a 4 años | -23,8 | +12,3 | -14,6 | -14,1 | -5,3 | **-6,5** |
+Permutación p 0,71. Contra todo su rubro: empujadas +4,0, nombradas sin empuje +8,0. Mediana ×1,34 contra ×1,47; hundidas 6,7% contra 5,4%.
+Lo que se puede decir: entre las empresas que nombran los cables, a las que la embajada empujaba no les fue mejor en los 4 años siguientes, **medido así**. Límites de la medida: muy pocas empresas (60, porque los cables de 2005-2008 son pocos y los precios salen de los fails-to-deliver de la SEC); el filtro de nombres pierde empresas grandes de nombre común (General Electric, Chevron, Caterpillar); sólo mira la etiqueta BEXP y no lo que dice el cable; compara contra empresas que los diplomáticos también nombran, que pueden haber recibido otro tipo de ayuda. Tr no cambia.
+Total probadas: 101.
