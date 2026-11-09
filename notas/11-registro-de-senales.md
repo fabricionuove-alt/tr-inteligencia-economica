@@ -1100,3 +1100,16 @@ Separación a 12 meses (aprendida para 12 meses), 2017-2020: negocio +0,2/+17,3/
 | tres secciones aprendidas a 12 meses | ×1,322 | ×1,237 | ×0,954 | ×2,228 | ×1,435 |
 Aprender a 12 meses es aprender ruido: el precio de un año mezcla demasiado. Lo que Gemma aprendió mirando 4 años elige mejor también para 1 año. Tr no cambia.
 Total probadas: 93.
+
+## #94: usar el puntaje de tres secciones por donde predice mejor (las de abajo), escrita el 8-nov-2026 ANTES de correr
+Fabri: «¿cómo algo que pronostica mejor no va a sumar?». La mejora de #87 está en reconocer a las peores; la cartera #69 sólo compra el 10% de arriba y nunca la usa. Variantes de cartera (a partes iguales, mismas reglas de industria que #69), 2017-2020:
+- (a) 20% de arriba de tres secciones; (b) 30% de arriba; (c) todo menos el 20% de abajo de tres secciones; (d) todo menos el 40% de abajo; (e) 10% de arriba del promedio de percentiles de #68 y tres secciones; (f) 20% de arriba de ese promedio.
+- **Reemplaza a la lista en juego si:** a 12 meses le gana a la cartera #69 en ≥ 3 de 4 años con promedio mayor, no tiene más hundidas en ≥ 3 de 4, y a 4 años no es peor que #69 en más de 2 de 4. Son 6 variantes: se dice, y la elegida queda además congelada.
+
+### #87 corregido (8-nov-2026): **entra a Tr**, como decía su criterio
+Error mío: después de que #87 pasó su criterio escrito, agregué una medida (promedio de la cartera) que no estaba escrita y la frené. Mirando por qué: el promedio lo mueven unas 5 empresas que se disparan.
+| 12 meses, 2017-2020 | mediana | sin las 5 mejores de cada año | hundidas |
+|---|---|---|---|
+| lista anterior (#69) | ×1,177 / 1,062 / 0,842 / 1,604 | ×1,198 / 1,083 / 0,849 / 2,022 | 2,4 / 4,3 / 15,7 / 1,3% |
+| **tres secciones** | **×1,186 / 1,094 / 0,852 / 1,605** | **×1,247 / 1,122 / 0,872** / 1,971 | **2,2 / 3,5 / 15,0** / 1,7% |
+La de tres secciones es mejor para la empresa típica los 4 años, y sin las 5 de suerte gana 3 de 4. Juega desde el 8-nov-2026: datos/tr87_cartera_2026.csv, 365 empresas, sha256 **597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44**. La anterior (3f31f153…) queda en anteriores. #94: ninguna variante más amplia le gana.
