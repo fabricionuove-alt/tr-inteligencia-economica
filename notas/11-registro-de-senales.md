@@ -1226,3 +1226,22 @@ Lo que la élite dice en público (#89-#100) no sirvió con mi método. Esto mir
 Permutación p 0,71. Contra todo su rubro: empujadas +4,0, nombradas sin empuje +8,0. Mediana ×1,34 contra ×1,47; hundidas 6,7% contra 5,4%.
 Lo que se puede decir: entre las empresas que nombran los cables, a las que la embajada empujaba no les fue mejor en los 4 años siguientes, **medido así**. Límites de la medida: muy pocas empresas (60, porque los cables de 2005-2008 son pocos y los precios salen de los fails-to-deliver de la SEC); el filtro de nombres pierde empresas grandes de nombre común (General Electric, Chevron, Caterpillar); sólo mira la etiqueta BEXP y no lo que dice el cable; compara contra empresas que los diplomáticos también nombran, que pueden haber recibido otro tipo de ayuda. Tr no cambia.
 Total probadas: 101.
+
+## #103: las empresas que el gobierno de EE.UU. financia para exportar (créditos del EXIM Bank), a 4 años. Escrita el 9-nov-2026 ANTES de cruzar ningún rendimiento
+Disparada por los cables (#101/#102): el empuje del gobierno a empresas concretas aparece en los cables junto al EXIM («EXIM and EB/CBA advocate for Boeing»). El EXIM publica cada crédito aprobado (data.gov, FY2007-FY2026: exportador, monto, fecha), así que es la versión pública y actual del mismo empuje, y sirve para Tr.
+- **Empresa:** el exportador (o filial) se lleva a la empresa madre por nombre: núcleo del nombre (sin INC, CORP, LLC…) igual al de una empresa del dataset (nombres de cik-lookup-data de la SEC), o que empiece con ese núcleo seguido de palabras (filiales: «GENERAL ELECTRIC ENERGY PARTS» → GENERAL ELECTRIC); gana el núcleo más largo. Núcleo de una sola palabra sólo si no está en el diccionario inglés (regla de #101).
+- **Señal del año fiscal F:** monto aprobado total del EXIM para esa empresa en F. Se cruza con el 10-K presentado en el año calendario F+1 (el año fiscal del EXIM termina en septiembre) y su rendimiento a 4 años (`_ret4`).
+- **Medida:** exceso de log rendimiento contra la mediana de su SIC 3 × tercio de tamaño (como #69). Empresas con crédito contra las del mismo grupo sin crédito.
+- **Años:** exploración 10-K 2012-2016, confirmación 2017-2020, años nunca usados 2021-2022.
+- **Pasa si:** el exceso medio de las financiadas es ≥ +10 puntos en la confirmación y positivo en la exploración, y en 2021-2022 es > 0. Recién ahí entra a Tr (como suma al puntaje o como filtro), y se congela con el EXIM FY2025-2026.
+- Informado: por tamaño del crédito (más de 100 millones de dólares contra menos), y la parte que se hunde (≤ ×0,5).
+
+### Resultado #103 (9-nov-2026, local exim103.py): **no pasa**
+52.203 créditos aprobados (FY2007-2026); 2.842 de 325 empresas del dataset (Boeing se lleva 84.000 millones de dólares, después GE, Anadarko, Exxon). Con rendimiento a 4 años y grupo: 204 empresas-año.
+| | exploración 2012-2016 | confirmación 2017-2020 | nunca usados 2021-2022 |
+|---|---|---|---|
+| exceso contra las sin crédito del mismo SIC 3 × tamaño | -6,9 | **+18,1** | **-43,9** |
+Por año: 2012 +23, 2013 -17, 2014 -26, 2016 -36, 2017 +13, 2018 +42, 2020 +32, 2021 +8, 2022 -101 (en 2022 son 10 empresas chicas con créditos de capital de trabajo de 0,1 a 9 millones; 4 se hundieron, una a cero).
+Informado: créditos de más de 100 millones (los grandes, el empuje tipo Boeing): 17 casos, +21,9. Hundidas: 9,8% de las financiadas contra 17,3% de todas (no es contra el mismo grupo: las financiadas son más grandes).
+Lo que se puede decir, medido así: tener un crédito del EXIM no marca a las empresas que rinden más; cambia mucho de año en año y en los años nuevos va en contra. Queda anotado, sin probar, que los créditos grandes (17 casos) dan a favor.
+Total probadas: 103 (la #102 es la lectura de los cables, en curso).
