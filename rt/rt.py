@@ -215,7 +215,8 @@ def control():
         k = next(i for i, (f, d) in enumerate(zip(s['form'], s['filingDate'])) if f == '10-K' and d.startswith('2026'))
         b = get(f'https://www.sec.gov/Archives/edgar/data/{cik}/{s["accessionNumber"][k].replace("-", "")}/{s["primaryDocument"][k]}')
         sec = secciones(b); p = puntaje(*sec) if sec else None
-        print(f'CONTROL cik {cik}: Kaggle {float(r["gemma"]):+.4f} | Rt en CPU {p if p is None else round(p, 4)}', flush=True)
+        l = f'{ahora():%Y-%m-%d %H:%M} CONTROL cik {cik}: Kaggle {float(r["gemma"]):+.4f} | Rt en CPU {p if p is None else round(p, 4)}'
+        print(l, flush=True); open(os.path.join(R, 'control.log'), 'a', encoding='utf-8').write(l + chr(10))
 
 def correr():
     E = cargar()

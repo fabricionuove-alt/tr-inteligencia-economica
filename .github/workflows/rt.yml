@@ -34,7 +34,7 @@ jobs:
           path: ~/.cache/huggingface
           key: gemma-2-2b-scope-l12
       - name: Control
-        if: ${{ inputs.control || hashFiles('rt/estado.json') == '' }}
+        if: ${{ inputs.control || hashFiles('rt/control.log') == '' }}
         run: python rt/rt.py control
       - name: Rt
         run: python rt/rt.py
@@ -42,5 +42,5 @@ jobs:
         run: |
           git config user.name "Rt"
           git config user.email "rt@users.noreply.github.com"
-          git add rt/estado.json rt/operaciones.jsonl rt/valor.csv rt/lecturas.jsonl 2>/dev/null || true
+          for f in estado.json operaciones.jsonl valor.csv lecturas.jsonl control.log; do [ -f rt/$f ] && git add rt/$f; done; true
           git diff --cached --quiet || (git commit -m "Rt $(date -u +%Y-%m-%dT%H:%MZ)" && git pull --rebase && git push)
