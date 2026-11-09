@@ -1,6 +1,6 @@
 # Tr — inteligencia económica con datos públicos
 
-Tr es el rival del juego [Vos vs Tr](https://vos-contra-la-ia.vercel.app). Este repositorio tiene todo lo necesario para rehacerlo desde cero: el código, el registro de las 84 pruebas (las que funcionaron y las que no), los pesos de los modelos chicos y las huellas de las listas selladas.
+Tr es el rival del juego [Vos vs Tr](https://vos-contra-la-ia.vercel.app). Este repositorio tiene todo lo necesario para rehacerlo desde cero: el código, el registro de las 92 pruebas (las que funcionaron y las que no), los pesos de los modelos chicos y las huellas de las listas selladas.
 
 Tr no es una sola red neuronal guardada en un archivo. Es una **cadena de pasos**, y cada paso se puede volver a correr:
 
@@ -63,6 +63,7 @@ Las listas de Tr no se publican mientras se juegan, para que nadie las copie. Su
 | **Tr en juego: Gemma + filtro #84 (342)** | `3f31f1539cfbefe539c1ad306c5266592195387699e127c29767329cbcc381bb` | nov-2027 |
 | Consenso de la élite 2025-2026 | `e73bfd76e79d7145e8cbcfcd8272bef34cfd9b3b5f7ccdc1a90ed80a49a85433` | jul-2028 / jul-2029 |
 | Picos de público con y sin venta de directivos (#84) | `97e0304d1fa13bc9a980d923ede560e91ab6da10ab493a5b30a192247c6a0caa` | nov-2027 |
+| Tr con tres secciones del 10-K (#87, paralela, no juega) | `597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44` | nov-2027 |
 
 ## El juego
 

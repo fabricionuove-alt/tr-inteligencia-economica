@@ -940,3 +940,146 @@ Lectura: es la primera señal del lado (dirección) que sale de cruzar a la éli
 Total probadas: 84.
 - **Hacia adelante (8-nov-2026):** datos/congelada_84_2026.csv, sha256 **97e0304d1fa13bc9a980d923ede560e91ab6da10ab493a5b30a192247c6a0caa**: 279 picos de público (mayo-octubre 2026), 51 con venta de directivos. Se mide en noviembre de 2027: con venta contra sin venta, contra su tamaño.
 - **En Tr:** se sacan de la cartera de Gemma las 5 marcadas (MRNA, AFRM, AON, SLB, OSCR): 342 empresas, datos/tr_gemma84_cartera_2026.csv, sha256 **3f31f1539cfbefe539c1ad306c5266592195387699e127c29767329cbcc381bb**.
+- 8-nov-2026: repositorio público https://github.com/fabricionuove-alt/tr-inteligencia-economica (código, registro, pesos de Gemma, huellas; sin listas selladas ni claves). Enlazado en «Cómo piensa Tr». Carpeta local: inteligencia-economica/repo-tr.
+
+## #85: profundizar #84, escrita el 8-nov-2026 ANTES de correr
+Mismos picos de público (Wikipedia ≥ 2 veces su mediana de 12 meses, base ≥ 100), ahora con todas las empresas que respondan (antes 2.077).
+- **Espejo:** picos con compra neta de directivos (P > S, P > 0) contra picos sin operaciones. Predicción: con compra rinde MÁS.
+- **Dosis:** entre los picos con venta, tercio de ventas más grandes (en dólares, contra el tamaño de la empresa: ventas / activos) contra tercio más chico. Predicción: más venta → peor.
+- **Repetición de #84** con la muestra completa.
+- **Pasa (el mecanismo es real) si:** (1) se repite #84 con IC95 < 0; (2) el espejo da > 0 con IC95 sin tocar el 0 o al menos en ≥ 60% de los años; (3) la dosis va en la dirección predicha (tercio grande peor que tercio chico).
+
+## #86: compras de directivos + Gemma, escrita el 8-nov-2026 ANTES de correr
+De #42: donde los directivos compran hay más ×3 (6 de 6) pero también más desastres. Gemma (#68) baja los desastres. ¿Juntas?
+- Filas 2017-2020 (10-K con puntaje de Gemma a ciegas sin trampas) donde los directivos compraron en el mercado en los 12 meses previos (formularios 4, compras > 0).
+- Dentro de ellas: mitad de Gemma alta contra mitad baja (dentro del año). Resultados a 4 años (`_ret4`, quiebra = 0) y 12 meses.
+- **Pasa si:** a 4 años, Gemma alta tiene menos desastres (≤ ×0,5) en ≥ 3 de 4 años Y múltiplo promedio mayor en ≥ 3 de 4. Se informa contra el universo y contra las compras sin Gemma.
+
+### Resultado #86 (8-nov-2026)
+11.389 filas con Gemma 2017-2020; 5.068 con compras de directivos.
+- **4 años:** Gemma alta tiene menos desastres en 4 de 4 años (6,9/12,8/13,1/10,0% contra 16,7/17,4/18,7/15,7%), pero la reducción llega a ×0,5 sólo en 2017. El múltiplo promedio es mayor sólo en 2 de 4 años (2017 ×2,49 contra ×1,84; 2019 ×1,72 contra ×1,59; 2018 y 2020 empatan o pierde). **No pasa.**
+- **12 meses (informado, no es el criterio):** Gemma alta gana en 4 de 4 años y tiene menos desastres en 4 de 4 (por ejemplo 2019: 16,2% contra 26,8%).
+- **Lectura:** dentro de las compras de directivos, Gemma repite lo que hace en todo el universo: protege y no suma rendimiento a 4 años. Juntarlas no da algo nuevo. No entra en Tr.
+
+## #87: Gemma lee los riesgos (sección 1A) y la explicación de la dirección (sección 7), escrita el 8-nov-2026 ANTES de correr
+#68 leyó sólo «el negocio» (sección 1). Lo que la empresa teme y cómo la dirección explica sus números puede decir otra cosa.
+- Mismo método que #68: a ciegas (mismo anonimizador), capa 12 de Gemma Scope, mismas empresas (quiero.txt), ridge aprendido sólo con 2013-2016 (alfa elegido en la exploración), confirmación 2017-2020, rendimiento a 4 años dentro de SIC 3 y tercio de tamaño.
+- Cambios por la forma de estas secciones: se saltean los primeros 1.500 caracteres (fórmulas legales del comienzo: «invertir en nuestras acciones implica riesgos», «la siguiente discusión debe leerse junto con…») y se leen 512 tokens en vez de 256.
+- **Pasa cada sección si:** la confirmación da media ≥ +20 puntos (diferencia de exceso entre el décimo de arriba y el de abajo, como #65/#68) con ≥ 3 de 4 años positivos.
+- **Suma a Tr si:** juntando 1 + 1A + 7 en un solo ridge (aprendido igual, 2013-2016), la confirmación mejora la media de #68 (+38,5) en ≥ 5 puntos sin bajar en más de un año. Si no suma, la sección queda informada y Tr no cambia.
+
+## #88: Gemma lee las conferencias de resultados (preguntas de analistas y respuestas sin guion), escrita el 8-nov-2026 ANTES de correr
+El 10-K lo escriben abogados; en la conferencia la dirección contesta en vivo. Fuente: `kurry/sp500_earnings_transcripts` (Hugging Face, MIT, 2005-2025).
+- **Sesgo de la fuente, dicho antes:** son las empresas del S&P 500 de 2025, o sea sobrevivientes. Casi no hay quiebras; la comparación es arriba contra abajo DENTRO de ellas, no contra el mercado. Por eso los desastres se informan pero no deciden.
+- Para cada empresa y año A (2013-2020): la primera conferencia entre enero y junio de A (la del cierre del año, cerca del 10-K). Se lee desde el segundo turno del operador (donde empiezan las preguntas), a ciegas con el mismo anonimizador, capa 12, 512 tokens.
+- Ticker → CIK con `company_tickers.json` de la SEC; resultados a 4 años de las mismas etiquetas que #68.
+- Ridge aprendido sólo con 2013-2016, confirmación 2017-2020, pares dentro de SIC de 2 dígitos (la muestra es chica para SIC 3 × tamaño).
+- **Pasa si:** la confirmación da media ≥ +20 puntos con ≥ 3 de 4 años positivos. Se informa la correlación con el puntaje de #68 en las mismas empresas (si es alta, la conferencia no agrega nada nuevo).
+
+### Resultado #85 (8-nov-2026, Kaggle ie-mecanismo2, muestra completa: 3.964 picos, 915 con venta)
+| Prueba | diferencia a 12 meses | IC95 | años en la dirección predicha | criterio |
+|---|---|---|---|---|
+| (1) #84 repetida: venta contra sin venta | -9,8 | [-15,9; -3,3] | 5 de 10 | IC < 0: **sí** |
+| (2) espejo: compra contra sin operaciones (predicho +) | +0,8 | [-9,6; +11,0] | 4 de 10 | **no** |
+| (3) dosis: venta grande contra chica (predicho -) | -10,2 | [-21,3; +0,5] | 6 de 10 | dirección: **sí** |
+**No pasa** (pedía las tres). Con la muestra completa, vender durante un pico de público sigue yendo peor en promedio y más venta va peor, pero el efecto se concentra en pocos años (2019, 2020, 2025) y comprar no anticipa nada. Lectura: no es «los directivos saben y la multitud llega tarde»; es una señal de venta asimétrica y poco estable.
+**Tr:** el filtro #84 queda como está en la lista sellada (ya jugada y con su sha), pero no se refuerza ni se extiende; la prueba que decide es la congelada 97e0304d… (nov-2027).
+
+## #89: lo que los grupos de influencia ponen en agenda cada año, contra las empresas que se le parecen, escrita el 8-nov-2026 ANTES de correr
+Fabri: la influencia no está en la propiedad; está en lo que estos grupos instalan. Cada texto tiene fecha: se compara lo que dijeron en el año Y con los 10-K presentados en Y+1 (después de que lo dijeron) y su rendimiento a 4 años.
+- **Textos (públicos, fechados):** Informe de Riesgos Globales de Davos (2011-2020, enero), carta anual de la Fundación Gates (2010-2020), temas de Bilderberg (2013-2019, junio), 10 tecnologías emergentes de Davos (2012-2020). Hasta 60 pedazos de ~1.200 caracteres por documento, parejos a lo largo del texto.
+- **Lectura:** Gemma 2 2B + Gemma Scope capa 12, a ciegas (mismo anonimizador que #68), 256 tokens por pedazo; el vector de cada fuente-año es el promedio de sus pedazos. Las empresas son los mismos vectores de #68 (10-K, sección 1). Los textos se leen en CPU (float32); las empresas se leyeron en placa (float16): diferencia numérica chica, dicha antes.
+- **Lo nuevo del año:** agenda_Y = vector_Y − promedio de los dos años anteriores de la misma fuente (si falta uno, el que haya). Así no cuenta lo que dicen siempre, sólo lo que traen ese año.
+- **Puntaje de cada empresa:** coseno entre su vector (log1p) y agenda_Y de cada fuente; se pasa a percentil dentro del año y se promedian las fuentes que haya ese año. **Sin nada aprendido:** cero parámetros ajustados a rendimientos.
+- **Medida:** décimo de arriba contra el 20% de abajo dentro de SIC 3 × tercio de tamaño, exceso a 4 años (como #68). Exploración: agendas 2012-2015 → 10-K 2013-2016. Confirmación: agendas 2016-2019 → 10-K 2017-2020.
+- **Placebo de tiempo:** lo mismo con la agenda de 4 años antes (Y−4 en vez de Y). Si da igual, lo que mide es el tema de siempre y no el momento.
+- **Pasa si:** en la confirmación media ≥ +15 puntos con ≥ 3 de 4 años positivos, la exploración también da media > 0, y la confirmación supera al placebo de tiempo. Se informa cada fuente por separado y la correlación con el puntaje de #68.
+- **Si pasa:** entra a Tr como segundo puntaje (promedio de percentiles con Gemma #68) solamente si esa suma mejora la confirmación de #68; si no, queda como señal propia informada.
+- *(agregado antes de correr, 8-nov 20:00)*: los vectores de las empresas se centran restando el promedio de las empresas de ese año antes del coseno, para que no gane la que «se parece a todo».
+
+## #90: lo nuevo que dicen los banqueros centrales cada mes, contra las empresas que se le parecen, escrita el 8-nov-2026 ANTES de correr
+Lo aprendido: las pruebas de influencia anuales tienen 8 datos y casi nada se puede confirmar con 8. Los discursos de los banqueros centrales (lista del BIS, 1996-2026, con fecha exacta) permiten medir MES a MES: ~100 meses en vez de 8 años. Es la élite supranacional más concreta.
+- **Lectura:** cada discurso de 2011-2020, un pedazo de ~1.200 caracteres saltando los primeros 300 (título y saludos), a ciegas, Gemma capa 12, 256 tokens (como #68 y #89). Vector del mes = promedio de sus discursos.
+- **Lo nuevo del mes:** vector del mes − promedio de los 12 meses anteriores.
+- **Empresas:** su último 10-K presentado antes de ese mes (vectores de #68, centrados por año). Puntaje = coseno con lo nuevo del mes. Nada aprendido de rendimientos.
+- **Resultado:** precio de fin del mes siguiente a fin de 12 meses después (precios mensuales del proyecto). Se descartan las empresas-mes con un salto de precio de desdoblamiento (cociente mensual 1/2, 1/3, 1/4, 1/5, 1/10 o sus inversos, ±3%). Exceso = log del rendimiento menos la mediana de su grupo.
+- **Medida principal:** décimo de arriba contra 20% de abajo dentro del tercio de tamaño del mes (SIN control de industria: la dirección que empujan los bancos centrales suele ser por sector, y eso es lo que se busca). Secundaria: dentro de SIC 3.
+- **Exploración:** meses 2013-07 a 2016-12. **Confirmación:** 2017-01 a 2020-12. **Placebo de tiempo:** lo nuevo de 48 meses antes.
+- **Pasa si:** en la confirmación la diferencia media es ≥ +3 puntos a 12 meses con t de Newey-West (12 rezagos, porque los meses se pisan) ≥ 2; la exploración da media > 0; y supera al placebo. Se informa la secundaria dentro de industria y la correlación con #89.
+
+### Resultado #87, primera parte: sección 1A (riesgos), 8-nov-2026 (Kaggle ie-sec-1a + análisis local)
+22.638 empresas-año leídas a ciegas; 11.190 con resultado. Exploración alfa 1.000: 0,24 / 0,39 / 0,34 / 0,28.
+| Confirmación 2017-2020, a 4 años, dentro de SIC 3 y tamaño | 2017 | 2018 | 2019 | 2020 | media |
+|---|---|---|---|---|---|
+| negocio (#68) | +71,0 | +28,1 | +29,7 | +25,4 | +38,5 |
+| **riesgos (1A) sola** | **+66,0** | **+46,1** | **+13,8** | **+5,0** | **+32,7** |
+| desastres riesgos, arriba - abajo | -10,9 | -11,1 | -6,8 | -1,1 | |
+| negocio + riesgos juntos (informado; la prueba escrita es 1 + 1A + 7) | +106,9 | +52,1 | +26,1 | +2,6 | +46,9 |
+**La sección de riesgos PASA sola** (≥ +20 con 4 de 4 años positivos). Juntada con el negocio sube la media (+8,4) y la exploración (0,31 → 0,43), pero baja en 2019 y 2020: no cumpliría «sin bajar en más de un año». Lo que decide es la prueba escrita (1 + 1A + 7), cuando termine la sección 7.
+
+### Resultado #87 completo: secciones 1A y 7, y las tres juntas (8-nov-2026)
+| Confirmación 2017-2020, a 4 años | 2017 | 2018 | 2019 | 2020 | media | exploración (corr.) |
+|---|---|---|---|---|---|---|
+| negocio (#68) | +71,0 | +28,1 | +29,7 | +25,4 | +38,5 | 0,37 |
+| riesgos (1A) | +66,0 | +46,1 | +13,8 | +5,0 | +32,7 | 0,31 |
+| **dirección (7)** | **+64,6** | **+56,3** | **+35,6** | **+17,1** | **+43,4** | 0,29 |
+| **las tres juntas (prueba escrita)** | **+112,9** | **+52,7** | **+31,4** | **-0,8** | **+49,1** | **0,45** |
+Desastres, arriba - abajo: dirección -11,0/-14,5/-7,2/-6,3; las tres juntas -20,3/-12,4/-10,8/-2,8.
+- Las dos secciones **pasan solas** (≥ +20, 4 de 4 años positivos).
+- **Las tres juntas suman a Tr según el criterio escrito:** +49,1 contra +38,5 (≥ +5) y bajan contra #68 en un solo año (2020). Entran a Tr.
+- Lo que no me gusta y queda dicho: el junto se apoya mucho en 2017 y en 2020 da cero; la sección 7 sola es la más pareja. Juntar tres veces más conceptos (49.152) con el mismo ridge puede ajustar de más. La prueba limpia es la congelada.
+
+### Resultado #88: conferencias de resultados (8-nov-2026, Kaggle ie-llamadas)
+387-513 empresas del S&P 500 por año; 2.436 con resultado. Exploración 0,06 / 0,32 / 0,13 / 0,07.
+Confirmación (pares dentro de SIC 2): +14,4 / +10,4 / +8,5 / -17,0, media **+4,1**. **No pasa** (pedía ≥ +20). Las preguntas de los analistas, leídas a ciegas, dicen mucho menos que lo que la empresa escribe de sí misma. Muestra chica y sólo sobrevivientes, dicho antes.
+
+### Resultado #90 (8-nov-2026, Kaggle ie-bis + ie-bis90): **no pasa, cero limpio**
+9.217 discursos, 120 meses con vector, 20.811 empresas-año con vector y fecha.
+| | exploración (42 meses) | confirmación (48 meses) | t Newey-West | por año 2017/18/19/20 |
+|---|---|---|---|---|
+| principal (dentro de tamaño) | -0,3 | -0,3 | -0,29 | +1,1 / +2,6 / -0,2 / -4,8 |
+| placebo (48 meses antes) | +1,3 | +1,7 | +0,76 | |
+| dentro de industria | -0,1 | -0,3 | -0,50 | |
+Con 90 meses no hay excusa de muestra chica: parecerse a lo nuevo que dicen los banqueros centrales no anticipa nada a 12 meses, ni entre sectores ni dentro de ellos. Límite de la prueba, dicho: el parecido es entre la descripción del negocio y un discurso macro; puede que el canal de los bancos centrales sea la tasa y el crédito (macro), no el tipo de empresa.
+
+### Resultado #89 (8-nov-2026, Kaggle ie-agenda89g v2, a ciegas): **no pasa; da al revés**
+(La v1 se corrió sin anonimizar por un error mío en el comando: no se midió.)
+| Diferencia a 4 años, décimo más parecido a lo nuevo de la agenda contra el 20% menos parecido | exploración | confirmación | años + |
+|---|---|---|---|
+| **todas las fuentes juntas** | -3,9 | **-11,6** | 1 de 4 |
+| placebo (agenda de 4 años antes) | +5,8 | -4,4 | 1 de 4 |
+| Riesgos Globales de Davos | +0,9 | -12,2 | 1 de 4 |
+| 10 tecnologías de Davos | -12,4 | -6,1 | 1 de 4 |
+| Bilderberg | -9,0 | +4,8 | 3 de 4 |
+| carta de Gates | -0,6 | +0,6 | 2 de 4 |
+Correlación con Gemma #68: -0,01 (mide otra cosa). Lectura: las empresas que más se parecen a lo que Davos instala como nuevo rinden PEOR después, no mejor. Encaja con #61 y #83 (cuando la élite pone un tema, el precio ya lo tiene). **Es una hipótesis, no un resultado:** el criterio buscaba lo contrario. Si se prueba, va con criterio nuevo escrito antes y sobre años no usados (2021-2024 con resultado a 12 meses, o la congelada).
+
+## #91: ¿parecerse a lo nuevo de la agenda de la élite anticipa rendir MENOS? Escrita el 8-nov-2026 ANTES de correr, después de ver #89
+Hipótesis salida de #89 (no estaba en su criterio). Se prueba sólo sobre años NO usados en #89.
+- Mismo método exacto que #89 (a ciegas, capa 12, 256 tokens, lo nuevo = año − promedio de los dos anteriores, coseno con empresas centradas, percentil por fuente y promedio de fuentes). Mismos textos y fuentes, sumando los años 2021-2023 que falten (Riesgos Globales 2021-2023, carta de Gates 2021-2023, Bilderberg 2022-2023, tecnologías 2021 y 2023).
+- Empresas: 10-K de 2021-2024 leídos a ciegas (vectores de #70). Agenda del año anterior al 10-K.
+- Resultado a **12 meses** (`_ret1`, el único cerrado para los cuatro años); a 4 años sólo se informa 2021-2022.
+- **Pasa (la agenda anticipa rendir menos) si:** décimo de arriba menos 20% de abajo, dentro de SIC 3 × tamaño, a 12 meses, ≤ -5 puntos de media con ≥ 3 de 4 años negativos, y más negativo que el placebo (agenda de 4 años antes).
+- Si pasa: entra a Tr como filtro (sacar de la cartera el décimo más parecido a la agenda del año) y se congela hacia adelante con los 10-K de 2026 y la agenda de 2025.
+
+### Resultado #91 (8-nov-2026, ie-agenda89g v3): **no pasa; la dirección se mantiene pero chica**
+10-K 2021-2024, 12 meses: +4,3 / -3,4 / -4,7 / -5,2, media **-2,2** (3 de 4 negativos; pedía ≤ -5). Placebo +1,8. Lo de #89 no era casualidad del todo (la dirección «parecerse a la agenda va peor» se repite 3 de 4 años y le gana al placebo), pero es demasiado chico para usarlo. Tr no cambia.
+
+### #87 como cartera (8-nov-2026, local, misma medida que #69) — decisión: Tr NO cambia la lista en juego
+| | 2017 | 2018 | 2019 | 2020 |
+|---|---|---|---|---|
+| 12 meses: tres secciones / mercado | ×1,352 / ×1,244 | ×1,244 / ×1,133 | ×0,969 / ×0,939 | ×2,106 / ×2,167 |
+| 12 meses: lista en juego (#69) / mercado | ×1,309 / ×1,238 | ×1,242 / ×1,144 | ×1,052 / ×0,953 | ×2,226 / ×2,156 |
+| hundidas a 12 meses: tres secciones / mercado | 2,5 / 4,7% | 3,5 / 6,2% | 15,0 / 18,7% | 1,7 / 2,0% |
+| 4 años: tres secciones / mercado | ×2,763 / ×2,209 | ×1,793 / ×1,806 | ×1,561 / ×1,677 | ×2,466 / ×2,487 |
+| hundidas a 4 años: tres secciones / mercado | 6,0 / 10,5% | 7,5 / 13,0% | 8,0 / 14,1% | 7,6 / 11,4% |
+El criterio de #87 medía la separación entre el décimo de arriba y el 20% de abajo, y ahí mejora (+49 contra +38,5). Pero el juego compra el décimo de arriba contra el mercado, y ahí la de tres secciones es **peor** que la lista en juego: a 12 meses gana 3 de 4 (la actual 4 de 4) con promedio ×1,418 contra ×1,457; a 4 años gana 1 de 4 (la actual 3 de 4). Protege más (menos hundidas 4 de 4 en los dos plazos), rinde menos. La mejora de la separación vino de identificar mejor a las peores, no a las mejores.
+**Decisión:** la lista en juego sigue siendo 3f31f153…. La de tres secciones queda sellada como lista paralela para comparar al cumplirse el año: datos/tr87_cartera_2026.csv (365 empresas), sha256 **597fe03a5a63ea49121ed18835d9cc40ce2646692caf21ef1f3912ea0ecb3b44**. Uso que sí tiene: las de abajo de las tres secciones son las que conviene evitar (filtro de desastres), a probar con criterio propio.
+
+## #92: la lista en juego, sin las que las tres secciones marcan como peores, escrita el 8-nov-2026 ANTES de correr
+- Cartera #69 (10% de arriba de Gemma #68 por industria), sacando las que en el puntaje de tres secciones (#87) quedan en el 20% de abajo de su industria. Misma medida que #69, 2017-2020.
+- **Entra a Tr si:** contra la cartera #69 sin filtro, rinde igual o más a 12 meses en ≥ 3 de 4 años y tiene menos hundidas en ≥ 3 de 4.
+
+### Resultado #92: **no pasa, no cambia nada**
+El filtro saca sólo 4 a 7 empresas por año de la cartera (las dos lecturas casi coinciden arriba): a 12 meses igual o más 2 de 4, menos hundidas 2 de 4. Diferencias de ×0,001-0,007. Tr sigue igual.
+Total probadas: 92.

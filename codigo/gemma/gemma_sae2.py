@@ -13,7 +13,8 @@ N_TOK, LOTE, TOPK = int(os.environ.get('N_TOK', 512)), int(os.environ.get('LOTE'
 t0 = time.time()
 ruta = snapshot_download('unsloth/gemma-2-2b', allow_patterns=['*.json', '*.safetensors', '*.model'])
 tok = AutoTokenizer.from_pretrained(ruta)
-mod = AutoModelForCausalLM.from_pretrained(ruta, dtype=torch.float16, device_map='cuda').eval()
+DEV = 'cuda' if torch.cuda.is_available() else 'cpu'; DT = torch.float16 if DEV == 'cuda' else torch.float32   # sin placa: CPU en float32
+mod = AutoModelForCausalLM.from_pretrained(ruta, dtype=DT, device_map=DEV).eval()
 mod.model.layers = mod.model.layers[:max(CAPAS) + 1]; mod.config.num_hidden_layers = max(CAPAS) + 1
 archivos = list_repo_files('google/gemma-scope-2b-pt-res')
 SAE, guard = {}, {}
@@ -21,7 +22,7 @@ for c in CAPAS:
     op = [f for f in archivos if f.startswith(f'layer_{c}/width_16k/average_l0_') and f.endswith('params.npz')]
     f = min(op, key=lambda x: abs(int(x.split('average_l0_')[1].split('/')[0]) - 80))       # el autoencoder de densidad parecida en cada capa
     p = np.load(hf_hub_download('google/gemma-scope-2b-pt-res', f))
-    SAE[c] = tuple(torch.tensor(p[k], dtype=torch.float16, device='cuda') for k in ('W_enc', 'b_enc', 'threshold'))
+    SAE[c] = tuple(torch.tensor(p[k], dtype=DT, device=DEV) for k in ('W_enc', 'b_enc', 'threshold'))
     mod.model.layers[c].register_forward_hook(lambda m, i, o, c=c: guard.__setitem__(c, o[0] if isinstance(o, tuple) else o))
     print(f'capa {c}: {f}', flush=True)
 print(f'GEMMA listo ({time.time() - t0:.0f}s)', flush=True)
@@ -34,6 +35,7 @@ if arg.endswith('.jsonl'):
             d = json.loads(l); yield d['id'], d['texto']
 else:
     from texto import lineas, cargar, h
+    SECCION, SALTO = os.environ.get('SECCION', 'section_1'), int(os.environ.get('SALTO', 0))   # SALTO: caracteres de fórmula al comienzo que se saltean
     nombre = arg; quiero = set(open(os.environ['QUIERO']).read().split()) if os.environ.get('QUIERO') else None
     def fuente():
         vistos = set()
@@ -42,7 +44,7 @@ else:
                 d = cargar(l)
             except Exception:
                 continue
-            c = str(d.get('cik', '')).strip(); t = (d.get('section_1') or '').strip()
+            c = str(d.get('cik', '')).strip(); t = (d.get(SECCION) or '').strip()[SALTO:]
             if not c or c in vistos or len(t) < 500:
                 continue
             vistos.add(c); i = h(c)
@@ -50,6 +52,7 @@ else:
                 yield i, t
 import re
 ANON = os.environ.get('ANON') == '1'
+SUF = '' if os.environ.get('SECCION', 'section_1') == 'section_1' else os.environ['SECCION'].replace('section_', '')   # sae2a1A-2013-L12.npz
 _P = [(re.compile(r'\((?:NYSE|NASDAQ|Nasdaq|NYSE American|AMEX|OTC)[^)]*\)'), ' '),              # (NASDAQ: XXX)
       (re.compile(r'[\w\-\.]+(?:®|™|\(R\)|\(TM\))'), 'PRODUCT'),                              # marcas
       (re.compile(r'\b(?:19|20)\d\d\b'), 'YEAR'), (re.compile(r'\$?\d[\d,\.]*%?'), 'N'),      # años y números
@@ -62,10 +65,10 @@ def anonimizar(t):
     return t
 ids, filas, lote_t, lote_i = [], {c: [] for c in CAPAS}, [], []
 def procesar():
-    e = tok([t[:12000] for t in lote_t], return_tensors='pt', truncation=True, max_length=N_TOK, padding=True).to('cuda')
+    e = tok([t[:12000] for t in lote_t], return_tensors='pt', truncation=True, max_length=N_TOK, padding=True).to(DEV)
     with torch.no_grad():
         mod(**e, use_cache=False)
-        m = e['attention_mask'].unsqueeze(-1).half()
+        m = e['attention_mask'].unsqueeze(-1).to(DT)
         for c, (W, b, th) in SAE.items():
             pre = guard[c] @ W + b; f = torch.relu(pre) * (pre > th); f[:, 0] = 0
             media = ((f * m).sum(1) / m.sum(1).clamp(min=1)).float()
@@ -81,6 +84,6 @@ for i, t in fuente():
 if lote_t:
     procesar()
 for c in CAPAS:
-    sparse.save_npz(f'sae2{"a" if ANON else ""}-{nombre}-L{c}.npz', sparse.vstack(filas[c]).tocsr())
-np.save(f'sae2{"a" if ANON else ""}-{nombre}-ids.npy', np.array(ids))
+    sparse.save_npz(f'sae2{"a" if ANON else ""}{SUF}-{nombre}-L{c}.npz', sparse.vstack(filas[c]).tocsr())
+np.save(f'sae2{"a" if ANON else ""}{SUF}-{nombre}-ids.npy', np.array(ids))
 print(f'LISTO {nombre}: {len(ids)} empresas, capas {CAPAS} ({time.time() - t0:.0f}s)', flush=True)

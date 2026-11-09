@@ -9,7 +9,7 @@ car, CAPAS = sys.argv[1], sys.argv[3].split(','); PRE = os.environ.get('PREFIJO'
 et = pd.read_csv(sys.argv[2], dtype={'id': str, 'sic': str}).dropna(subset=['anio_presentado'])
 et['anio_presentado'] = et['anio_presentado'].astype(int); et = et.drop_duplicates(['id', 'anio_presentado'])
 bloques, F = {c: [] for c in CAPAS}, []
-for a in range(2013, 2021):
+for a in [a for a in range(2013, 2021) if os.path.exists(f'{car}/{PRE}-{a}-ids.npy')]:
     ids = np.load(f'{car}/{PRE}-{a}-ids.npy'); F.append(pd.DataFrame({'id': ids, 'anio_presentado': a}))
     for c in CAPAS:
         bloques[c].append(sparse.load_npz(f'{car}/{PRE}-{a}-L{c}.npz').tocsr())
@@ -20,7 +20,7 @@ print(f'SAE2 empresas con valores inválidos (descartadas): {malo.sum()} de {len
 d = F.reset_index().merge(et, on=['id', 'anio_presentado'], how='left')
 d['r4'] = pd.to_numeric(d['_ret4'], errors='coerce'); d['sic3'] = d['sic'].str[:3]
 d['ter'] = pd.cut(d['tam'], [0, 1/3, 2/3, 1], include_lowest=True, labels=False)
-g = ['anio_presentado', 'sic3', 'ter']
+d['sic2'] = d['sic'].str[:2]; g = ['anio_presentado'] + os.environ.get('GRUPO', 'sic3,ter').split(',')   # GRUPO=sic2 para muestras chicas (#88)
 ok = (d['r4'].notna() & d['sic'].notna() & d['tam'].notna()).values & ~malo[d['index'].values]
 ok &= (d.groupby(g)['id'].transform('size') >= 5).values
 d['lr'] = np.log(d['r4'].clip(lower=0.01)); d['ex'] = np.nan
