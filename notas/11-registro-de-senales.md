@@ -1415,3 +1415,16 @@ Total probadas: 110 (#102 pasa; #104, #107, #108, #109 y #110 no).
 - **Si hay menos de 30 casos en la confirmación**, se informa «muestra insuficiente» y no se saca conclusión.
 - Informado: hundidas contra lo esperado, mediana, por monto (≥ 100 millones), gobierno contra privado.
 - **Cambio de máquina (antes de leer):** Kaggle no tenía placas libres; el mismo lector y la misma pregunta corren en CPU en GitHub Actions (precisión completa en vez de media; ver el control de Rt: diferencias chicas). Los avisos se leen de a uno en vez de en tandas de 8.
+
+### Resultado #111 (10-nov-2026, entrenar/avisos111_eval.py; lectura en GitHub Actions, 60 tramos en CPU): **muestra insuficiente**
+Qwen leyó los 3.810 avisos (12 sin respuesta legible). Marcó «ganó un contrato de un cliente fuera de EE.UU.» en **304 avisos de 141 empresas** (China 35, Reino Unido 32, Vietnam 16, Brasil 14…). Revisando a mano unos pocos, hay errores claros (un premio de responsabilidad social en Perú contado como contrato); no se corrige porque la regla estaba escrita.
+Al cruzar con el 10-K del año siguiente, `_ret4` y pares del mismo año × SIC 3 × décimo de tamaño (grupos ≥ 5) quedan **32 casos**: la mayoría de esas empresas son chicas o no están en el dataset de rendimientos.
+| tramo | n | exceso medio | p | mediano | hundidas / esperado |
+|---|---|---|---|---|---|
+| exploración 2010-2016 | 18 | −7,1 | 0,69 | +1,5 | 5,6% / 23,3% |
+| confirmación 2017-2020 | 8 | −17,2 | 0,86 | +5,9 | 12,5% / 14,8% |
+| nunca usados 2021-2022 | 6 | −40,9 | 0,93 | −57,3 | 33,3% / 27,3% |
+Aparte: gobierno o empresa estatal n 14, exceso +11,0 (mediana +7,1), hundidas 7,1% contra 26,6%; privado n 18, −36,9.
+Criterio: con 8 casos en la confirmación (< 30) es **muestra insuficiente**; no se saca conclusión. Lo que se ve, sin valor de prueba: el exceso medio es negativo en los tres tramos; el único lado que se parece a #102 (clientes gobierno o estatales: más rendimiento y menos hundidas) tiene 14 casos.
+Lo que se puede decir: con los avisos 8-K que nombran a un gobierno o ministerio, la versión actual de «ganó un contrato afuera» casi no toca a las empresas grandes que tengo medidas. Con este método no se pudo probar.
+Total probadas: 111 (#102 pasa; #104, #107, #108, #109 y #110 no; #111 sin muestra).
