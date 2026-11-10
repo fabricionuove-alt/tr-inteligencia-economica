@@ -1,3 +1,8 @@
 {"fecha": "2026-11-09", "ticker": "FICO", "nombre": "FAIR ISAAC CORP", "acc": "0000814547-26-000042", "puntaje": 0.7708, "corte": 0.772303, "grupo": "738", "arriba": false}
 {"fecha": "2026-11-09", "ticker": "KRUS", "nombre": "KURA SUSHI USA, INC.", "acc": "0001193125-26-449960", "puntaje": -2.5587, "corte": 0.774893, "grupo": "581", "arriba": false}
 {"fecha": "2026-11-09", "ticker": "V", "nombre": "VISA INC.", "acc": "0001403161-26-000134", "puntaje": 0.1353, "corte": 0.772303, "grupo": "738", "arriba": false}
+{"fecha": "2026-11-10", "ticker": "TRAD", "nombre": "APEX Tech Acquisition Inc.", "acc": "0001493152-26-050743", "puntaje": -0.1186, "corte": 0.415381, "grupo": "677", "arriba": false}
+{"fecha": "2026-11-10", "ticker": "EMR", "nombre": "EMERSON ELECTRIC CO", "acc": "0000032604-26-000054", "puntaje": -0.5989, "corte": 0.634851, "grupo": "36", "arriba": false}
+{"fecha": "2026-11-10", "ticker": "BEN", "nombre": "FRANKLIN TEMPLETON INC", "acc": "0000038777-26-000289", "puntaje": 0.0826, "corte": 0.629352, "grupo": "628", "arriba": false}
+{"fecha": "2026-11-10", "ticker": "DIT", "acc": "0001104659-26-124512", "lectura": "sin las tres secciones"}
+{"fecha": "2026-11-10", "ticker": "TEL", "nombre": "TE Connectivity plc", "acc": "0001104659-26-124497", "puntaje": -0.9247, "corte": 0.564252, "grupo": "50", "arriba": false}
