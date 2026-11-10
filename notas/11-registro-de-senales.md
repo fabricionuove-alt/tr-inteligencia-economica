@@ -1449,3 +1449,12 @@ A 4 años: −1,4 y −25,9. Sólo la sección 1A: −5,0 y −1,1. Por año, la
 Criterio (confirmación ≥ +3 con p < 0,05 y positiva en exploración): **no pasa**; no hace falta bajar 2021-2022.
 Lo que se puede decir: con esta medida y estos años, el efecto publicado no aparece en el promedio; va al revés. Se repite lo de todo el registro: las que cambian poco el informe **se hunden menos** (en los dos tramos, casi la mitad) y la mediana es algo más alta; el promedio de las que cambian mucho lo tiran para arriba unas pocas que se disparan. Magnitud, no dirección. Límites: el trabajo original mide con rendimiento mensual de carteras y el corte de secciones de EDGAR-CORPUS no es el mismo; el trabajo salió en 2018, a mitad de estos años.
 Total probadas: 112 (#102 pasa; #104, #107, #108, #109, #110 y #112 no; #111 sin muestra).
+
+## #113: las que reescriben mucho su 10-K se hunden más de lo que dicen su rubro y su tamaño. Escrita el 10-nov-2026 ANTES de medir contra pares
+**Por qué:** en #112 las «cambiadas» (quintil más bajo de similitud con el 10-K anterior) se hundieron casi el doble que las «quietas» a 4 años (15,2% contra 8,6% en confirmación). Eso ya se vio, en crudo. Lo que NO se midió: si es algo más que tamaño y rubro (las chicas y las de ciertos rubros cambian más el texto y también se hunden más).
+**Datos:** los mismos de #112 (lazy112_filas.csv: similitud y _ret4) cruzados con etiquetas.csv (sic, tam).
+**Señal:** cambiada = quintil más bajo de `sim` en su año.
+**Pares:** mismo año × SIC de 3 dígitos × decil de tamaño, grupos ≥5. Esperado = tasa de hundidas de las no señaladas del grupo. Hundida = `_ret4` ≤ 0,5.
+**Medida:** hundidas de las cambiadas − esperado (puntos). Permutación dentro de grupos, 2000 veces, una cola.
+**Criterio:** confirmación 2017-2020 ≥ +3 pts con p < 0,05, y exploración 2010-2016 > 0. Si no, no pasa.
+**Aparte (no decide):** lo mismo con exceso de rendimiento a 4 años contra la mediana de pares, y del lado de las quietas.
