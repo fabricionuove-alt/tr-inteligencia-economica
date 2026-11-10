@@ -6,3 +6,8 @@
 {"fecha": "2026-11-10", "ticker": "BEN", "nombre": "FRANKLIN TEMPLETON INC", "acc": "0000038777-26-000289", "puntaje": 0.0826, "corte": 0.629352, "grupo": "628", "arriba": false}
 {"fecha": "2026-11-10", "ticker": "DIT", "acc": "0001104659-26-124512", "lectura": "sin las tres secciones"}
 {"fecha": "2026-11-10", "ticker": "TEL", "nombre": "TE Connectivity plc", "acc": "0001104659-26-124497", "puntaje": -0.9247, "corte": 0.564252, "grupo": "50", "arriba": false}
+{"fecha": "2026-11-10", "ticker": "BMNR", "nombre": "BITMINE IMMERSION TECHNOLOGIES, INC.", "acc": "0001628280-26-072846", "puntaje": -1.0709, "corte": 0.460448, "grupo": "619", "arriba": false}
+{"fecha": "2026-11-10", "ticker": "SWKS", "nombre": "SKYWORKS SOLUTIONS, INC.", "acc": "0000004127-26-000055", "puntaje": 1.3485, "corte": 0.338764, "grupo": "367", "arriba": true}
+{"fecha": "2026-11-10", "ticker": "BV", "acc": "0001193125-26-455474", "lectura": "sin las tres secciones"}
+{"fecha": "2026-11-10", "ticker": "TDG", "nombre": "TransDigm Group INC", "acc": "0001260221-26-000077", "puntaje": 0.7299, "corte": 0.575923, "grupo": "372", "arriba": true}
+{"fecha": "2026-11-10", "ticker": "SBH", "nombre": "Sally Beauty Holdings, Inc.", "acc": "0001368458-26-000020", "puntaje": -0.529, "corte": 0.600865, "grupo": "59", "arriba": false}
