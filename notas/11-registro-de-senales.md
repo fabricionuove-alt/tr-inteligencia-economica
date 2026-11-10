@@ -1460,3 +1460,10 @@ Total probadas: 112 (#102 pasa; #104, #107, #108, #109, #110 y #112 no; #111 sin
 **Aparte (no decide):** lo mismo con exceso de rendimiento a 4 años contra la mediana de pares, y del lado de las quietas.
 **Resultado #113 (10-nov-2026): no pasa por poco.** Cambiadas: se hunden 13,7% contra 11,3% esperado por sus pares en confirmación (+2,4 pts, p 0,035; el umbral era +3) y 17,7% contra 12,9% en exploración (+4,8, p 0,002). La diferencia existe y es significativa en los dos tramos, pero en confirmación es más chica que lo fijado. Quietas: −3,2 (p 0,006) y −0,8 (p 0,37). El exceso medio es positivo (+40 / +44) y el mediano ≈ 0: más dispersión, no menos rendimiento. Nota: el preregistro se escribió antes de medir, pero se subió a GitHub junto con el resultado (el primer envío fue rechazado). Script: entrenar/hund113.py; salida: sal-cab102/hund113.log.
 Total probadas: 113 (#102 pasa; #104, #107-#110, #112 y #113 no; #111 sin muestra).
+
+## #114: lo de #113 en años nunca usados (10-K presentados en 2021 y 2022). Escrita el 10-nov-2026 ANTES de bajar los informes
+**Por qué:** #113 dio +2,4 pts (p 0,035) en 2017-2020, debajo de su umbral (+3): queda como «no pasa». Esta es otra prueba, con años que ninguna prueba de texto tocó, para ver si el efecto sigue apareciendo.
+**Datos:** de la SEC (data.sec.gov/submissions + Archives), el primer 10-K de cada año 2020, 2021 y 2022 de las empresas que tienen 10-K en EDGAR-CORPUS 2020. Se baja el documento principal, se le sacan etiquetas y números.
+**Medida de similitud:** coseno del texto ENTERO (no por secciones; otra extracción que #112/#113) con HashingVectorizer igual que #112, contra el 10-K del año anterior.
+**Señal, pares y medida:** idénticos a #113 (quintil más bajo de similitud en su año; pares año × SIC3 × decil de tamaño, grupos ≥5; hundida = _ret4 ≤ 0,5; permutación dentro de grupos, 2000, una cola).
+**Criterio:** 2021-2022 juntos: hundidas de las cambiadas − esperado > 0 con p < 0,05. Si no, no pasa. Con menos de 300 cambiadas: muestra insuficiente.
