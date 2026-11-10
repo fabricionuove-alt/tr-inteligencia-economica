@@ -1428,3 +1428,24 @@ Aparte: gobierno o empresa estatal n 14, exceso +11,0 (mediana +7,1), hundidas 7
 Criterio: con 8 casos en la confirmación (< 30) es **muestra insuficiente**; no se saca conclusión. Lo que se ve, sin valor de prueba: el exceso medio es negativo en los tres tramos; el único lado que se parece a #102 (clientes gobierno o estatales: más rendimiento y menos hundidas) tiene 14 casos.
 Lo que se puede decir: con los avisos 8-K que nombran a un gobierno o ministerio, la versión actual de «ganó un contrato afuera» casi no toca a las empresas grandes que tengo medidas. Con este método no se pudo probar.
 Total probadas: 111 (#102 pasa; #104, #107, #108, #109 y #110 no; #111 sin muestra).
+
+## #112: «Lazy Prices» — las que casi no cambian su 10-K rinden más que las que lo reescriben. Escrita el 10-nov-2026 ANTES de bajar los textos
+Fabri: «no va a buscar más nada». Lo que nunca probé es la idea publicada más conocida sobre el texto del 10-K y que apunta a la **dirección**, no a la magnitud: Cohen, Malloy y Nguyen, «Lazy Prices», *Journal of Finance* 75(3), 2020. Las empresas que cambian poco el informe de un año a otro rinden más después; las que lo cambian mucho, menos (sobre todo por la sección de riesgos). El trabajo salió en 2018 (SSRN): después de eso puede haberse gastado.
+- **Fuente:** EDGAR-CORPUS (Loukas y otros, 2021; huggingface.co/datasets/eloukas/edgar-corpus), 10-K separados por sección, años 2009-2020. Para 2021-2022 (nunca usados) se bajan de la SEC con el mismo corte por sección si hace falta; si no se consiguen, se informa sin ese tramo y el criterio se evalúa con los otros dos.
+- **Medida (fija):** para cada empresa (CIK) y año, similitud coseno de frecuencias de palabras (minúsculas, sólo letras, `HashingVectorizer` 2^20, norma L2) entre su 10-K y el del año anterior, en las secciones 1, 1A y 7; similitud = promedio de las secciones que existan en los dos años (al menos una). Sin 10-K el año anterior, no entra.
+- **Grupos:** cada año de presentación, quintiles de similitud entre todas las empresas con rendimiento medido. «Quietas» = quintil más alto; «cambiadas» = quintil más bajo.
+- **Resultado:** `_ret1` (12 meses desde el informe, quiebra = 0), como en el trabajo. Diferencia = media de `_ret1` de quietas − media de cambiadas, en puntos. Permutación de la etiqueta quieta/cambiada dentro de año × SIC 2 (2.000), una cola.
+- **Años (10-K):** exploración 2010-2016, confirmación 2017-2020, nunca usados 2021-2022.
+- **Pasa si:** confirmación ≥ +3 puntos con p < 0,05, y positiva en exploración y (si se consigue) en 2021-2022. Si pasa, entra a Rt como regla escrita aparte (Tr está sellada).
+- Informado: lo mismo a 4 años (`_ret4`), hundidas, mediana, y la sección 1A sola.
+
+### Resultado #112 (10-nov-2026, entrenar/lazy112.py): **no pasa**
+EDGAR-CORPUS 2009-2020: 95.000 10-K, 70.796 pares empresa-año contra su año anterior; con rendimiento medido 24.317 (2010 tiene pocos: 394). Rendimientos como multiplicador × 100 (123,7 = ×1,237); la diferencia es en puntos.
+| tramo | quietas / cambiadas (n) | `_ret1` medio quietas / cambiadas | dif | p | medianas | hundidas a 4 años |
+|---|---|---|---|---|---|---|
+| exploración 2010-2016 | 2.798 / 2.798 | 123,7 / 129,8 | −6,1 | 0,99 | 113,1 / 109,7 | 7,9% / 14,5% |
+| confirmación 2017-2020 | 2.068 / 2.070 | 133,7 / 145,0 | −11,2 | 0,97 | 109,9 / 106,8 | 7,4% / 11,9% |
+A 4 años: −1,4 y −25,9. Sólo la sección 1A: −5,0 y −1,1. Por año, las quietas le ganan a las cambiadas en 3 de 11 (2010, 2011, 2015), nunca con p < 0,05.
+Criterio (confirmación ≥ +3 con p < 0,05 y positiva en exploración): **no pasa**; no hace falta bajar 2021-2022.
+Lo que se puede decir: con esta medida y estos años, el efecto publicado no aparece en el promedio; va al revés. Se repite lo de todo el registro: las que cambian poco el informe **se hunden menos** (en los dos tramos, casi la mitad) y la mediana es algo más alta; el promedio de las que cambian mucho lo tiran para arriba unas pocas que se disparan. Magnitud, no dirección. Límites: el trabajo original mide con rendimiento mensual de carteras y el corte de secciones de EDGAR-CORPUS no es el mismo; el trabajo salió en 2018, a mitad de estos años.
+Total probadas: 112 (#102 pasa; #104, #107, #108, #109, #110 y #112 no; #111 sin muestra).
