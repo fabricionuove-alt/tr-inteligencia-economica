@@ -63,7 +63,7 @@ td{vertical-align:top}
 <p>Tr nunca ve el nombre de la empresa ni su precio. Ve cada número comparado con el de las demás empresas de ese año: si una gana más que el 80% de las otras, eso es lo que sabe. Así no puede hacer trampa acordándose de que a Apple le fue bien.</p>
 
 <h2>Cómo se probó</h2>
-<p>Se probaron 113 ideas. Antes de cada prueba se escribió qué tenía que pasar para darla por buena. Casi todas fallaron, y quedaron anotadas igual: lo que no funcionó también se cuenta.</p>
+<p>Se probaron 114 ideas. Antes de cada prueba se escribió qué tenía que pasar para darla por buena. Casi todas fallaron, y quedaron anotadas igual: lo que no funcionó también se cuenta.</p>
 
 <h2>Lo que sabe</h2>
 <ul>
@@ -100,11 +100,11 @@ td{vertical-align:top}
 <h2 class="titulo">Magnitud sin dirección: lo que una máquina puede leer en los informes públicos de las empresas</h2>
 <p class="nota">ODD · noviembre de 2026 · registro, código y pesos: github.com/fabricionuove-alt/tr-inteligencia-economica</p>
 
-<p class="resumen"><b>Resumen.</b> Con información pública y gratuita de la SEC sobre 10.505 empresas de EE.UU. (2009-2026), probamos 113 hipótesis para elegir acciones, cada una con su criterio de éxito escrito antes de correrla. Encontramos tres cosas. Primero, los modelos reconocen cuánto se va a mover una empresa (AUC 0,79-0,84) y cuál se puede hundir (AUC 0,74-0,85), pero no hacia qué lado (0,54-0,69); casi todas las señales que probamos, incluidas las de la élite económica, repiten ese patrón. Segundo, un modelo de lenguaje abierto (Gemma 2 2B) leyendo a ciegas el informe anual separa a las empresas que rinden más que sus pares a cuatro años de las que rinden menos (+49 puntos de logaritmo entre el decil de arriba y el quintil de abajo, 2017-2020, fuera de muestra); en 2021-2024 esa lectura sigue reduciendo las empresas hundidas pero deja de ganarle al mercado. Tercero, en los cables diplomáticos de WikiLeaks, las empresas que una embajada describe como ganadoras de un contrato rinden 20,7 puntos más a cuatro años que las sólo mencionadas, en dos lecturas independientes. La prueba que decide es hacia adelante: la cartera del juego quedó sellada y se mide en noviembre de 2030.</p>
+<p class="resumen"><b>Resumen.</b> Con información pública y gratuita de la SEC sobre 10.505 empresas de EE.UU. (2009-2026), probamos 114 hipótesis para elegir acciones, cada una con su criterio de éxito escrito antes de correrla. Encontramos tres cosas. Primero, los modelos reconocen cuánto se va a mover una empresa (AUC 0,79-0,84) y cuál se puede hundir (AUC 0,74-0,85), pero no hacia qué lado (0,54-0,69); casi todas las señales que probamos, incluidas las de la élite económica, repiten ese patrón. Segundo, un modelo de lenguaje abierto (Gemma 2 2B) leyendo a ciegas el informe anual separa a las empresas que rinden más que sus pares a cuatro años de las que rinden menos (+49 puntos de logaritmo entre el decil de arriba y el quintil de abajo, 2017-2020, fuera de muestra); en 2021-2024 esa lectura sigue reduciendo las empresas hundidas pero deja de ganarle al mercado. Tercero, en los cables diplomáticos de WikiLeaks, las empresas que una embajada describe como ganadoras de un contrato rinden 20,7 puntos más a cuatro años que las sólo mencionadas, en dos lecturas independientes. La prueba que decide es hacia adelante: la cartera del juego quedó sellada y se mide en noviembre de 2030.</p>
 
 <h2>1. Introducción</h2>
 <p>¿Alcanza la información pública para elegir acciones que rindan más que el mercado? La respuesta habitual es que no, porque lo público ya está en el precio. Pero los modelos de lenguaje cambiaron cuánto texto se puede leer y con qué detalle: Kim, Muhn y Nikolaev (2024) muestran que GPT-4, con estados contables anonimizados, anticipa la dirección de las ganancias como un analista. Quedaba abierta la pregunta sobre el precio, medida con disciplina contra el azar.</p>
-<p>Este trabajo responde con 113 hipótesis pre-registradas y una regla simple: lo que no cumple su criterio escrito se descarta, aunque se vea bien de otra forma. El resultado central es una asimetría. Lo que se ve desde afuera de una empresa —sus números, su trayectoria, quién compra y vende, qué dice de sí misma, qué dice la élite— informa sobre la <i>magnitud</i> del movimiento futuro y sobre el riesgo de <i>desastre</i>, pero casi nada sobre la <i>dirección</i>. Una cartera construida con eso protege: se hunde menos que el mercado. Ganarle de manera sostenida es otra cosa.</p>
+<p>Este trabajo responde con 114 hipótesis pre-registradas y una regla simple: lo que no cumple su criterio escrito se descarta, aunque se vea bien de otra forma. El resultado central es una asimetría. Lo que se ve desde afuera de una empresa —sus números, su trayectoria, quién compra y vende, qué dice de sí misma, qué dice la élite— informa sobre la <i>magnitud</i> del movimiento futuro y sobre el riesgo de <i>desastre</i>, pero casi nada sobre la <i>dirección</i>. Una cartera construida con eso protege: se hunde menos que el mercado. Ganarle de manera sostenida es otra cosa.</p>
 <p>Los aportes son tres. (i) Una medición de la asimetría magnitud/dirección sobre una muestra que incluye a las empresas que quebraron, con controles por industria fina y tamaño. (ii) Evidencia de que el espacio latente de un modelo de lenguaje abierto, leído a ciegas, contiene información sobre el rendimiento relativo a cuatro años que no proviene de reconocer a la empresa. (iii) Un registro completo de lo que no funcionó, incluidas las hipótesis sobre la élite económica, que suele quedar fuera de los papers.</p>
 
 <h2>2. Datos</h2>
@@ -187,22 +187,23 @@ td{vertical-align:top}
 <h2>7. Lo que no anticipó nada</h2>
 <div class="tabla"><table>
 <tr><th>Familia de hipótesis</th><th>Pruebas</th><th>Pasan su criterio</th><th>Sobreviven después</th></tr>
-<tr><td>Señales contables y de texto (#1-#38, #112, #113)</td><td>40</td><td>1</td><td>0</td></tr>
+<tr><td>Señales contables y de texto (#1-#38, #112-#114)</td><td>41</td><td>2</td><td>1</td></tr>
 <tr><td>Trayectorias, personas, combinaciones (#39-#51)</td><td>13</td><td>2</td><td>1</td></tr>
 <tr><td>Redes, opciones, índice (#52-#58)</td><td>7</td><td>0</td><td>0</td></tr>
 <tr><td>Élite: agendas, familias, fundaciones, plata pública (#59-#61, #71-#83, #89-#91, #98-#100)</td><td>21</td><td>1</td><td>0</td></tr>
 <tr><td>Lectura de informes con modelos (#62-#70, #74, #86-#88, #92-#97)</td><td>19</td><td>6</td><td>4</td></tr>
 <tr><td>Multitud y directivos (#84-#85)</td><td>2</td><td>0</td><td>0</td></tr>
 <tr><td>Cables y contratos (#101-#111)</td><td>11</td><td>1</td><td>1</td></tr>
-<tr><td><b>Total</b></td><td><b>113</b></td><td><b>11</b></td><td><b>6</b></td></tr>
+<tr><td><b>Total</b></td><td><b>114</b></td><td><b>12</b></td><td><b>7</b></td></tr>
 </table></div>
 <p class="nota">Tabla 7. «Sobreviven después»: siguen en pie tras la prueba siguiente (fuera de tiempo, a ciegas o en otra fuente). El detalle de cada una está en el apéndice.</p>
 <p>Tampoco apareció el efecto publicado más conocido sobre el texto del 10-K, «Lazy Prices» (Cohen, Malloy y Nguyen, 2020; #112): con 70.796 pares de informes de EDGAR-CORPUS, las empresas que casi no cambian el informe rindieron a 12 meses 11,2 puntos <i>menos</i> que las que más lo cambian en 2017-2020 (p = 0,97), pero se hundieron menos a cuatro años (7,4% contra 11,9%). Es la misma asimetría: el texto informa la magnitud, no la dirección.</p>
 <p>La #113 midió si eso es algo más que tamaño y rubro: las que más reescriben el informe se hundieron 13,7% contra 11,3% de sus pares del mismo rubro y tamaño en 2017-2020 (+2,4 puntos, p = 0,035) y 17,7% contra 12,9% en 2010-2016. Es significativo en los dos tramos, pero quedó debajo del umbral fijado (+3), así que no pasa.</p>
+<p>La #114 repitió la medida con años que ninguna prueba de texto había tocado: 5.295 informes de 2021 y 2022 bajados directamente de la SEC. Ahí pasó: las que más reescribieron el informe se hundieron 36,7% contra 28,0% de sus pares de rubro y tamaño (+8,7 puntos, p = 0,004), y las que menos lo cambiaron, 20,2% contra 26,6%. El rendimiento medio de las que reescriben no fue menor; lo que cambia es cuántas se caen. Es la asimetría de todo el trabajo, ahora confirmada fuera de muestra: el texto anticipa el riesgo, no la dirección.</p>
 <p>La familia de la élite merece una línea aparte porque fue la hipótesis más fuerte del proyecto: que quienes deciden instalan una agenda y el mercado la sigue. Con 21 pruebas —temas de Bilderberg y Davos, cartas y donaciones de la Fundación Gates, 9.217 discursos de banqueros centrales, proyectos del Congreso, compras propias de dinastías europeas, exclusiones del fondo soberano de Noruega— no apareció dirección. Lo más consistente fue lo contrario: las empresas que más se parecen a lo nuevo de la agenda rinden igual o algo menos (#89, #91), como si el precio ya lo tuviera.</p>
 
 <h2>8. Cuánto podría ser azar</h2>
-<p>Con 113 pruebas, alguna pasa por suerte (Harvey, Liu y Zhu, 2016). Si cada criterio fuera un test al 5%, el azar solo daría unas cinco. Pasaron once, pero cinco se cayeron en la prueba siguiente (#35 con control de tamaño, #44 fuera de tiempo, #60 al bajar a cada tecnología, #69 y #96 en años nuevos). Siguen en pie seis: el placebo de Kelly (#51, en años ya usados), la lectura de los informes (#62, #65, #68, #87; desde 2021, como filtro de desastres) y los cables (#102). No todos los criterios son tests con el mismo nivel, así que esto es una cota de orden de magnitud, no un ajuste formal por comparaciones múltiples.</p>
+<p>Con 114 pruebas, alguna pasa por suerte (Harvey, Liu y Zhu, 2016). Si cada criterio fuera un test al 5%, el azar solo daría unas cinco. Pasaron doce, pero cinco se cayeron en la prueba siguiente (#35 con control de tamaño, #44 fuera de tiempo, #60 al bajar a cada tecnología, #69 y #96 en años nuevos). Siguen en pie siete: el placebo de Kelly (#51, en años ya usados), la lectura de los informes (#62, #65, #68, #87; desde 2021, como filtro de desastres) los cables (#102) y el informe que se reescribe mucho (#114, en años nunca usados, como señal de riesgo). No todos los criterios son tests con el mismo nivel, así que esto es una cota de orden de magnitud, no un ajuste formal por comparaciones múltiples.</p>
 
 <h2>9. La prueba hacia adelante</h2>
 <p>Todos los años con resultado conocido ya se usaron. Por eso la cartera con la que juega Tr —365 empresas, el 10% de arriba de la lectura a ciegas de las tres secciones dentro de cada industria, con los informes de 2026— quedó sellada antes de jugar. Se publica su huella sha256 y se revela en noviembre de 2030; si el archivo cambia un byte, la huella cambia.</p>
@@ -240,7 +241,7 @@ td{vertical-align:top}
 <li>Lieberum, T. y otros (2024). Gemma Scope: open sparse autoencoders on Gemma 2. Google DeepMind.</li>
 </ul>
 
-<h2>Apéndice: las 113 pruebas</h2>
+<h2>Apéndice: las 114 pruebas</h2>
 <div class="tabla"><table>
 <tr><th>#</th><th>Hipótesis</th><th>Resultado</th></tr>
 <tr><td>1-12</td><td>Ratios de calidad de cinco inversores de valor</td><td>chico (0,51-0,54)</td></tr>
@@ -279,6 +280,7 @@ td{vertical-align:top}
 <tr><td>111</td><td>Contratos con otro país, avisos leídos por un modelo</td><td>sin muestra (8 casos)</td></tr>
 <tr><td>112</td><td>«Lazy Prices»: las que no cambian su 10-K (Cohen, Malloy y Nguyen, 2020)</td><td>no (−11,2 pts; se hunden menos)</td></tr>
 <tr><td>113</td><td>Las que reescriben su 10-K se hunden más que sus pares de rubro y tamaño</td><td>no por poco (+2,4 pts, umbral +3)</td></tr>
+<tr><td>114</td><td>Lo mismo en 2021-2022, años nunca usados, informes bajados de la SEC</td><td><b>pasa</b> (+8,7 pts de hundidas, p 0,004)</td></tr>
 </table></div>
 
 </section>
