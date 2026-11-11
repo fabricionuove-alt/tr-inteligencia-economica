@@ -1,29 +1,25 @@
 {
 "inicio": "2026-11-09",
 "spy": {
-"monto": 9995.0,
+"monto": 9940.233064195947,
 "aj_compra": 752.6900024414062,
 "fecha": "2026-11-09"
 },
-"pos": {},
-"pendientes": [
-{
-"lado": "compra",
-"ticker": "SWKS",
+"pos": {
+"SWKS": {
 "id": "4760206f626b",
-"nombre": "SKYWORKS SOLUTIONS, INC.",
-"motivo": "Gemma +1.348 contra el corte +0.339 de su industria (SIC 367)",
-"decidido": "2026-11-10T23:20:44.552682+00:00"
+"monto": 27.57351484006659,
+"aj_compra": 87.63999938964844,
+"fecha": "2026-11-11"
 },
-{
-"lado": "compra",
-"ticker": "TDG",
+"TDG": {
 "id": "064b87d2f487",
-"nombre": "TransDigm Group INC",
-"motivo": "Gemma +0.730 contra el corte +0.576 de su industria (SIC 372)",
-"decidido": "2026-11-10T23:21:15.190924+00:00"
+"monto": 27.573326055919782,
+"aj_compra": 1245.0,
+"fecha": "2026-11-11"
 }
-],
+},
+"pendientes": [],
 "leidos": [
 "0000814547-26-000042",
 "0001193125-26-449960",
