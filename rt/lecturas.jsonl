@@ -14,3 +14,8 @@
 {"fecha": "2026-11-12", "ticker": "ROK", "nombre": "ROCKWELL AUTOMATION, INC", "acc": "0001024478-26-000048", "puntaje": 0.1097, "corte": 0.935502, "grupo": "382", "arriba": false}
 {"fecha": "2026-11-12", "ticker": "JCI", "nombre": "Johnson Controls International plc", "acc": "0000833444-26-000108", "puntaje": -0.5443, "corte": 0.461444, "grupo": "35", "arriba": false}
 {"fecha": "2026-11-12", "ticker": "EZPW", "nombre": "EZCORP INC", "acc": "0000876523-26-000076", "puntaje": 0.1196, "corte": 0.670663, "grupo": "590", "arriba": false}
+{"fecha": "2026-11-12", "ticker": "RMR", "nombre": "RMR GROUP INC.", "acc": "0001644378-26-000026", "puntaje": 0.6715, "corte": 0.446319, "grupo": "874", "arriba": true}
+{"fecha": "2026-11-12", "ticker": "FC", "acc": "0001193125-26-458439", "lectura": "sin las tres secciones"}
+{"fecha": "2026-11-12", "ticker": "SBUX", "nombre": "STARBUCKS CORP", "acc": "0000829224-26-000162", "puntaje": 0.9255, "corte": 0.774893, "grupo": "581", "arriba": true}
+{"fecha": "2026-11-12", "ticker": "ARWR", "nombre": "ARROWHEAD PHARMACEUTICALS, INC.", "acc": "0000879407-26-000078", "puntaje": 0.2728, "corte": 0.806592, "grupo": "283", "arriba": false}
+{"fecha": "2026-11-12", "ticker": "MTSI", "nombre": "MACOM Technology Solutions Holdings, Inc.", "acc": "0001493594-26-000044", "puntaje": 0.0347, "corte": 0.338764, "grupo": "367", "arriba": false}
