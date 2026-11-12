@@ -11,3 +11,6 @@
 {"fecha": "2026-11-10", "ticker": "BV", "acc": "0001193125-26-455474", "lectura": "sin las tres secciones"}
 {"fecha": "2026-11-10", "ticker": "TDG", "nombre": "TransDigm Group INC", "acc": "0001260221-26-000077", "puntaje": 0.7299, "corte": 0.575923, "grupo": "372", "arriba": true}
 {"fecha": "2026-11-10", "ticker": "SBH", "nombre": "Sally Beauty Holdings, Inc.", "acc": "0001368458-26-000020", "puntaje": -0.529, "corte": 0.600865, "grupo": "59", "arriba": false}
+{"fecha": "2026-11-12", "ticker": "ROK", "nombre": "ROCKWELL AUTOMATION, INC", "acc": "0001024478-26-000048", "puntaje": 0.1097, "corte": 0.935502, "grupo": "382", "arriba": false}
+{"fecha": "2026-11-12", "ticker": "JCI", "nombre": "Johnson Controls International plc", "acc": "0000833444-26-000108", "puntaje": -0.5443, "corte": 0.461444, "grupo": "35", "arriba": false}
+{"fecha": "2026-11-12", "ticker": "EZPW", "nombre": "EZCORP INC", "acc": "0000876523-26-000076", "puntaje": 0.1196, "corte": 0.670663, "grupo": "590", "arriba": false}
