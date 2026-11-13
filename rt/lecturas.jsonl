@@ -19,3 +19,4 @@
 {"fecha": "2026-11-12", "ticker": "SBUX", "nombre": "STARBUCKS CORP", "acc": "0000829224-26-000162", "puntaje": 0.9255, "corte": 0.774893, "grupo": "581", "arriba": true}
 {"fecha": "2026-11-12", "ticker": "ARWR", "nombre": "ARROWHEAD PHARMACEUTICALS, INC.", "acc": "0000879407-26-000078", "puntaje": 0.2728, "corte": 0.806592, "grupo": "283", "arriba": false}
 {"fecha": "2026-11-12", "ticker": "MTSI", "nombre": "MACOM Technology Solutions Holdings, Inc.", "acc": "0001493594-26-000044", "puntaje": 0.0347, "corte": 0.338764, "grupo": "367", "arriba": false}
+{"fecha": "2026-11-13", "ticker": "TVE", "nombre": "Tennessee Valley Authority", "acc": "0001376986-26-000041", "puntaje": -0.7081, "corte": 1.125304, "grupo": "491", "arriba": false}
