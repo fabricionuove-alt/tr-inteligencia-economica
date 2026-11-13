@@ -1506,3 +1506,10 @@ Total probadas: 115 (#102 y #114 pasan; #104, #107-#110, #112, #113 y #115 no; #
 **Criterio:** pasa si la pendiente con la diferencia da p < 0,05. Con 13 cohortes, un no pasa no descarta nada.
 **Resultado #118 (13-nov-2026): no pasa.** Pendiente 10a−2a de ene-mar contra la diferencia cambiadas − quietas: ρ +0,03 (p 0,92). Contra el mercado a 4 años: ρ +0,37 (p 0,20). Con esta medida y 13 cohortes la curva no anticipó la fase del ciclo que mueve la señal. Script: entrenar/tasas118.py; salida: sal-cab102/tasas118.log.
 Total probadas: 118 (#102 y #114 pasan; #117 pasa la parte A (el ciclo existe) y no la B (verlo antes); #104, #107-#110, #112, #113, #115, #116 y #118 no; #111 sin muestra).
+
+## #119: la euforia anticipa el ciclo — después de años con muchas salidas a la bolsa, el lado riesgoso rinde peor. Escrita el 13-nov-2026 ANTES de contar
+**Por qué:** #117 mostró el ciclo y #118 que la curva de tasas no lo anticipa. Baker y Wurgler (2006, Journal of Finance, «Investor sentiment and the cross-section of stock returns») encuentran que después de épocas de sentimiento alto las acciones especulativas rinden peor; uno de sus componentes es la cantidad de salidas a la bolsa.
+**Datos:** índices trimestrales de EDGAR (full-index/AAAA/QTRn/form.gz), 2009-2021.
+**Medida:** cantidad de formularios S-1 (originales, sin enmiendas S-1/A) presentados en el año calendario anterior al de presentación de la cohorte (se conoce al comprar).
+**Prueba:** Spearman entre esa cantidad y la diferencia cambiadas − quietas por cohorte de #117 (ciclo117_cohortes.csv, 13 cohortes 2010-2022, sin tocar). Permutación de cohortes 10.000.
+**Criterio:** ρ < 0 con p < 0,05 (una cola, la dirección de Baker y Wurgler). Con 13 cohortes, un no pasa no descarta nada.
