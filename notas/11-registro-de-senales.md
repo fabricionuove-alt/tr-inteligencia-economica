@@ -1487,6 +1487,8 @@ Total probadas: 115 (#102 y #114 pasan; #104, #107-#110, #112, #113 y #115 no; #
 **Señal:** quintil más alto de singularidad en su año. Pares, hundida y permutación: idénticos a #113/#114 (año × SIC3 × decil de tamaño, grupos ≥5; _ret4 ≤ 0,5; 2000, una cola hacia abajo).
 **Criterio:** 2021-2022 juntos: hundidas de las singulares − esperado < 0 con p < 0,05. Con menos de 300 singulares en grupos de pares: muestra insuficiente.
 
+**Resultado #116 (13-nov-2026): no pasa.** Sección 1 encontrada en 2.557 informes de 2021 y 2.536 de 2022; 2.084 con rendimiento y pares. Singulares: se hundieron 20,9% contra 20,8% esperado por sus pares de rubro y tamaño (+0,1, p 0,56). Lo que en #115 separaba en crudo (9,4% contra 19,2%) con pares no apareció: con este método, parece venir del rubro y el tamaño. Aparte, no decide: exceso mediano a 4 años +7,3 en las singulares contra −11,7 en las genéricas (que se hundieron 31,4% contra 27,2% esperado, p 0,13). Script: entrenar/sing116.py; salida: sal-cab102/sing116.log.
+
 ## #117: el ciclo — el lado riesgoso gana cuando el mercado sube, y eso se puede saber antes. Escrita el 13-nov-2026 ANTES de medir
 **Por qué (pedido de Fabri: «un ciclo que no estás viendo»):** varias señales dan vuelta el signo según los años (#115: −15,6 en 2010-2016 y +20,0 en 2017-2020; Gemma gana en 2017-2020 y no en 2021-2024; los «cohetes» fallan en 2021-2022). En vez de leerlo como azar, la hipótesis es que la dirección depende de la fase del ciclo.
 **Señal de riesgo:** «cambiadas» = quintil más bajo de similitud con el 10-K anterior (la de #112-#114, la que más anticipa hundirse); «quietas» = quintil más alto. 2010-2020 de lazy112_filas.csv (secciones, EDGAR-CORPUS) y 2021-2022 de sim114.jsonl (texto entero, SEC).
@@ -1502,3 +1504,5 @@ Total probadas: 115 (#102 y #114 pasan; #104, #107-#110, #112, #113 y #115 no; #
 **Medida:** pendiente media de 10 años − 2 años entre enero y marzo del año de presentación (cuando salen la mayoría de los 10-K).
 **Prueba:** Spearman entre esa pendiente y la diferencia por cohorte de #117 (ciclo117_cohortes.csv, 13 cohortes, sin tocar), y aparte contra la mediana del mercado a 4 años. Permutación de cohortes 10.000, dos colas.
 **Criterio:** pasa si la pendiente con la diferencia da p < 0,05. Con 13 cohortes, un no pasa no descarta nada.
+**Resultado #118 (13-nov-2026): no pasa.** Pendiente 10a−2a de ene-mar contra la diferencia cambiadas − quietas: ρ +0,03 (p 0,92). Contra el mercado a 4 años: ρ +0,37 (p 0,20). Con esta medida y 13 cohortes la curva no anticipó la fase del ciclo que mueve la señal. Script: entrenar/tasas118.py; salida: sal-cab102/tasas118.log.
+Total probadas: 118 (#102 y #114 pasan; #117 pasa la parte A (el ciclo existe) y no la B (verlo antes); #104, #107-#110, #112, #113, #115, #116 y #118 no; #111 sin muestra).
