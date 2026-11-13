@@ -1513,3 +1513,5 @@ Total probadas: 118 (#102 y #114 pasan; #117 pasa la parte A (el ciclo existe) y
 **Medida:** cantidad de formularios S-1 (originales, sin enmiendas S-1/A) presentados en el año calendario anterior al de presentación de la cohorte (se conoce al comprar).
 **Prueba:** Spearman entre esa cantidad y la diferencia cambiadas − quietas por cohorte de #117 (ciclo117_cohortes.csv, 13 cohortes 2010-2022, sin tocar). Permutación de cohortes 10.000.
 **Criterio:** ρ < 0 con p < 0,05 (una cola, la dirección de Baker y Wurgler). Con 13 cohortes, un no pasa no descarta nada.
+**Resultado #119 (13-nov-2026): no pasa.** S-1 por año en EDGAR: de 701 (2019) a 2.236 (2021). Contra la diferencia cambiadas − quietas de la cohorte siguiente: ρ −0,16 (p 0,29), en la dirección de Baker y Wurgler pero sin fuerza; contra el mercado a 4 años, ρ −0,25. La cohorte 2022, la del año con más salidas a la bolsa (2021), sí quedó abajo (−18,9), pero con 13 cohortes no alcanza. Script: entrenar/euforia119.py; salida: sal-cab102/euforia119.log.
+Total probadas: 119 (#102 y #114 pasan; #117 pasa la parte A y no la B; #104, #107-#110, #112, #113, #115, #116, #118 y #119 no; #111 sin muestra).
