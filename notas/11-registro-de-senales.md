@@ -1486,3 +1486,11 @@ Total probadas: 115 (#102 y #114 pasan; #104, #107-#110, #112, #113 y #115 no; #
 **Medida:** singularidad igual que #115 (1 − coseno con el centroide del resto de su SIC2 ese año, grupos ≥10).
 **Señal:** quintil más alto de singularidad en su año. Pares, hundida y permutación: idénticos a #113/#114 (año × SIC3 × decil de tamaño, grupos ≥5; _ret4 ≤ 0,5; 2000, una cola hacia abajo).
 **Criterio:** 2021-2022 juntos: hundidas de las singulares − esperado < 0 con p < 0,05. Con menos de 300 singulares en grupos de pares: muestra insuficiente.
+
+## #117: el ciclo — el lado riesgoso gana cuando el mercado sube, y eso se puede saber antes. Escrita el 13-nov-2026 ANTES de medir
+**Por qué (pedido de Fabri: «un ciclo que no estás viendo»):** varias señales dan vuelta el signo según los años (#115: −15,6 en 2010-2016 y +20,0 en 2017-2020; Gemma gana en 2017-2020 y no en 2021-2024; los «cohetes» fallan en 2021-2022). En vez de leerlo como azar, la hipótesis es que la dirección depende de la fase del ciclo.
+**Señal de riesgo:** «cambiadas» = quintil más bajo de similitud con el 10-K anterior (la de #112-#114, la que más anticipa hundirse); «quietas» = quintil más alto. 2010-2020 de lazy112_filas.csv (secciones, EDGAR-CORPUS) y 2021-2022 de sim114.jsonl (texto entero, SEC).
+**Diferencia por cohorte (año de presentación):** media de exceso logarítmico a 4 años de las cambiadas − de las quietas. Exceso log = log(max(_ret4, 0,01)) − mediana de log de su grupo año × SIC3 × decil de tamaño (grupos ≥5).
+**A (explica):** correlación de Spearman entre esa diferencia y la mediana de _ret4 de todo el mercado en la misma cohorte (13 cohortes 2010-2022). Hipótesis ρ > 0.
+**B (decide si sirve para elegir):** correlación de Spearman entre la diferencia y lo que el mercado rindió el año ANTERIOR (mediana de _ret1 de la cohorte previa, que ya se sabe al comprar). Hipótesis: ρ ≠ 0 (cualquier signo, dos colas).
+**Criterio:** A: ρ > 0 con p < 0,05 (permutación de cohortes, 10.000, una cola). B: |ρ| con p < 0,05 (dos colas). Si A pasa y B no: «el ciclo existe pero no se ve antes con esta medida». Con 13 cohortes la prueba es de poca potencia: un no pasa no descarta el ciclo.
