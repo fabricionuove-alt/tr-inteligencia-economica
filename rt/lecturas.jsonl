@@ -20,3 +20,6 @@
 {"fecha": "2026-11-12", "ticker": "ARWR", "nombre": "ARROWHEAD PHARMACEUTICALS, INC.", "acc": "0000879407-26-000078", "puntaje": 0.2728, "corte": 0.806592, "grupo": "283", "arriba": false}
 {"fecha": "2026-11-12", "ticker": "MTSI", "nombre": "MACOM Technology Solutions Holdings, Inc.", "acc": "0001493594-26-000044", "puntaje": 0.0347, "corte": 0.338764, "grupo": "367", "arriba": false}
 {"fecha": "2026-11-13", "ticker": "TVE", "nombre": "Tennessee Valley Authority", "acc": "0001376986-26-000041", "puntaje": -0.7081, "corte": 1.125304, "grupo": "491", "arriba": false}
+{"fecha": "2026-11-13", "ticker": "EPC", "nombre": "EDGEWELL PERSONAL CARE Co", "acc": "0001628280-26-073923", "puntaje": -0.5729, "corte": 0.354742, "grupo": "284", "arriba": false}
+{"fecha": "2026-11-13", "ticker": "LEGO", "acc": "0001829126-26-012403", "lectura": "sin las tres secciones"}
+{"fecha": "2026-11-13", "ticker": "ADNT", "nombre": "Adient plc", "acc": "0001670541-26-000122", "puntaje": -0.3288, "corte": 0.470811, "grupo": "371", "arriba": false}
