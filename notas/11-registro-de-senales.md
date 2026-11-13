@@ -1469,3 +1469,11 @@ Total probadas: 113 (#102 pasa; #104, #107-#110, #112 y #113 no; #111 sin muestr
 **Criterio:** 2021-2022 juntos: hundidas de las cambiadas − esperado > 0 con p < 0,05. Si no, no pasa. Con menos de 300 cambiadas: muestra insuficiente.
 **Resultado #114 (10-nov-2026): PASA.** 2.858 empresas bajadas de la SEC, 5.295 pares de 10-K (2.539 en 2021, 2.756 en 2022). Cambiadas (n 376 en grupos de pares): se hundieron 36,7% contra 28,0% esperado por sus pares de rubro y tamaño, +8,7 pts, p 0,004. Quietas: 20,2% contra 26,6%, −6,4, p 0,002. Por año: 2021 +13,9 (p 0,0005), 2022 +4,4 (p 0,14). El exceso medio sigue positivo (+38) y el mediano negativo (−8): más dispersión, la mitad de abajo cae más. Lo que pasa es la parte de riesgo: reescribir mucho el 10-K anticipa hundirse más que los pares; no dice que vayan a rendir menos en promedio. Script: entrenar/sim114.py; salida: sal-cab102/sim114.log.
 Total probadas: 114 (#102 y #114 pasan; #104, #107-#110, #112 y #113 no; #111 sin muestra).
+
+## #115: singularidad — las que se vuelven más distintas de su rubro rinden más que las que se van pareciendo. Escrita el 13-nov-2026 ANTES de medir
+**Por qué (idea propia, no de un paper):** #112-#114 mostraron que cuánto cambia el texto anticipa riesgo, no dirección. Cambiar no dice hacia dónde. Acá importa la dirección del cambio en el espacio del rubro: alejarse del discurso común (algo propio) contra acercarse (volverse genérica).
+**Datos:** vectores de la sección 1 (negocio) de EDGAR-CORPUS 2009-2020 ya calculados para #112 (HashingVectorizer, l2), sic y tam de etiquetas.csv.
+**Medida:** singularidad = 1 − coseno con el centroide de las demás empresas de su SIC de 2 dígitos ese año (sin contarse a sí misma; grupos ≥10, sección con >500 caracteres). Δ = singularidad este año − el año anterior.
+**Señal:** quintil más alto de Δ en su año = «se singulariza»; quintil más bajo = «converge».
+**Medida de resultado:** exceso a 4 años = _ret4 − mediana de su grupo año × SIC3 × decil de tamaño (grupos ≥5), en puntos. Diferencia de medias se singulariza − converge; permutación dentro de año × SIC2, 2000, una cola.
+**Criterio:** confirmación 2017-2020 ≥ +5 pts con p < 0,05 y exploración 2010-2016 > 0. Si pasa, falta 2021-2022 antes de cualquier uso en Tr. Aparte (no decide): hundidas de cada lado y el nivel de singularidad (no el cambio).
