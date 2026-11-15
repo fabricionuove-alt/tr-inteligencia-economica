@@ -1530,3 +1530,5 @@ Total probadas: 120 (#102 y #114 pasan; #117 pasa la parte A y no la B; #104, #1
 **Medida:** VIX medio al cierre entre enero y marzo del año de presentación (cuando salen la mayoría de los 10-K; se conoce al comprar).
 **Prueba:** Spearman entre ese VIX y la diferencia por cohorte de #117 (ciclo117_cohortes.csv, 13 cohortes 2010-2022, sin tocar). Permutación de cohortes 10.000.
 **Criterio:** ρ > 0 con p < 0,05 (una cola). Aparte, sólo para mirar: VIX contra el mercado a 4 años. Con 13 cohortes, un no pasa no descarta nada.
+**Resultado #121 (14-nov-2026): no pasa.** VIX medio de enero a marzo: de 11,7 (2017) a 31,2 (2020). Contra la diferencia cambiadas − quietas: ρ +0,04 (p 0,45). Contra el mercado a 4 años: ρ −0,15. 2020 tuvo el miedo más alto y la diferencia quedó en −9,8; 2010 y 2016 tuvieron el mismo VIX (≈20) y diferencias de +45,7 y −22,4. Con esta medida y 13 cohortes el miedo al comprar no anticipó la fase. Script: entrenar/vix121.py; salida: sal-cab102/vix121.log.
+Total probadas: 121 (#102 y #114 pasan; #117 pasa la parte A y no la B; #104, #107-#110, #112, #113, #115, #116, #118-#121 no; #111 sin muestra).
