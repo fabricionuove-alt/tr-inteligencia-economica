@@ -23,3 +23,4 @@
 {"fecha": "2026-11-13", "ticker": "EPC", "nombre": "EDGEWELL PERSONAL CARE Co", "acc": "0001628280-26-073923", "puntaje": -0.5729, "corte": 0.354742, "grupo": "284", "arriba": false}
 {"fecha": "2026-11-13", "ticker": "LEGO", "acc": "0001829126-26-012403", "lectura": "sin las tres secciones"}
 {"fecha": "2026-11-13", "ticker": "ADNT", "nombre": "Adient plc", "acc": "0001670541-26-000122", "puntaje": -0.3288, "corte": 0.470811, "grupo": "371", "arriba": false}
+{"fecha": "2026-11-16", "ticker": "TSN", "nombre": "TYSON FOODS, INC.", "acc": "0000100493-26-000079", "puntaje": 0.3791, "corte": 0.734002, "grupo": "20", "arriba": false}
