@@ -1636,3 +1636,10 @@ Total probadas: 132 (#102, #114, #124, #127 y #130 pasan; #124 no apareció en 1
 **Criterio:** pasa si la diferencia es > 0 en las 3 cohortes Y en el total con p < 0,05 (permutación de etiquetas maduras/jóvenes dentro de grupos, 2000, una cola).
 **Resultado #133 (16-nov-2026): no pasa.** Log-exceso a 12 meses contra pares, maduras − jóvenes: 2023 +8,6 (632 contra 589), 2024 +9,8 (652 contra 514), 2025 −2,7 (531 contra 475). Total +5,7 (p 0,18). Pedía las 3 cohortes arriba: falló 2025. Con este método y a 12 meses, la ventaja de las maduras apareció en 2 de 3 años nuevos y no alcanzó en el total. Script: entrenar/vida133.py; salida: sal-cab102/vida133.log.
 Total probadas: 133 (#102, #114, #124, #127 y #130 pasan; #124 no apareció en 1997-2009 (#125, #126); #127B no apareció en 1964-1996 (#128); #129 sellada; #117 pasa la parte A y no la B; #104, #107-#110, #112, #113, #115, #116, #118-#123, #125, #126, #128 y #131-#133 no; #111 sin muestra).
+
+## #134: euforia y resaca de las jóvenes. Escrita el 16-nov-2026 ANTES de calcular
+**Por qué:** en #133, 2025 fue el único año en que las jóvenes le ganaron a las maduras a 12 meses. Mirando nombres sueltos (empresas con caja en criptomonedas, biotecnológicas) dije «es una manía» sin probarlo: queda retirado. Lo que se puede probar con datos que ya tienen 4 años: si cuando las jóvenes ganan el primer año, pierden los tres siguientes.
+**Datos:** etapas de vida130.py (años fiscales 2009-2021 → cohortes 2010-2022), etiquetas.csv (_ret1, _ret4).
+**Medida por cohorte:** log-exceso contra pares (año × SIC3 × decil, grupos ≥ 5) en el año 1 = log(_ret1) y en los años 2-4 = log(_ret4) − log(_ret1) (con piso 0,01). D1 y D234 = media de jóvenes (nacimiento + declive) − media de maduras en cada tramo.
+**Prueba:** Spearman entre D1 y D234 en las 13 cohortes (las que tienen al menos 20 jóvenes y 20 maduras). Permutación 10.000.
+**Criterio:** ρ < 0 con p < 0,05 (una cola). Si pasa, la #133 de 2025 se lee como el primer año de ese patrón y se sella para 2025-2028; si no, 2025 queda sin explicar.
