@@ -2,6 +2,8 @@
 
 Cada señal se anota ANTES de mirar. Con muchas señales, alguna sale bien por azar: este registro lleva la cuenta.
 
+**Desde el 16-nov-2026, cada resultado lleva además «Qué muestra»:** por qué dio lo que dio, qué tiene de raro (pocos casos, un año que rompe, un empate) y con qué prueba anterior se conecta. El veredicto decide si una regla entra; no explica lo que pasa. Un «no pasa» nunca se cierra como «no hay nada». Si aparece algo, la prueba siguiente se anota y se corre enseguida. Motivo: #131 y #126 se cerraron como «nada» cuando mostraban que Gemma ve la etapa de vida de la empresa y que 2009 era la crisis.
+
 ## Ya probadas (2-nov-2026)
 | # | Señal | Para el precio | Estado |
 |---|---|---|---|
