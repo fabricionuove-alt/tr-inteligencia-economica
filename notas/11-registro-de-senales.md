@@ -1540,3 +1540,17 @@ Total probadas: 121 (#102 y #114 pasan; #117 pasa la parte A y no la B; #104, #1
 **Criterio (seguro):** pasa si (1) en el total 2023-2025 las cambiadas se hunden más que lo esperado con p < 0,05, Y (2) en cada uno de los 3 años la diferencia es ≥ 0 (no falla ningún año). Con menos de 300 cambiadas: muestra insuficiente. Si pasa, entra a Rt como regla aparte con fecha.
 **Resultado #122 (15-nov-2026): no pasa.** 9.377 pares de 10-K (2023: 3.157, 2024: 3.191, 2025: 3.029); 785 cambiadas con pares. Hundidas a 12 meses: 13,4% contra 12,8% esperado, +0,6 pts (p 0,34). Por año: 2023 +2,3, 2024 −0,0, 2025 −0,9: falla en dos años. A 12 meses y en 2023-2025 el filtro no funcionó como seguro. Fuera del criterio, sólo para anotar: las quietas (quintil más alto de similitud) se hundieron menos que sus pares (6,4% contra 8,3%, −1,8 pts, p 0,03); no se usa para nada sin una prueba propia. Script: entrenar/sim122.py; salida: sal-cab102/sim122.log.
 Total probadas: 122 (#102 y #114 pasan; #117 pasa la parte A y no la B; #104, #107-#110, #112, #113, #115, #116, #118-#122 no; #111 sin muestra).
+
+## #123: los de adentro saben la fase — compras netas de directivos en el año anterior. Escrita el 16-nov-2026 ANTES de bajar los datos
+**Por qué:** #117B-#122 buscaron la fase con termómetros de afuera (precios, tasas, salidas a la bolsa, VIX). Seyhun (1988) y Lakonishok y Lee (2001, Review of Financial Studies, «Are insider trades informative?») encuentran que las compras y ventas de directivos sumadas en todo el mercado anticipan el rendimiento del mercado. Los de adentro ven la fase antes.
+**Datos:** SEC, Insider Transactions Data Sets (formularios 3/4/5 estructurados), trimestres 2009T1-2021T4 (sec.gov/files/structureddata/data/insider-transactions-data-sets/AAAAqN_form345.zip), tabla NONDERIV_TRANS.
+**Medida:** proporción neta de compras del año calendario anterior a la presentación (se conoce al comprar): (compras P − ventas S) / (P + S), contando transacciones de acciones comunes con código P o S, sin duplicados por número de acceso.
+**Prueba:** Spearman entre esa proporción y la diferencia cambiadas − quietas por cohorte de #117 (ciclo117_cohortes.csv, 13 cohortes 2010-2022, sin tocar). Permutación 10.000.
+**Criterio:** ρ > 0 con p < 0,05 (una cola: más compras de adentro → mejor mercado → el lado riesgoso pierde menos). Aparte, sólo para mirar, contra el mercado a 4 años. Con 13 cohortes, un no pasa no descarta nada.
+
+## #124: los informes mismos dicen la fase — cuánto reescribe toda la economía. Escrita el 16-nov-2026 ANTES de calcular
+**Por qué:** la idea propia: si en un año casi todas las empresas reescriben su 10-K, algo cambió para todas (un golpe, un cambio de época). Es un termómetro de adentro que nadie mira así.
+**Datos:** similitudes ya calculadas (lazy112_filas.csv 2010-2020, sim114.jsonl 2021-2022), todas las empresas, no sólo las cambiadas.
+**Medida:** mediana de la similitud con el 10-K anterior de todas las empresas de la cohorte (se conoce al comprar).
+**Prueba:** Spearman entre esa mediana y la diferencia de #117, 13 cohortes, permutación 10.000.
+**Criterio:** p < 0,05 a dos colas (no sé el signo de antemano). Ojo: la similitud ya se usó para armar cambiadas y quietas; lo nuevo es usar su nivel de toda la economía como termómetro.
