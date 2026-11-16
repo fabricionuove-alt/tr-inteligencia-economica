@@ -1700,3 +1700,12 @@ Total probadas: 139 (#102, #114, #124, #127, #130, #135, #137 y #139 pasan; #124
 **Medida:** apariciones de la lista por cada mil palabras de la sección 1 (en 2017-2020, como fracción de la frecuencia normalizada; el orden dentro del año es lo que cuenta).
 **Prueba:** el quintil más alto (dentro del año) contra pares año × SIC3 × decil (grupos ≥ 5), hundidas a 4 años, permutación dentro de grupos 2000.
 **Criterio:** pasa si en 2017-2020 el quintil alto se hunde al menos 3 puntos más con p < 0,05 (una cola) Y en 2021-2022 la diferencia también es positiva.
+**Resultado #140 (16-nov-2026): no pasa.** 2017-2020: el quintil con más palabras de juicios y multas se hundió igual que sus pares (13,3% contra 13,4%, −0,0; por año −0,5, −3,2, +5,0, −0,9). 2021-2022: +3,0 (p 0,24). **Qué muestra:** estas palabras solas no llevan la ventaja de #139; que aparezcan entre las de más peso es una de esas lecturas sueltas de un ridge que no se sostienen solas. Va con #136 y #138: ningún tema por separado explica lo que esquiva Gemma; está repartido. Script: entrenar/juicios140.py; salida: sal-cab102/juicios140.log.
+Total probadas: 140 (#102, #114, #124, #127, #130, #135, #137 y #139 pasan; #124 no apareció en 1997-2009 (#125, #126); #127B no apareció en 1964-1996 (#128); #129 sellada; #117 pasa la parte A y no la B; #104, #107-#110, #112, #113, #115, #116, #118-#123, #125, #126, #128, #131-#134, #136, #138 y #140 no; #111 sin muestra).
+
+## #141: Gemma + palabras juntas, ¿esquivan más que Gemma sola? Escrita el 16-nov-2026 ANTES de combinar
+**Por qué:** #139 mostró que un modelo de palabras que imita a Gemma en el negocio esquiva hundidas (−4,3) y se parece a Gemma sólo en parte (correlación 0,31). Si lo que ven no es lo mismo, juntas deberían esquivar más. Sería útil para Rt (las palabras son baratas).
+**Datos:** puntaje entero de Gemma (#137) y puntaje de palabras (#139), 2017-2020, ambos aprendidos con 2013-2016.
+**Combinación (fija):** promedio de los percentiles por año de los dos puntajes.
+**Prueba:** el 10% de arriba por industria (como Rt) de la combinación contra el de Gemma sola, en hundidas a 4 años contra pares año × SIC3 × decil.
+**Criterio:** pasa si la combinación se hunde menos que Gemma sola en al menos 3 de 4 años Y en el total la diferencia contra pares es al menos 1 punto mejor. Si pasa, se anota como candidata para Rt (que corre con Gemma en GitHub) y se escribe su prueba hacia atrás.
