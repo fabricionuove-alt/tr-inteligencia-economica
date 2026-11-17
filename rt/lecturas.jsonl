@@ -24,3 +24,6 @@
 {"fecha": "2026-11-13", "ticker": "LEGO", "acc": "0001829126-26-012403", "lectura": "sin las tres secciones"}
 {"fecha": "2026-11-13", "ticker": "ADNT", "nombre": "Adient plc", "acc": "0001670541-26-000122", "puntaje": -0.3288, "corte": 0.470811, "grupo": "371", "arriba": false}
 {"fecha": "2026-11-16", "ticker": "TSN", "nombre": "TYSON FOODS, INC.", "acc": "0000100493-26-000079", "puntaje": 0.3791, "corte": 0.734002, "grupo": "20", "arriba": false}
+{"fecha": "2026-11-17", "ticker": "ATO", "nombre": "ATMOS ENERGY CORP", "acc": "0000731802-26-000150", "puntaje": 0.4283, "corte": 0.800945, "grupo": "492", "arriba": false}
+{"fecha": "2026-11-17", "ticker": "HZO", "acc": "0001193125-26-463429", "lectura": "sin las tres secciones"}
+{"fecha": "2026-11-17", "ticker": "TWST", "nombre": "Twist Bioscience Corp", "acc": "0001581280-26-000061", "puntaje": 0.5771, "corte": 0.806592, "grupo": "283", "arriba": false}
