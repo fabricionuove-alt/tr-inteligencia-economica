@@ -27,3 +27,5 @@
 {"fecha": "2026-11-17", "ticker": "ATO", "nombre": "ATMOS ENERGY CORP", "acc": "0000731802-26-000150", "puntaje": 0.4283, "corte": 0.800945, "grupo": "492", "arriba": false}
 {"fecha": "2026-11-17", "ticker": "HZO", "acc": "0001193125-26-463429", "lectura": "sin las tres secciones"}
 {"fecha": "2026-11-17", "ticker": "TWST", "nombre": "Twist Bioscience Corp", "acc": "0001581280-26-000061", "puntaje": 0.5771, "corte": 0.806592, "grupo": "283", "arriba": false}
+{"fecha": "2026-11-17", "ticker": "DIS", "nombre": "Walt Disney Co", "acc": "0001744489-26-000066", "puntaje": -1.1174, "corte": 0.700503, "grupo": "799", "arriba": false}
+{"fecha": "2026-11-17", "ticker": "TTEK", "nombre": "TETRA TECH INC", "acc": "0000831641-26-000024", "puntaje": 1.1208, "corte": 0.398163, "grupo": "87", "arriba": true}
