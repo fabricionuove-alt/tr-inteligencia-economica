@@ -29,3 +29,10 @@
 {"fecha": "2026-11-17", "ticker": "TWST", "nombre": "Twist Bioscience Corp", "acc": "0001581280-26-000061", "puntaje": 0.5771, "corte": 0.806592, "grupo": "283", "arriba": false}
 {"fecha": "2026-11-17", "ticker": "DIS", "nombre": "Walt Disney Co", "acc": "0001744489-26-000066", "puntaje": -1.1174, "corte": 0.700503, "grupo": "799", "arriba": false}
 {"fecha": "2026-11-17", "ticker": "TTEK", "nombre": "TETRA TECH INC", "acc": "0000831641-26-000024", "puntaje": 1.1208, "corte": 0.398163, "grupo": "87", "arriba": true}
+{"fecha": "2026-11-18", "ticker": "GFF", "nombre": "GRIFFON CORP", "acc": "0001628280-26-074580", "puntaje": 0.4406, "corte": 0.673411, "grupo": "344", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "FFIV", "nombre": "F5, INC.", "acc": "0001048695-26-000077", "puntaje": -0.4834, "corte": 0.682647, "grupo": "357", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "CLFD", "nombre": "Clearfield, Inc.", "acc": "0001171843-26-007524", "puntaje": 0.8678, "corte": 0.925336, "grupo": "366", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "DLB", "nombre": "Dolby Laboratories, Inc.", "acc": "0001308547-26-000017", "puntaje": 1.4238, "corte": 0.788399, "grupo": "679", "arriba": true}
+{"fecha": "2026-11-18", "ticker": "ENR", "nombre": "ENERGIZER HOLDINGS, INC.", "acc": "0001632790-26-000113", "puntaje": -0.7815, "corte": 0.770384, "grupo": "369", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "SANM", "nombre": "SANMINA CORP", "acc": "0000897723-26-000048", "puntaje": -1.0737, "corte": 0.338764, "grupo": "367", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "POWL", "nombre": "POWELL INDUSTRIES INC", "acc": "0000080420-26-000143", "puntaje": 0.4709, "corte": 0.634851, "grupo": "36", "arriba": false}
