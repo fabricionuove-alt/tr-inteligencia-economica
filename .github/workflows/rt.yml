@@ -5,11 +5,11 @@ on:
     - cron: '17 */3 * * *'
   push:
     branches: [main]
-    paths: ['rt/rt.py', 'rt/cortes.json', '.github/workflows/rt.yml']
+    paths: ['rt/rt.py', 'rt/cortes.json', 'rt/requisitos.txt', 'modelos/palabras146.npz', '.github/workflows/rt.yml']
   workflow_dispatch:
     inputs:
       control:
-        description: 'Leer las 5 empresas de control (comprueba que la lectura en CPU da lo mismo que en Kaggle)'
+        description: 'Leer las 5 empresas de control (comprueba que la lectura en GitHub da lo mismo que al armar Tr v5)'
         type: boolean
         default: false
 permissions:
@@ -20,7 +20,7 @@ concurrency:
 jobs:
   correr:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,13 +28,11 @@ jobs:
           python-version: '3.12'
           cache: pip
           cache-dependency-path: rt/requisitos.txt
-      - run: pip install --index-url https://download.pytorch.org/whl/cpu torch==2.5.1 && pip install -r rt/requisitos.txt
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/huggingface
-          key: gemma-2-2b-scope-l12
+      - run: pip install -r rt/requisitos.txt
+      - name: edgar-crawler (la herramienta de EDGAR-CORPUS, versión fija)
+        run: git clone -q https://github.com/lefterisloukas/edgar-crawler rt/_edgar-crawler && git -C rt/_edgar-crawler checkout -q 84a8d0c5dd7dd6769526e5ccec534c4e0880d56f
       - name: Control
-        if: ${{ inputs.control || hashFiles('rt/control.log') == '' }}
+        if: ${{ inputs.control }}
         run: python rt/rt.py control
       - name: Rt
         run: python rt/rt.py

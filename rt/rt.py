@@ -1,8 +1,8 @@
 """Rt: Tr que no deja de leer. Reglas en notas/15-rt.md.
-Cada corrida: (1) busca 10-K nuevos en la SEC, (2) los lee con Gemma como Tr #87, (3) decide comprar o vender,
+Cada corrida: (1) busca 10-K nuevos en la SEC, (2) los lee como Tr v5 (#146: descripción del negocio con edgar-crawler + modelo de palabras), (3) decide comprar o vender,
 (4) ejecuta lo pendiente al primer cierre posterior a la decisión, (5) anota el valor del día.
 Uso: python rt/rt.py            (corrida normal)
-     python rt/rt.py control    (lee las 5 empresas de control y compara con el puntaje de Kaggle)"""
+     python rt/rt.py control    (lee las 5 empresas de control y compara con el puntaje calculado al armar Tr v5)"""
 import os, re, sys, json, time, html, hashlib, datetime as dt, urllib.request
 import numpy as np
 
@@ -10,7 +10,7 @@ R = os.path.dirname(os.path.abspath(__file__)); RAIZ = os.path.dirname(R)
 UA = {'User-Agent': 'inteligencia-economica research contacto@inteligencia-economica.local'}
 UA_PRECIOS = {'User-Agent': 'Mozilla/5.0 (Rt inteligencia-economica)'}
 CAPITAL, N_POS, COSTO, COSTO_SPY = 10000.0, 365, 0.002, 0.0005
-LIMITE_SEG = float(os.environ.get('LIMITE_SEG', 5 * 3600))           # tiempo máximo leyendo por corrida
+LIMITE_SEG = float(os.environ.get('LIMITE_SEG', 90 * 60))           # tiempo máximo leyendo por corrida
 T0 = time.time()
 ahora = lambda: dt.datetime.now(dt.timezone.utc)
 h = lambda cik: hashlib.sha256(('sal-ie-' + str(cik).zfill(10)).encode()).hexdigest()[:12]
@@ -25,70 +25,42 @@ def get(u, pausa=0.15, cab=UA):
     return None
 
 # ---------- texto: igual que bajar_10k.py, sec_textos2.py y sec_textos3.py ----------
-TAG = re.compile(r'(?is)<(script|style).*?</\1>|<[^>]+>'); ESP = re.compile(r'[ \t\r\f\v\xa0]+')
-def a_texto(b): return ESP.sub(' ', html.unescape(TAG.sub(' ', b.decode('utf-8', 'ignore'))))
-S = r'\s*[\.\:\-–—]?\s*'
-I1 = (re.compile(r'(?i)item\s*1\s*[\.\:\-–—]?\s*business\b'), re.compile(r'(?i)item\s*(?:1a\s*[\.\:\-–—]?\s*risk\s+factors|2\s*[\.\:\-–—]?\s*(?:description\s+of\s+)?propert)'), 300000)
-I1A = (re.compile(r'(?i)item\s*1a' + S + r'risk\s+factors'), re.compile(r'(?i)item\s*(?:1b' + S + r'unresolved|1c' + S + r'cyber|2' + S + r'(?:description\s+of\s+)?propert)'), 400000)
-I7 = (re.compile(r'(?i)item\s*7' + S + r'management.{0,3}s\s+discussion'), re.compile(r'(?i)item\s*(?:7a' + S + r'quantitative|8' + S + r'financial\s+statements)'), 400000)
-def tramo(t, sec):
-    ini, fin, tope = sec; mejor = ''
-    for m in ini.finditer(t):
-        f = fin.search(t, m.end()); x = t[m.end(): f.start() if f else min(len(t), m.end() + tope)]
-        if len(x) > len(mejor): mejor = x
-    return mejor
-def secciones(b):
-    t = a_texto(b)
-    s1 = tramo(t, I1).strip()
-    s1a, s7 = (re.sub(r'\s+', ' ', tramo(t, s)).strip() for s in (I1A, I7))
-    if len(s1) < 500 or len(s1a) < 2000 or len(s7) < 2000: return None
-    return s1[:4000], s1a[1500:13500], s7[1500:13500]
+# ---------- lectura: como Tr v5 (#146): Item 1 con edgar-crawler + modelo de palabras congelado ----------
+EC = os.environ.get('EDGAR_CRAWLER', os.path.join(R, '_edgar-crawler'))   # github lefterisloukas/edgar-crawler, commit 84a8d0c
+X_ = {}
+def extractor():
+    if X_: return X_['ex']
+    import tempfile
+    sys.path.insert(0, EC); cwd = os.getcwd(); os.chdir(EC)
+    try: from extract_items import ExtractItems
+    finally: os.chdir(cwd)
+    d = tempfile.mkdtemp(); os.makedirs(os.path.join(d, 'raw', '10-K')); os.makedirs(os.path.join(d, 'ext'))
+    X_['d'] = d
+    X_['ex'] = ExtractItems(remove_tables=True, items_to_extract=['1'], include_signature=False, raw_files_folder=os.path.join(d, 'raw'),
+                            extracted_files_folder=os.path.join(d, 'ext'), skip_extracted_filings=False)
+    return X_['ex']
+def negocio(b, nombre, fecha=''):
+    """Item 1 del 10-K, igual que entrenar/crawler145.py."""
+    ex = extractor(); fn = f'{nombre}.htm'; ruta = os.path.join(X_['d'], 'raw', '10-K', fn)
+    open(ruta, 'w', encoding='utf-8').write('<DOCUMENT>\n<TYPE>10-K\n' + b.decode('utf-8', 'ignore') + '\n</DOCUMENT>')
+    meta = {'Type': '10-K', 'filename': fn, 'CIK': nombre, 'Company': '', 'Date': fecha, 'complete_text_file_link': '', 'htm_file_link': '', 'html_index': '',
+            'Filing Date': fecha, 'Period of Report': '', 'SIC': '', 'State of Inc': '', 'State location': '', 'Fiscal Year End': '', 'filename_html': ''}
+    cwd = os.getcwd(); os.chdir(EC)
+    try:
+        ex.determine_items_to_extract(meta); js = ex.extract_items(meta)
+        return (js or {}).get('item_1', '') or ''
+    except Exception: return ''
+    finally:
+        os.chdir(cwd)
+        if os.path.exists(ruta): os.remove(ruta)
 
-# ---------- Gemma: igual que gemma_sae2.py con ANON=1, capa 12, TOPK=256 ----------
-_P = [(re.compile(r'\((?:NYSE|NASDAQ|Nasdaq|NYSE American|AMEX|OTC)[^)]*\)'), ' '),
-      (re.compile(r'[\w\-\.]+(?:®|™|\(R\)|\(TM\))'), 'PRODUCT'),
-      (re.compile(r'\b(?:19|20)\d\d\b'), 'YEAR'), (re.compile(r'\$?\d[\d,\.]*%?'), 'N'),
-      (re.compile(r'\b[A-Z][\w&\-\.]*(?:\s+(?:of|and|&|de|the)?\s*[A-Z][\w&\-\.]*)+'), 'ENTITY'),
-      (re.compile(r'(?<=[a-z,;] )[A-Z][\w&\-]+'), 'ENTITY'),
-      (re.compile(r'\b[A-Z]{2,}\b'), 'ENTITY')]
-def anonimizar(t):
-    for p, r in _P: t = p.sub(r, t)
-    return t
-G = {}
-def gemma():
-    if G: return G
-    import torch
-    from huggingface_hub import hf_hub_download, list_repo_files, snapshot_download
-    from transformers import AutoTokenizer, AutoModelForCausalLM
-    torch.set_num_threads(os.cpu_count() or 4)
-    ruta = snapshot_download('unsloth/gemma-2-2b', allow_patterns=['*.json', '*.safetensors', '*.model'])
-    tok = AutoTokenizer.from_pretrained(ruta)
-    mod = AutoModelForCausalLM.from_pretrained(ruta, dtype=torch.float32, device_map='cpu').eval()
-    mod.model.layers = mod.model.layers[:13]; mod.config.num_hidden_layers = 13
-    op = [f for f in list_repo_files('google/gemma-scope-2b-pt-res') if f.startswith('layer_12/width_16k/average_l0_') and f.endswith('params.npz')]
-    f = min(op, key=lambda x: abs(int(x.split('average_l0_')[1].split('/')[0]) - 80))
-    p = np.load(hf_hub_download('google/gemma-scope-2b-pt-res', f))
-    W, b, th = (torch.tensor(p[k], dtype=torch.float32) for k in ('W_enc', 'b_enc', 'threshold'))
-    guard = {}
-    mod.model.layers[12].register_forward_hook(lambda m, i, o: guard.__setitem__(12, o[0] if isinstance(o, tuple) else o))
-    G.update(torch=torch, tok=tok, mod=mod, W=W, b=b, th=th, guard=guard)
-    print(f'GEMMA listo ({time.time() - T0:.0f}s) {f}', flush=True); return G
-
-def rasgos(texto, n_tok):
-    g = gemma(); torch = g['torch']
-    e = g['tok']([anonimizar(texto[:12000])], return_tensors='pt', truncation=True, max_length=n_tok, padding=True)
-    with torch.no_grad():
-        g['mod'](**e, use_cache=False)
-        pre = g['guard'][12] @ g['W'] + g['b']; f = torch.relu(pre) * (pre > g['th']); f[:, 0] = 0
-        m = e['attention_mask'].unsqueeze(-1).float(); media = ((f * m).sum(1) / m.sum(1).clamp(min=1))[0]
-        v, i_ = torch.topk(media, 256); out = torch.zeros_like(media); out[i_] = v
-    return out.numpy()
-
-M = np.load(os.path.join(RAIZ, 'modelos', 'gemma_1_1A_7_modelo.npz'))
-def puntaje(s1, s1a, s7):
-    x = np.concatenate([rasgos(s1, 256), rasgos(s1a, 512), rasgos(s7, 512)]); x[~np.isfinite(x)] = 0
-    z = np.log1p(x[M['usar']] / M['med']); z = (z - M['mu']) / M['sd']
-    return float(z @ M['coef'] + M['b'])
+MP = np.load(os.path.join(RAIZ, 'modelos', 'palabras146.npz')); HV = []
+def puntaje(texto):
+    if not HV:
+        from sklearn.feature_extraction.text import HashingVectorizer
+        HV.append(HashingVectorizer(n_features=2 ** 20, lowercase=True, token_pattern=r'(?u)\b[a-z]{2,}\b', norm='l2', alternate_sign=False))
+    v = HV[0].transform([texto])[:, MP['cols']].tocsr(); v.data = np.log1p(1000 * v.data)
+    return float((v @ MP['coef'])[0] + MP['b'])
 
 CORTES = json.load(open(os.path.join(R, 'cortes.json')))['cortes']
 def corte(sic):
@@ -212,10 +184,10 @@ def control():
     import csv
     for r in csv.DictReader(open(os.path.join(R, 'control.csv'))):
         cik = int(r['cik']); s = json.loads(get(f'https://data.sec.gov/submissions/CIK{cik:010d}.json'))['filings']['recent']
-        k = next(i for i, (f, d) in enumerate(zip(s['form'], s['filingDate'])) if f == '10-K' and d.startswith('2026'))
+        ks = [i for i, (f, d) in enumerate(zip(s['form'], s['filingDate'])) if f == '10-K' and d.startswith('2026')]; k = ks[-1]
         b = get(f'https://www.sec.gov/Archives/edgar/data/{cik}/{s["accessionNumber"][k].replace("-", "")}/{s["primaryDocument"][k]}')
-        sec = secciones(b); p = puntaje(*sec) if sec else None
-        l = f'{ahora():%Y-%m-%d %H:%M} CONTROL cik {cik}: Kaggle {float(r["gemma"]):+.4f} | Rt en CPU {p if p is None else round(p, 4)}'
+        txt = negocio(b, f'{cik}_2026', s['filingDate'][k]) if b else ''; p = puntaje(txt) if len(txt.split()) >= 300 else None
+        l = f'{ahora():%Y-%m-%d %H:%M} CONTROL v5 cik {cik}: al armar Tr v5 {float(r["pal"]):+.4f} | Rt {p if p is None else round(p, 4)}'
         print(l, flush=True); open(os.path.join(R, 'control.log'), 'a', encoding='utf-8').write(l + chr(10))
 
 def correr():
@@ -230,10 +202,10 @@ def correr():
         if cik not in cot: continue                                       # no cotiza en NYSE/Nasdaq
         t, nom = cot[cik]; u, sic = documento(cik, acc)
         if not u or not sic or str(sic) == '0000': continue
-        b = get(u, 0.2); sec = secciones(b) if b else None
-        if not sec: anotar(LF, {'fecha': dia, 'ticker': t, 'acc': acc, 'lectura': 'sin las tres secciones'}); continue
-        p = puntaje(*sec); c, grupo = corte(sic); arriba = p > c
-        motivo = f'Gemma {p:+.3f} contra el corte {c:+.3f} de su industria (SIC {grupo})'
+        b = get(u, 0.2); txt = negocio(b, f'{cik}_{acc}', dia) if b else ''
+        if len(txt.split()) < 300: anotar(LF, {'fecha': dia, 'ticker': t, 'acc': acc, 'lectura': 'sin descripción del negocio'}); continue
+        p = puntaje(txt); c, grupo = corte(sic); arriba = p > c
+        motivo = f'Palabras {p:+.3f} contra el corte {c:+.3f} de su industria (SIC {grupo})'
         anotar(LF, {'fecha': dia, 'ticker': t, 'nombre': nom, 'acc': acc, 'puntaje': round(p, 4), 'corte': c, 'grupo': grupo, 'arriba': arriba})
         print(f'  {t:6s} {motivo} -> {"ARRIBA" if arriba else "abajo"}', flush=True)
         if arriba and t not in E['pos']: E['pendientes'].append({'lado': 'compra', 'ticker': t, 'id': h(cik), 'nombre': nom, 'motivo': motivo, 'decidido': ahora().isoformat()})

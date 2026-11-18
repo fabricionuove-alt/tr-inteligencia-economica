@@ -4,3 +4,4 @@ node_modules/
 simulador/lib/ia.json
 *.csv.gz
 __pycache__/
+rt/_edgar-crawler/
