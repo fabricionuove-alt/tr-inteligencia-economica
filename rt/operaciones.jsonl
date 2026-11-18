@@ -4,3 +4,5 @@
 {"fecha": "2026-11-13", "lado": "compra", "ticker": "RMR", "nombre": "RMR GROUP INC.", "precio": 16.24, "monto": 27.33, "motivo": "Gemma +0.672 contra el corte +0.446 de su industria (SIC 874)"}
 {"fecha": "2026-11-13", "lado": "compra", "ticker": "SBUX", "nombre": "STARBUCKS CORP", "precio": 106.76, "monto": 27.33, "motivo": "Gemma +0.926 contra el corte +0.775 de su industria (SIC 581)"}
 {"fecha": "2026-11-17", "lado": "compra", "ticker": "TTEK", "nombre": "TETRA TECH INC", "precio": 38.42, "monto": 26.62, "motivo": "Gemma +1.121 contra el corte +0.398 de su industria (SIC 87)"}
+{"fecha": "2026-11-18", "lado": "compra", "ticker": "DLB", "nombre": "Dolby Laboratories, Inc.", "precio": 57.32, "monto": 26.57, "motivo": "Gemma +1.424 contra el corte +0.788 de su industria (SIC 679)"}
+{"fecha": "2026-11-18", "lado": "compra", "ticker": "FUBO", "nombre": "FuboTV Inc.", "precio": 7.12, "monto": 26.57, "motivo": "Gemma +0.181 contra el corte -0.336 de su industria (SIC 78)"}

@@ -39,3 +39,5 @@
 {"fecha": "2026-11-18", "ticker": "ACM", "nombre": "AECOM", "acc": "0000868857-26-000026", "puntaje": -0.5988, "corte": 0.398163, "grupo": "87", "arriba": false}
 {"fecha": "2026-11-18", "ticker": "SONO", "nombre": "Sonos Inc", "acc": "0001314727-26-000113", "puntaje": 0.2555, "corte": 0.634851, "grupo": "36", "arriba": false}
 {"fecha": "2026-11-18", "ticker": "FUBO", "nombre": "FuboTV Inc.", "acc": "0001628280-26-074590", "puntaje": 0.1813, "corte": -0.33556, "grupo": "78", "arriba": true}
+{"fecha": "2026-11-18", "ticker": "FOR", "nombre": "Forestar Group Inc.", "acc": "0001628280-26-074699", "puntaje": 0.126, "corte": 0.21558483918743213, "grupo": "650", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "ENTA", "nombre": "ENANTA PHARMACEUTICALS INC", "acc": "0001193125-26-466170", "puntaje": -0.5293, "corte": -0.12394946472892644, "grupo": "283", "arriba": false}
