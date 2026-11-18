@@ -59,7 +59,7 @@ th{font:500 12.5px "Inter Tight",sans-serif;color:var(--gris);letter-spacing:.04
 <div class="tabla"><table><thead><tr><th class="izq">Fecha</th><th class="izq">Operación</th><th>Precio</th><th>Monto</th><th class="izq">Por qué</th></tr></thead><tbody id="ops"><tr><td colspan="5" class="vacio">Cargando…</td></tr></tbody></table></div>
 
 <h2>Lo último que leyó</h2>
-<p>Cada informe anual nuevo, con el puntaje que le da Gemma y el corte que tiene que pasar para entrar al 10% de arriba de su industria.</p>
+<p>Cada informe anual nuevo, con el puntaje que le da el modelo de palabras y el corte que tiene que pasar para entrar al 10% de arriba de su industria.</p>
 <div class="tabla"><table><thead><tr><th class="izq">Publicado</th><th class="izq">Empresa</th><th>Puntaje</th><th>Corte</th><th></th></tr></thead><tbody id="lee"><tr><td colspan="5" class="vacio">Cargando…</td></tr></tbody></table></div>
 
 <h2>Probado hacia atrás</h2>
@@ -70,8 +70,8 @@ th{font:500 12.5px "Inter Tight",sans-serif;color:var(--gris);letter-spacing:.04
 <ol>
 <li>Arrancó con los 10.000 dólares en el mercado entero (S&amp;P 500). La plata que no está en una empresa elegida vuelve siempre ahí.</li>
 <li>Cada tres horas mira si salió algún informe anual nuevo de una empresa de Nueva York o Nasdaq.</li>
-<li>Lo lee como Tr: con Gemma, a ciegas (sin nombres, marcas, años ni números), el negocio, los riesgos y la explicación de la dirección, con el mismo modelo congelado.</li>
-<li>Si queda en el 10% de arriba de su industria, la compra con lo que vale una de las 365 partes de su cartera. Si ya la tenía y su informe nuevo la deja afuera, la vende.</li>
+<li>Lo lee como Tr: saca la descripción del negocio con edgar-crawler y cuenta sus palabras con el mismo modelo congelado (pruebas 146 a 148). Hasta el 17 de noviembre de 2026 leía con Gemma; lo que compró entonces lo vende sólo si su próximo informe queda abajo del corte nuevo.</li>
+<li>Si queda en el 10% de arriba de su industria, la compra con lo que vale una de las 365 partes de su cartera (el tamaño con el que arrancó). Si ya la tenía y su informe nuevo la deja afuera, la vende.</li>
 <li>Opera al primer cierre de la bolsa después de leer, nunca con un precio que ya conocía, y paga comisión en cada operación.</li>
 </ol>
 <p>Por qué no compra y vende a cada minuto: en 108 pruebas, nada de lo que funciona se cobra en horas o días. Lo que Tr reconoce se nota en meses o años. Operar más rápido sin saber más sólo paga comisiones. Rt va a la velocidad de lo que se publica.</p>
