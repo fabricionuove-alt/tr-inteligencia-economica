@@ -41,3 +41,7 @@
 {"fecha": "2026-11-18", "ticker": "FUBO", "nombre": "FuboTV Inc.", "acc": "0001628280-26-074590", "puntaje": 0.1813, "corte": -0.33556, "grupo": "78", "arriba": true}
 {"fecha": "2026-11-18", "ticker": "FOR", "nombre": "Forestar Group Inc.", "acc": "0001628280-26-074699", "puntaje": 0.126, "corte": 0.21558483918743213, "grupo": "650", "arriba": false}
 {"fecha": "2026-11-18", "ticker": "ENTA", "nombre": "ENANTA PHARMACEUTICALS INC", "acc": "0001193125-26-466170", "puntaje": -0.5293, "corte": -0.12394946472892644, "grupo": "283", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "GEF", "nombre": "GREIF, INC", "acc": "0001628280-26-074759", "puntaje": 0.115, "corte": 0.288635659903238, "grupo": "34", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "DHI", "nombre": "HORTON D R INC /DE/", "acc": "0000882184-26-000157", "puntaje": 0.2685, "corte": 0.25855444995063565, "grupo": "153", "arriba": true}
+{"fecha": "2026-11-18", "ticker": "MWA", "nombre": "Mueller Water Products, Inc.", "acc": "0001350593-26-000050", "puntaje": 0.2139, "corte": 0.288635659903238, "grupo": "34", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "BRBR", "nombre": "BELLRING BRANDS, INC.", "acc": "0001772016-26-000027", "puntaje": 0.0619, "corte": 0.23984239625392031, "grupo": "200", "arriba": false}

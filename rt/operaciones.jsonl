@@ -6,3 +6,4 @@
 {"fecha": "2026-11-17", "lado": "compra", "ticker": "TTEK", "nombre": "TETRA TECH INC", "precio": 38.42, "monto": 26.62, "motivo": "Gemma +1.121 contra el corte +0.398 de su industria (SIC 87)"}
 {"fecha": "2026-11-18", "lado": "compra", "ticker": "DLB", "nombre": "Dolby Laboratories, Inc.", "precio": 57.32, "monto": 26.57, "motivo": "Gemma +1.424 contra el corte +0.788 de su industria (SIC 679)"}
 {"fecha": "2026-11-18", "lado": "compra", "ticker": "FUBO", "nombre": "FuboTV Inc.", "precio": 7.12, "monto": 26.57, "motivo": "Gemma +0.181 contra el corte -0.336 de su industria (SIC 78)"}
+{"fecha": "2026-11-18", "lado": "compra", "ticker": "DHI", "nombre": "HORTON D R INC /DE/", "precio": 144.635, "monto": 26.57, "motivo": "Palabras +0.268 contra el corte +0.259 de su industria (SIC 153)"}
