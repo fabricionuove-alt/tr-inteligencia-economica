@@ -45,6 +45,14 @@
 "nombre": "Dolby Laboratories, Inc.",
 "motivo": "Gemma +1.424 contra el corte +0.788 de su industria (SIC 679)",
 "decidido": "2026-11-18T01:02:16.975560+00:00"
+},
+{
+"lado": "compra",
+"ticker": "FUBO",
+"id": "554be1c8f2cd",
+"nombre": "FuboTV Inc.",
+"motivo": "Gemma +0.181 contra el corte -0.336 de su industria (SIC 78)",
+"decidido": "2026-11-18T11:41:37.772630+00:00"
 }
 ],
 "leidos": [
@@ -100,7 +108,10 @@
 "0001632790-26-000113",
 "0000897723-26-000048",
 "0001193125-26-465248",
-"0000080420-26-000143"
+"0000080420-26-000143",
+"0000868857-26-000026",
+"0001314727-26-000113",
+"0001628280-26-074590"
 ],
 "desde_dia": "2026-11-17",
 "sin_precio": {}

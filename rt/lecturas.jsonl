@@ -36,3 +36,6 @@
 {"fecha": "2026-11-18", "ticker": "ENR", "nombre": "ENERGIZER HOLDINGS, INC.", "acc": "0001632790-26-000113", "puntaje": -0.7815, "corte": 0.770384, "grupo": "369", "arriba": false}
 {"fecha": "2026-11-18", "ticker": "SANM", "nombre": "SANMINA CORP", "acc": "0000897723-26-000048", "puntaje": -1.0737, "corte": 0.338764, "grupo": "367", "arriba": false}
 {"fecha": "2026-11-18", "ticker": "POWL", "nombre": "POWELL INDUSTRIES INC", "acc": "0000080420-26-000143", "puntaje": 0.4709, "corte": 0.634851, "grupo": "36", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "ACM", "nombre": "AECOM", "acc": "0000868857-26-000026", "puntaje": -0.5988, "corte": 0.398163, "grupo": "87", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "SONO", "nombre": "Sonos Inc", "acc": "0001314727-26-000113", "puntaje": 0.2555, "corte": 0.634851, "grupo": "36", "arriba": false}
+{"fecha": "2026-11-18", "ticker": "FUBO", "nombre": "FuboTV Inc.", "acc": "0001628280-26-074590", "puntaje": 0.1813, "corte": -0.33556, "grupo": "78", "arriba": true}
