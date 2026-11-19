@@ -49,3 +49,10 @@
 {"fecha": "2026-11-19", "ticker": "VMAR", "nombre": "Vision Marine Technologies Inc.", "acc": "0001104659-26-129700", "puntaje": -0.21, "corte": 0.19012065205546208, "grupo": "37", "arriba": false}
 {"fecha": "2026-11-19", "ticker": "SPB", "nombre": "Spectrum Brands Holdings, Inc.", "acc": "0000109177-26-000044", "puntaje": 0.1409, "corte": 0.06437299959017943, "grupo": "369", "arriba": true}
 {"fecha": "2026-11-19", "ticker": "PCYO", "nombre": "PURE CYCLE CORP", "acc": "0001104659-26-129690", "puntaje": 0.0295, "corte": 0.1331162612958877, "grupo": "494", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "NJR", "nombre": "NEW JERSEY RESOURCES CORP", "acc": "0000356309-26-000040", "puntaje": -0.1652, "corte": 0.028098532283864143, "grupo": "492", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "WWD", "nombre": "Woodward, Inc.", "acc": "0001193125-26-468267", "puntaje": 0.0291, "corte": 0.05487660143769178, "grupo": "362", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "LQDT", "nombre": "LIQUIDITY SERVICES INC", "acc": "0001193125-26-468147", "puntaje": -0.0251, "corte": 0.2503251760349553, "grupo": "738", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "APD", "nombre": "Air Products & Chemicals, Inc.", "acc": "0000002969-26-000050", "puntaje": 0.05, "corte": 0.07903606015006381, "grupo": "281", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "KLIC", "nombre": "KULICKE & SOFFA INDUSTRIES INC", "acc": "0000056978-26-000040", "puntaje": 0.2326, "corte": 0.232118251589626, "grupo": "367", "arriba": true}
+{"fecha": "2026-11-19", "ticker": "NTIC", "nombre": "NORTHERN TECHNOLOGIES INTERNATIONAL CORP", "acc": "0001171843-26-007589", "puntaje": -0.1117, "corte": 0.288635659903238, "grupo": "34", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "WMG", "nombre": "Warner Music Group Corp.", "acc": "0001319161-26-000042", "puntaje": -0.1763, "corte": 0.15024483821310045, "grupo": "790", "arriba": false}
