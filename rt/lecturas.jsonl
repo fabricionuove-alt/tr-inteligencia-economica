@@ -45,3 +45,7 @@
 {"fecha": "2026-11-18", "ticker": "DHI", "nombre": "HORTON D R INC /DE/", "acc": "0000882184-26-000157", "puntaje": 0.2685, "corte": 0.25855444995063565, "grupo": "153", "arriba": true}
 {"fecha": "2026-11-18", "ticker": "MWA", "nombre": "Mueller Water Products, Inc.", "acc": "0001350593-26-000050", "puntaje": 0.2139, "corte": 0.288635659903238, "grupo": "34", "arriba": false}
 {"fecha": "2026-11-18", "ticker": "BRBR", "nombre": "BELLRING BRANDS, INC.", "acc": "0001772016-26-000027", "puntaje": 0.0619, "corte": 0.23984239625392031, "grupo": "200", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "WAFD", "nombre": "WAFD INC", "acc": "0000936528-26-000079", "puntaje": -0.047, "corte": 0.11241328349751611, "grupo": "602", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "VMAR", "nombre": "Vision Marine Technologies Inc.", "acc": "0001104659-26-129700", "puntaje": -0.21, "corte": 0.19012065205546208, "grupo": "37", "arriba": false}
+{"fecha": "2026-11-19", "ticker": "SPB", "nombre": "Spectrum Brands Holdings, Inc.", "acc": "0000109177-26-000044", "puntaje": 0.1409, "corte": 0.06437299959017943, "grupo": "369", "arriba": true}
+{"fecha": "2026-11-19", "ticker": "PCYO", "nombre": "PURE CYCLE CORP", "acc": "0001104659-26-129690", "puntaje": 0.0295, "corte": 0.1331162612958877, "grupo": "494", "arriba": false}
