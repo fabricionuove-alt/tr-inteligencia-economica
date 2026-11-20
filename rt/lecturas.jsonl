@@ -65,3 +65,9 @@
 {"fecha": "2026-11-20", "ticker": "ITP", "nombre": "IT TECH PACKAGING, INC.", "acc": "0001213900-26-122251", "puntaje": -0.1622, "corte": 0.2793934434410063, "grupo": "26", "arriba": false}
 {"fecha": "2026-11-20", "ticker": "AZTA", "nombre": "Azenta, Inc.", "acc": "0001628280-26-075072", "puntaje": 0.0313, "corte": 0.24231606569641626, "grupo": "355", "arriba": false}
 {"fecha": "2026-11-20", "ticker": "MMS", "nombre": "MAXIMUS, INC.", "acc": "0001032220-26-000056", "puntaje": 0.2356, "corte": 0.2503251760349553, "grupo": "738", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "DGII", "nombre": "DIGI INTERNATIONAL INC", "acc": "0000854775-26-000031", "puntaje": 0.1253, "corte": 0.193482611498087, "grupo": "357", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "CBT", "nombre": "CABOT CORP", "acc": "0001193125-26-469897", "puntaje": 0.179, "corte": 0.021741043244427598, "grupo": "28", "arriba": true}
+{"fecha": "2026-11-20", "ticker": "MOG-A", "nombre": "MOOG INC.", "acc": "0001628280-26-075202", "puntaje": 0.2013, "corte": 0.2529652298028846, "grupo": "35", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "NFG", "nombre": "NATIONAL FUEL GAS CO", "acc": "0000070145-26-000042", "puntaje": -0.1846, "corte": 0.028098532283864143, "grupo": "492", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "ASH", "nombre": "ASHLAND INC.", "acc": "0001193125-26-469716", "puntaje": 0.0907, "corte": 0.23637597980445743, "grupo": "51", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "IESC", "nombre": "IES Holdings, Inc.", "acc": "0001048268-26-000175", "puntaje": 0.163, "corte": 0.18398329489830725, "grupo": "17", "arriba": false}
