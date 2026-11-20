@@ -56,3 +56,12 @@
 {"fecha": "2026-11-19", "ticker": "KLIC", "nombre": "KULICKE & SOFFA INDUSTRIES INC", "acc": "0000056978-26-000040", "puntaje": 0.2326, "corte": 0.232118251589626, "grupo": "367", "arriba": true}
 {"fecha": "2026-11-19", "ticker": "NTIC", "nombre": "NORTHERN TECHNOLOGIES INTERNATIONAL CORP", "acc": "0001171843-26-007589", "puntaje": -0.1117, "corte": 0.288635659903238, "grupo": "34", "arriba": false}
 {"fecha": "2026-11-19", "ticker": "WMG", "nombre": "Warner Music Group Corp.", "acc": "0001319161-26-000042", "puntaje": -0.1763, "corte": 0.15024483821310045, "grupo": "790", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "HP", "nombre": "Helmerich & Payne, Inc.", "acc": "0000046765-26-000064", "puntaje": -0.0133, "corte": -0.00013884199885307036, "grupo": "138", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "UGI", "nombre": "UGI CORP /PA/", "acc": "0000884614-26-000070", "puntaje": -0.2253, "corte": 0.03655430688055908, "grupo": "493", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "JCTC", "nombre": "JEWETT CAMERON TRADING CO LTD", "acc": "0001400253-26-000045", "puntaje": -0.2138, "corte": 0.10626659613561114, "grupo": "52", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "VVV", "nombre": "VALVOLINE INC", "acc": "0001674910-26-000083", "puntaje": 0.0388, "corte": -0.008122560710050509, "grupo": "29", "arriba": true}
+{"fecha": "2026-11-20", "ticker": "POST", "nombre": "Post Holdings, Inc.", "acc": "0001530950-26-000101", "puntaje": 0.1695, "corte": 0.2761630128209932, "grupo": "20", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "PLXS", "nombre": "PLEXUS CORP", "acc": "0000785786-26-000067", "puntaje": 0.1558, "corte": 0.232118251589626, "grupo": "367", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "ITP", "nombre": "IT TECH PACKAGING, INC.", "acc": "0001213900-26-122251", "puntaje": -0.1622, "corte": 0.2793934434410063, "grupo": "26", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "AZTA", "nombre": "Azenta, Inc.", "acc": "0001628280-26-075072", "puntaje": 0.0313, "corte": 0.24231606569641626, "grupo": "355", "arriba": false}
+{"fecha": "2026-11-20", "ticker": "MMS", "nombre": "MAXIMUS, INC.", "acc": "0001032220-26-000056", "puntaje": 0.2356, "corte": 0.2503251760349553, "grupo": "738", "arriba": false}
