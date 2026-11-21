@@ -71,3 +71,6 @@
 {"fecha": "2026-11-20", "ticker": "NFG", "nombre": "NATIONAL FUEL GAS CO", "acc": "0000070145-26-000042", "puntaje": -0.1846, "corte": 0.028098532283864143, "grupo": "492", "arriba": false}
 {"fecha": "2026-11-20", "ticker": "ASH", "nombre": "ASHLAND INC.", "acc": "0001193125-26-469716", "puntaje": 0.0907, "corte": 0.23637597980445743, "grupo": "51", "arriba": false}
 {"fecha": "2026-11-20", "ticker": "IESC", "nombre": "IES Holdings, Inc.", "acc": "0001048268-26-000175", "puntaje": 0.163, "corte": 0.18398329489830725, "grupo": "17", "arriba": false}
+{"fecha": "2026-11-21", "ticker": "IIIV", "nombre": "i3 Verticals, Inc.", "acc": "0001728688-26-000055", "puntaje": 0.1925, "corte": 0.23986768821332627, "grupo": "737", "arriba": false}
+{"fecha": "2026-11-21", "ticker": "PTC", "nombre": "PTC INC.", "acc": "0001193125-26-470217", "puntaje": 0.235, "corte": 0.23986768821332627, "grupo": "737", "arriba": false}
+{"fecha": "2026-11-21", "ticker": "GEOS", "nombre": "GEOSPACE TECHNOLOGIES CORP", "acc": "0001437749-26-037884", "puntaje": -0.009, "corte": 0.2695361640469585, "grupo": "382", "arriba": false}
