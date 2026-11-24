@@ -74,3 +74,8 @@
 {"fecha": "2026-11-21", "ticker": "IIIV", "nombre": "i3 Verticals, Inc.", "acc": "0001728688-26-000055", "puntaje": 0.1925, "corte": 0.23986768821332627, "grupo": "737", "arriba": false}
 {"fecha": "2026-11-21", "ticker": "PTC", "nombre": "PTC INC.", "acc": "0001193125-26-470217", "puntaje": 0.235, "corte": 0.23986768821332627, "grupo": "737", "arriba": false}
 {"fecha": "2026-11-21", "ticker": "GEOS", "nombre": "GEOSPACE TECHNOLOGIES CORP", "acc": "0001437749-26-037884", "puntaje": -0.009, "corte": 0.2695361640469585, "grupo": "382", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "VREX", "nombre": "Varex Imaging Corp", "acc": "0001681622-26-000086", "puntaje": 0.1224, "corte": 0.232118251589626, "grupo": "367", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "J", "nombre": "JACOBS SOLUTIONS INC.", "acc": "0001628280-26-075495", "puntaje": 0.1364, "corte": 0.15435787305595214, "grupo": "160", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "ALCO", "nombre": "ALICO, INC.", "acc": "0000003545-26-000054", "puntaje": -0.0727, "corte": 0.26382670123943286, "grupo": "651", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "FLNC", "nombre": "Fluence Energy, Inc.", "acc": "0001868941-26-000057", "puntaje": 0.016, "corte": 0.06437299959017943, "grupo": "369", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "SYM", "nombre": "Symbotic Inc.", "acc": "0001837240-26-000049", "puntaje": 0.0023, "corte": 0.2882665821817965, "grupo": "356", "arriba": false}
