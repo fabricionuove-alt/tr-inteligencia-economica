@@ -80,3 +80,14 @@
 {"fecha": "2026-11-24", "ticker": "FLNC", "nombre": "Fluence Energy, Inc.", "acc": "0001868941-26-000057", "puntaje": 0.016, "corte": 0.06437299959017943, "grupo": "369", "arriba": false}
 {"fecha": "2026-11-24", "ticker": "SYM", "nombre": "Symbotic Inc.", "acc": "0001837240-26-000049", "puntaje": 0.0023, "corte": 0.2882665821817965, "grupo": "356", "arriba": false}
 {"fecha": "2026-11-24", "ticker": "SMG", "nombre": "SCOTTS MIRACLE-GRO CO", "acc": "0000825542-26-000066", "puntaje": 0.2522, "corte": 0.021741043244427598, "grupo": "28", "arriba": true}
+{"fecha": "2026-11-24", "ticker": "TFSL", "nombre": "TFS Financial CORP", "acc": "0001381668-26-000050", "puntaje": -0.1151, "corte": 0.015495323064773667, "grupo": "603", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "CLSK", "nombre": "CLEANSPARK, INC.", "acc": "0001193125-26-476040", "puntaje": -0.0239, "corte": 0.11293589182020765, "grupo": "619", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "ROAD", "nombre": "Construction Partners, Inc.", "acc": "0001628280-26-075744", "puntaje": 0.0584, "corte": 0.15435787305595214, "grupo": "160", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "GLDM", "nombre": "World Gold Trust", "acc": "0001437749-26-038191", "puntaje": -0.1063, "corte": -0.012417090558720836, "grupo": "622", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "GLD", "nombre": "SPDR GOLD TRUST", "acc": "0001437749-26-038190", "puntaje": -0.1678, "corte": -0.012417090558720836, "grupo": "622", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "AMTM", "nombre": "Amentum Holdings, Inc.", "acc": "0001628280-26-075740", "puntaje": 0.1918, "corte": 0.2503251760349553, "grupo": "738", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "BDX", "nombre": "BECTON DICKINSON & CO", "acc": "0000010795-26-000039", "puntaje": 0.1612, "corte": 0.16410649712709263, "grupo": "384", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "ARMK", "nombre": "Aramark", "acc": "0001584509-26-000160", "puntaje": 0.3087, "corte": 0.3362007418686994, "grupo": "581", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "RJF", "nombre": "RAYMOND JAMES FINANCIAL INC", "acc": "0000720005-26-000086", "puntaje": 0.0202, "corte": 0.13663153951467846, "grupo": "621", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "ADI", "nombre": "ANALOG DEVICES INC", "acc": "0000006281-26-000089", "puntaje": 0.4263, "corte": 0.232118251589626, "grupo": "367", "arriba": true}
+{"fecha": "2026-11-24", "ticker": "COR", "nombre": "Cencora, Inc.", "acc": "0001140859-26-000044", "puntaje": 0.1394, "corte": 0.23637597980445743, "grupo": "51", "arriba": false}
