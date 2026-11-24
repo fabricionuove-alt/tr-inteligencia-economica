@@ -79,3 +79,4 @@
 {"fecha": "2026-11-24", "ticker": "ALCO", "nombre": "ALICO, INC.", "acc": "0000003545-26-000054", "puntaje": -0.0727, "corte": 0.26382670123943286, "grupo": "651", "arriba": false}
 {"fecha": "2026-11-24", "ticker": "FLNC", "nombre": "Fluence Energy, Inc.", "acc": "0001868941-26-000057", "puntaje": 0.016, "corte": 0.06437299959017943, "grupo": "369", "arriba": false}
 {"fecha": "2026-11-24", "ticker": "SYM", "nombre": "Symbotic Inc.", "acc": "0001837240-26-000049", "puntaje": 0.0023, "corte": 0.2882665821817965, "grupo": "356", "arriba": false}
+{"fecha": "2026-11-24", "ticker": "SMG", "nombre": "SCOTTS MIRACLE-GRO CO", "acc": "0000825542-26-000066", "puntaje": 0.2522, "corte": 0.021741043244427598, "grupo": "28", "arriba": true}
