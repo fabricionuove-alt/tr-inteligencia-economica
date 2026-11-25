@@ -1940,3 +1940,11 @@ Total probadas: 167 (… #149-#154, #156, #159-#163, #165 y #167 no; #164 y #166
 **Marca:** riesgos propios = mitad más única de su industria (g) en el año, entre las que tienen 1A.
 **Prueba:** entre las elegidas de Tr con 1A, log r4 contra pares de las de riesgos propios menos las otras; permutación 2000 de la marca dentro de cada año. Se informa Tr entero y Tr sólo con riesgos propios.
 **Criterio:** pasa si en 2010-2020 las de riesgos propios rinden más que las otras elegidas con p < 0,05 y la diferencia es positiva en al menos 7 de 11 años.
+
+## #170: riesgos con datos concretos (Hope, Hu y Lu 2016). Escrita el 25-nov-2026 ANTES de que terminen de bajar los textos
+**Por qué:** #167: riesgos propios (poco parecidos a los de otras) = se hunde menos y rinde más. Hope, Hu y Lu (Review of Accounting Studies 2016, «The benefits of specific risk-factor disclosures») miden lo específico de otra forma: cuántos nombres propios, números, fechas y lugares tiene el texto de riesgos; el mercado reacciona más a los específicos. Es otra forma de medir «lo propio», que no depende de comparar con las demás.
+**Datos:** sección 1A de 2023-2025 (crawl164, texto completo con mayúsculas), _ret1.
+**Medida:** específico = (palabras con mayúscula que no empiezan oración + números) / palabras totales, en riesgos de 300 palabras o más. Sin modelo de entidades: es una aproximación declarada (Hope y otros usan Stanford NER).
+**Elegidas:** el 10% más específico de cada industria (g).
+**Prueba:** log r1 contra pares (año × SIC3 × decil, media de las no elegidas), permutación 2000; hundirse a 12 meses informativo. Se informa la correlación con el parecido de #168.
+**Criterio:** pasa si con 2023-2025 juntas las más específicas rinden más que sus pares con p < 0,05 y la diferencia es positiva en al menos 2 de los 3 años.
