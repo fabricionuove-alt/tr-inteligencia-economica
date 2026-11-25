@@ -1915,3 +1915,11 @@ Total probadas: 165 (… #149-#154, #156 y #159-#163 y #165 no; #164 en curso; r
 **Elegidas de Tr:** 10% de arriba por industria (g). Copia = cuarto más parecido de su industria en el año.
 **Prueba:** entre las elegidas de Tr, log r1 contra pares (año × SIC3 × decil, media de las no elegidas) de copias menos no copias; permutación 2000 de la marca dentro de cada año. Se informa Tr entero y Tr sin copias.
 **Criterio:** pasa si con 2023-2025 juntas las copias elegidas rinden menos que las otras elegidas con p < 0,05 y la diferencia es negativa en al menos 2 de los 3 años.
+**Nota de datos #164/#166 (25-nov-2026, antes de tener resultados):** la extracción de edgar-crawler se trababa más de 25 minutos en algunos informes enormes; se saltean los documentos de más de 10 MB (quedan marcados «grande») y se baja sólo a las empresas que tienen resultado a 12 meses en 2023-2025 (3.313).
+
+## #167: riesgos copiados (sección 1A). Escrita el 25-nov-2026 ANTES de calcular
+**Por qué:** #163: describir el negocio casi igual que otras castiga desde 2015. ¿Pasa lo mismo con los factores de riesgo? Hanley y Hoberg (2010) muestran que la parte estándar, copiada, de los prospectos informa menos que la propia. Una empresa que copia sus riesgos de otras puede estar ocultando los suyos.
+**Medida:** el parecido de #163 sin cambios, sobre la sección 1A (EDGAR-CORPUS, 2010-2020; m1a). Riesgos de 300 palabras o más (largo de la sección 1A).
+**Elegidas:** el 10% más parecido de cada industria (g); se informa también el 10% más único.
+**Prueba:** hundidas y log r4 contra pares, permutación 2000, 2010-2020 (no hay 1A de 2021-2022 bajada; si pasa, se confirma después).
+**Criterio:** pasa si las más parecidas se hunden 3 puntos o más que sus pares con p < 0,05 (de hundirse más) y log r4 negativo con p < 0,05 (de rendir menos).
