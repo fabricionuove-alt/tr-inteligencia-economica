@@ -12,3 +12,6 @@
 {"fecha": "2026-11-20", "lado": "compra", "ticker": "VVV", "nombre": "VALVOLINE INC", "precio": 36.645, "monto": 25.24, "motivo": "Palabras +0.039 contra el corte -0.008 de su industria (SIC 29)"}
 {"fecha": "2026-11-20", "lado": "compra", "ticker": "CBT", "nombre": "CABOT CORP", "precio": 71.41, "monto": 25.24, "motivo": "Palabras +0.179 contra el corte +0.022 de su industria (SIC 28)"}
 {"fecha": "2026-11-24", "lado": "compra", "ticker": "SMG", "nombre": "SCOTTS MIRACLE-GRO CO", "precio": 61.4, "monto": 26.13, "motivo": "Palabras +0.252 contra el corte +0.022 de su industria (SIC 28)"}
+{"fecha": "2026-11-25", "lado": "compra", "ticker": "ADI", "nombre": "ANALOG DEVICES INC", "precio": 326.42, "monto": 26.05, "motivo": "Palabras +0.426 contra el corte +0.232 de su industria (SIC 367)"}
+{"fecha": "2026-11-25", "lado": "compra", "ticker": "CFFN", "nombre": "Capitol Federal Financial, Inc.", "precio": 8.085, "monto": 26.05, "motivo": "Palabras +0.033 contra el corte +0.015 de su industria (SIC 603)"}
+{"fecha": "2026-11-25", "lado": "compra", "ticker": "CMP", "nombre": "COMPASS MINERALS INTERNATIONAL INC", "precio": 22.79, "monto": 26.05, "motivo": "Palabras +0.226 contra el corte +0.099 de su industria (SIC 140)"}

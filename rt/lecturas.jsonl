@@ -91,3 +91,8 @@
 {"fecha": "2026-11-24", "ticker": "RJF", "nombre": "RAYMOND JAMES FINANCIAL INC", "acc": "0000720005-26-000086", "puntaje": 0.0202, "corte": 0.13663153951467846, "grupo": "621", "arriba": false}
 {"fecha": "2026-11-24", "ticker": "ADI", "nombre": "ANALOG DEVICES INC", "acc": "0000006281-26-000089", "puntaje": 0.4263, "corte": 0.232118251589626, "grupo": "367", "arriba": true}
 {"fecha": "2026-11-24", "ticker": "COR", "nombre": "Cencora, Inc.", "acc": "0001140859-26-000044", "puntaje": 0.1394, "corte": 0.23637597980445743, "grupo": "51", "arriba": false}
+{"fecha": "2026-11-25", "ticker": "CENT", "nombre": "CENTRAL GARDEN & PET CO", "acc": "0000887733-26-000027", "puntaje": 0.1527, "corte": 0.23637597980445743, "grupo": "51", "arriba": false}
+{"fecha": "2026-11-25", "ticker": "SPH", "nombre": "SUBURBAN PROPANE PARTNERS LP", "acc": "0001193125-26-477609", "puntaje": -0.0882, "corte": 0.023668081665042195, "grupo": "590", "arriba": false}
+{"fecha": "2026-11-25", "ticker": "CFFN", "nombre": "Capitol Federal Financial, Inc.", "acc": "0001490906-26-000039", "puntaje": 0.0326, "corte": 0.015495323064773667, "grupo": "603", "arriba": true}
+{"fecha": "2026-11-25", "ticker": "LEXX", "nombre": "Lexaria Bioscience Corp.", "acc": "0001640334-26-001880", "puntaje": -0.3824, "corte": -0.12394946472892644, "grupo": "283", "arriba": false}
+{"fecha": "2026-11-25", "ticker": "CMP", "nombre": "COMPASS MINERALS INTERNATIONAL INC", "acc": "0001227654-26-000098", "puntaje": 0.226, "corte": 0.09863593960264858, "grupo": "140", "arriba": true}
