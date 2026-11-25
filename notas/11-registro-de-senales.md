@@ -1950,3 +1950,10 @@ Total probadas: 167 (… #149-#154, #156, #159-#163, #165 y #167 no; #164 y #166
 **Criterio:** pasa si con 2023-2025 juntas las más específicas rinden más que sus pares con p < 0,05 y la diferencia es positiva en al menos 2 de los 3 años.
 **Resultado #169 (25-nov-2026): no pasa, por poco.** Elegidas de Tr con 1A 2010-2020: 829; con riesgos propios: 486 (59%, contra 50% por construcción en todas). Contra sus pares: las de riesgos propios +0,414 en log r4 y hundidas −10,8; las otras +0,336 y −7,7 (dif +0,078, p 0,065; positivo en 7 de 11 años). Tr sólo con riesgos propios: ×1,51 contra ×1,47 de Tr entero (en el log del script la etiqueta dice «copias» = riesgos propios). **Qué muestra:** Tr ya se inclina hacia las de riesgos propios (6 de cada 10), como con el cliente grande (#161) y al revés que con las copias del negocio (#165). Dentro de lo que elige, los riesgos propios suman algo más (3 puntos menos de hundidas, ×1,08), pero no alcanza la regla. Leer la empresa entera (riesgos además de negocio) separa un poco más que leer sólo el negocio, que es lo que Gemma hacía con las tres secciones. Script: entrenar/riesgostr169.py; salida: entrenar/sal-cab102/riesgostr169.log.
 Total probadas: 169 (… #149-#154, #156, #159-#163, #165, #167 y #169 no; #164, #166, #168 y #170 en curso; resto igual que arriba).
+
+## #171: explicación de la dirección propia (sección 7). Escrita el 25-nov-2026 ANTES de calcular
+**Por qué:** #167: riesgos propios = se hunde menos y rinde más (2014-2020). Si el mecanismo es «lo propio informa, lo copiado no», tiene que valer también para la explicación de la dirección (MD&A), la tercera sección que leía Gemma.
+**Medida:** el parecido de #163/#167 sin cambios sobre la sección 7 (EDGAR-CORPUS 2010-2020; m7), secciones de 1.800 caracteres o más (≈ 300 palabras).
+**Elegidas:** el 10% MÁS ÚNICO de cada industria (g); se informa también el 10% más parecido.
+**Prueba:** hundidas y log r4 contra pares, permutación 2000, 2010-2020.
+**Criterio:** pasa si las más únicas dan hundidas −3 o menos con p < 0,05 y log r4 positivo con p < 0,05.
