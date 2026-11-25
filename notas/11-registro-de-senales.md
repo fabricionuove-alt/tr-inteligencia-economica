@@ -1899,3 +1899,10 @@ Total probadas: 163 (… #149-#154, #156 y #159-#163 no; resto igual que arriba)
 **Medida:** el parecido de #163 sin cambios (palabras en binario entre 0,5% y 25%, promedio de los 10 cosenos más altos), por año. Elegidas: el 10% MÁS parecido de cada industria (g).
 **Prueba:** log(max(_ret1, 0,01)) contra pares (año × SIC3 × decil, media de las no elegidas, grupos ≥ 5), permutación 2000 dentro de grupos. Se informa también hundirse a 12 meses (_ret1 ≤ 0,5).
 **Criterio:** pasa si con 2023-2025 juntas las parecidas rinden menos que sus pares con p < 0,05 y la diferencia es negativa en al menos 2 de los 3 años.
+
+## #165: ¿las copias también le cuestan a Tr? Escrita el 25-nov-2026 ANTES de calcular
+**Por qué:** #163: las empresas que se describen casi igual que otras se hunden más desde 2015 y rinden ×0,79 en 2021-2022. #161: el cliente grande no le costaba a Tr porque Tr ya elige bien entre las atadas. ¿Pasa lo mismo con las copias, o Tr las deja entrar y le cuestan?
+**Datos:** elegidas de Tr como en #161 (palabras #146, 10% de arriba por industria, 2010-2022) y el parecido de #163.
+**Marca:** copia = cuarto más parecido de su industria (g) en el año.
+**Prueba:** entre las elegidas de Tr, log r4 contra pares de copias menos no copias; permutación 2000 de la marca dentro de cada año. Se informa Tr entero y Tr sin copias (log r4 y hundidas contra pares) y qué parte de las elegidas son copias.
+**Criterio:** pasa si en 2010-2020 las copias elegidas rinden menos que las otras elegidas con p < 0,05 y en 2021-2022 va para el mismo lado (sin exigir p).
