@@ -1933,3 +1933,10 @@ Total probadas: 167 (… #149-#154, #156, #159-#163, #165 y #167 no; #164 y #166
 **Medida:** el parecido de #167 sin cambios (palabras en binario entre 0,5% y 25% de las empresas del año, promedio de los 10 cosenos más altos), riesgos de 300 palabras o más. Elegidas: el 10% MÁS ÚNICO de cada industria (g).
 **Prueba:** log r1 contra pares (año × SIC3 × decil, media de las no elegidas), permutación 2000; se informa también hundirse a 12 meses.
 **Criterio:** pasa si con 2023-2025 juntas las más únicas rinden más que sus pares con p < 0,05 y la diferencia es positiva en al menos 2 de los 3 años.
+
+## #169: ¿los riesgos propios suman algo a Tr? Escrita el 25-nov-2026 ANTES de calcular
+**Por qué:** #167: riesgos propios = se hunde menos y rinde más (2014-2020). Tr lee sólo la descripción del negocio. Si los riesgos propios son otra cosa, dentro de las elegidas de Tr tienen que separar también.
+**Datos:** elegidas de Tr como en #161/#165 (2010-2020; no hay 1A de 2021-2022), parecido de los riesgos de #167.
+**Marca:** riesgos propios = mitad más única de su industria (g) en el año, entre las que tienen 1A.
+**Prueba:** entre las elegidas de Tr con 1A, log r4 contra pares de las de riesgos propios menos las otras; permutación 2000 de la marca dentro de cada año. Se informa Tr entero y Tr sólo con riesgos propios.
+**Criterio:** pasa si en 2010-2020 las de riesgos propios rinden más que las otras elegidas con p < 0,05 y la diferencia es positiva en al menos 7 de 11 años.
