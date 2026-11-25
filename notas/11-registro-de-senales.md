@@ -1923,3 +1923,4 @@ Total probadas: 165 (… #149-#154, #156 y #159-#163 y #165 no; #164 en curso; r
 **Elegidas:** el 10% más parecido de cada industria (g); se informa también el 10% más único.
 **Prueba:** hundidas y log r4 contra pares, permutación 2000, 2010-2020 (no hay 1A de 2021-2022 bajada; si pasa, se confirma después).
 **Criterio:** pasa si las más parecidas se hunden 3 puntos o más que sus pares con p < 0,05 (de hundirse más) y log r4 negativo con p < 0,05 (de rendir menos).
+**Nota encontrada el 25-nov-2026 (antes de correr #167):** en EDGAR-CORPUS 2010-2020 el largo guardado (vec_AAAA.npz, l1/l1a/l7) es en caracteres, no en palabras. Por eso, desde #146, el filtro «300 palabras o más» de 2010-2020 fue en realidad «300 caracteres o más» (más laxo: deja entrar descripciones muy cortas). En 2021-2026 (edgar-crawler) sí fue en palabras. No cambia ningún resultado ya escrito; queda dicho. En #167 se usa 1.800 caracteres (≈ 300 palabras), que es lo preregistrado.
