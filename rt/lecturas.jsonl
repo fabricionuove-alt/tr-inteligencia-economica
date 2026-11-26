@@ -96,3 +96,6 @@
 {"fecha": "2026-11-25", "ticker": "CFFN", "nombre": "Capitol Federal Financial, Inc.", "acc": "0001490906-26-000039", "puntaje": 0.0326, "corte": 0.015495323064773667, "grupo": "603", "arriba": true}
 {"fecha": "2026-11-25", "ticker": "LEXX", "nombre": "Lexaria Bioscience Corp.", "acc": "0001640334-26-001880", "puntaje": -0.3824, "corte": -0.12394946472892644, "grupo": "283", "arriba": false}
 {"fecha": "2026-11-25", "ticker": "CMP", "nombre": "COMPASS MINERALS INTERNATIONAL INC", "acc": "0001227654-26-000098", "puntaje": 0.226, "corte": 0.09863593960264858, "grupo": "140", "arriba": true}
+{"fecha": "2026-11-26", "ticker": "IMKTA", "nombre": "INGLES MARKETS INC", "acc": "0000050493-26-000023", "puntaje": 0.2005, "corte": 0.22382970125907528, "grupo": "54", "arriba": false}
+{"fecha": "2026-11-26", "ticker": "JJSF", "nombre": "J&J SNACK FOODS CORP", "acc": "0001437749-26-038299", "puntaje": 0.2123, "corte": 0.2761630128209932, "grupo": "20", "arriba": false}
+{"fecha": "2026-11-26", "ticker": "MAGN", "nombre": "Magnera Corp", "acc": "0001140361-26-045710", "puntaje": 0.2042, "corte": 0.2793934434410063, "grupo": "26", "arriba": false}
