@@ -102,3 +102,4 @@
 {"fecha": "2026-11-27", "ticker": "SNEX", "nombre": "StoneX Group Inc.", "acc": "0000913760-26-000049", "puntaje": 0.1383, "corte": 0.11045097114742737, "grupo": "62", "arriba": true}
 {"fecha": "2026-11-27", "ticker": "CASH", "nombre": "PATHWARD FINANCIAL, INC.", "acc": "0000907471-26-000063", "puntaje": 0.0154, "corte": 0.11241328349751611, "grupo": "602", "arriba": false}
 {"fecha": "2026-11-27", "ticker": "LEDS", "nombre": "SemiLEDs Corp", "acc": "0001193125-26-479479", "puntaje": -0.218, "corte": 0.232118251589626, "grupo": "367", "arriba": false}
+{"fecha": "2026-11-28", "ticker": "XFLH", "nombre": "XFLH Capital Corp", "acc": "0001185185-26-005654", "puntaje": -0.1838, "corte": -0.13412048630830956, "grupo": "677", "arriba": false}
